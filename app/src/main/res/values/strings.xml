@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2019 Aletheia Ware LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<resources>
+    <!-- <string name="app_name">Perspective</string> moved to gradle -->
+
+    <string name="app_logo">Perspective Logo</string>
+    <string name="app_logo_description">Perspective Logo</string>
+
+    <string name="empty_list">No worlds found</string>
+
+    <string name="error_create_world_failed">Error creating world</string>
+    <string name="error_read_worlds_failed">Error reading worlds</string>
+    <string name="error_read_puzzles_failed">Error reading puzzles</string>
+
+    <string name="loading">Loading…</string>
+
+    <string name="menu_account">Account</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_settings">Settings</string>
+
+    <string name="preference_cache_title">Cache</string>
+    <string name="preference_cache_size_key">cache_size_preference</string>
+    <string name="preference_cache_size_title">Cache Size</string>
+    <string name="preference_cache_purge_key">cache_purge_preference</string>
+    <string name="preference_cache_purge_title">Purge Cache</string>
+    <string name="preference_cache_purge_description">Delete all data from cache</string>
+
+    <string name="preference_security_title">Security</string>
+    <string name="preference_biometric_key">biometric_preference</string>
+    <string name="preference_biometric_title">Biometric Unlock</string>
+    <string name="preference_biometric_description">Unlock your keys with your fingerprint</string>
+
+    <string name="preference_about_title">About</string>
+    <string name="preference_app_version_key">app_version_preference</string>
+    <string name="preference_app_version_title">App Version</string>
+
+    <string name="preference_support_key">support_preference</string>
+    <string name="preference_support_title">Support</string>
+    <string name="preference_support_description">Contact Aletheia Ware for support or to submit feedback</string>
+
+</resources>

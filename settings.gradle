@@ -1,0 +1,1 @@
+include ':app', ':bc-android', ':joy-android'
