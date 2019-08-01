@@ -22,19 +22,19 @@ import com.aletheiaware.joy.scene.SceneGraphNode;
 import com.aletheiaware.perspective.Perspective;
 import com.aletheiaware.perspective.android.utils.PerspectiveAndroidUtils;
 
-public abstract class PerspectiveAndroid extends Perspective {
+public abstract class PerspectiveGame extends Perspective {
 
-    public PerspectiveAndroid(GLScene scene, int size) {
+    public PerspectiveGame(GLScene scene, int size) {
         super(scene, size);
     }
 
     @Override
-    public SceneGraphNode getSceneGraphNode(String program, String name, String type) {
-        return PerspectiveAndroidUtils.getSceneGraphNode(program, name, type);
+    public SceneGraphNode getSceneGraphNode(String program, String name, String type, String mesh) {
+        return PerspectiveAndroidUtils.getSceneGraphNode(program, name, type, mesh);
     }
 
     @Override
     public AttributeNode getAttributeNode(String program, String name, String type, String colour) {
-        return PerspectiveAndroidUtils.getAttributeNode(program, name, type, colour);
+        return PerspectiveAndroidUtils.getAttributeNode(program, type, colour);
     }
 }

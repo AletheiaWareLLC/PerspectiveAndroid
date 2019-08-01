@@ -1,1 +1,1 @@
-include ':app', ':bc-android', ':joy-android'
+include ':app', ':aletheiaware-common-android', ':joy-android'

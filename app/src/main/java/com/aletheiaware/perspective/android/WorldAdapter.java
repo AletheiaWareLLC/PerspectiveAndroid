@@ -18,52 +18,31 @@ package com.aletheiaware.perspective.android;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.aletheiaware.bc.utils.BCUtils;
 import com.aletheiaware.perspective.PerspectiveProto.World;
-import com.aletheiaware.perspective.utils.PerspectiveUtils;
-import com.google.protobuf.ByteString;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public abstract class WorldAdapter extends Adapter<WorldAdapter.ViewHolder> {
+public class WorldAdapter extends Adapter<WorldAdapter.WorldViewHolder> {
 
     private final Activity activity;
-    private final LayoutInflater inflater;
-    private final Map<ByteString, World> worlds = new HashMap<>();
-    private final Map<ByteString, Long> timestamps = new HashMap<>();
-    private final List<ByteString> sorted = new ArrayList<>();
+    private final List<World> worlds = new ArrayList<>();
+    private final PuzzleAdapter.Callback callback;
 
-    public WorldAdapter(Activity activity) {
+    public WorldAdapter(Activity activity, PuzzleAdapter.Callback callback) {
         this.activity = activity;
-        this.inflater = activity.getLayoutInflater();
+        this.callback = callback;
     }
 
-    public abstract void onSelection(ByteString hash, World world);
-
-    public synchronized void addWorld(ByteString recordHash, long timestamp, World world) {
-        if (world == null) {
-            throw new NullPointerException();
-        }
-        if (worlds.put(recordHash, world) == null) {
-            sorted.add(recordHash);// Only add if new
-            timestamps.put(recordHash, timestamp);
-            sort();
-        }
-    }
-
-    public synchronized void sort() {
-        PerspectiveUtils.sort(sorted, timestamps);
+    public synchronized void addWorld(World world) {
+        worlds.add(world);
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -74,72 +53,49 @@ public abstract class WorldAdapter extends Adapter<WorldAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final LinearLayout view = (LinearLayout) inflater.inflate(R.layout.world_list_item, parent, false);
-        final ViewHolder holder = new ViewHolder(view);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ByteString hash = holder.getHash();
-                World world = worlds.get(hash);
-                if (hash != null) {
-                    onSelection(hash, world);
-                }
-            }
-        });
-        return holder;
+    public WorldViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        final LinearLayout view = (LinearLayout) activity.getLayoutInflater().inflate(R.layout.world_list_item, parent, false);
+        return new WorldViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (sorted.isEmpty()) {
+    public void onBindViewHolder(@NonNull WorldViewHolder holder, int position) {
+        if (worlds.isEmpty()) {
             holder.setEmptyView();
         } else {
-            ByteString hash = sorted.get(position);
-            Long time = timestamps.get(hash);
-            World world = worlds.get(hash);
-            holder.set(hash, time, world);
+            World world = worlds.get(position);
+            holder.set(world, new PuzzleAdapter(activity, world, callback));
         }
     }
 
     @Override
     public int getItemCount() {
-        if (sorted.isEmpty()) {
+        if (worlds.isEmpty()) {
             return 1;// For empty view
         }
-        return sorted.size();
+        return worlds.size();
     }
 
-    public boolean isEmpty() {
-        return sorted.isEmpty();
-    }
+    static class WorldViewHolder extends RecyclerView.ViewHolder {
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-
-        private ByteString hash;
-
-        private TextView itemTime;
         private TextView itemName;
+        private RecyclerView itemPuzzles;
 
-        ViewHolder(LinearLayout view) {
+        WorldViewHolder(LinearLayout view) {
             super(view);
-            itemTime = view.findViewById(R.id.list_item_time);
-            itemName = view.findViewById(R.id.list_item_name);
+            itemName = view.findViewById(R.id.world_item_name);
+            itemPuzzles = view.findViewById(R.id.world_puzzle_recycler);
+            itemPuzzles.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
         }
 
-        void set(ByteString hash, Long time, World world) {
-            this.hash = hash;
-            itemTime.setText(BCUtils.timeToString(time));
-            itemName.setText(world.getName());
-        }
-
-        ByteString getHash() {
-            return hash;
+        void set(World world, Adapter<PuzzleAdapter.PuzzleViewHolder> adapter) {
+            itemName.setText(world.getName().toUpperCase());
+            itemPuzzles.setAdapter(adapter);
         }
 
         void setEmptyView() {
-            hash = null;
-            itemName.setText(R.string.empty_list);
+            itemName.setText(R.string.empty_world_list);
         }
     }
+
 }

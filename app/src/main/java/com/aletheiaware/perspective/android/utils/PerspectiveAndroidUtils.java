@@ -16,11 +16,13 @@
 
 package com.aletheiaware.perspective.android.utils;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.support.annotation.WorkerThread;
+import android.util.Log;
 
-import com.aletheiaware.bc.BC.Channel;
-import com.aletheiaware.bc.android.utils.BCAndroidUtils;
+import com.aletheiaware.common.android.utils.CommonAndroidUtils;
 import com.aletheiaware.joy.JoyProto.Mesh;
 import com.aletheiaware.joy.JoyProto.Shader;
 import com.aletheiaware.joy.android.scene.GLCameraNode;
@@ -29,8 +31,6 @@ import com.aletheiaware.joy.android.scene.GLLightNode;
 import com.aletheiaware.joy.android.scene.GLProgram;
 import com.aletheiaware.joy.android.scene.GLProgramNode;
 import com.aletheiaware.joy.android.scene.GLScene;
-import com.aletheiaware.joy.android.scene.GLVertexMesh;
-import com.aletheiaware.joy.android.scene.GLVertexMeshNode;
 import com.aletheiaware.joy.android.scene.GLVertexNormalMesh;
 import com.aletheiaware.joy.android.scene.GLVertexNormalMeshNode;
 import com.aletheiaware.joy.scene.AttributeNode;
@@ -39,71 +39,79 @@ import com.aletheiaware.joy.scene.MeshLoader;
 import com.aletheiaware.joy.scene.Scene;
 import com.aletheiaware.joy.scene.SceneGraphNode;
 import com.aletheiaware.perspective.PerspectiveProto.Puzzle;
+import com.aletheiaware.perspective.PerspectiveProto.Solution;
 import com.aletheiaware.perspective.PerspectiveProto.World;
-import com.aletheiaware.perspective.android.BuildConfig;
 import com.aletheiaware.perspective.utils.PerspectiveUtils;
-import com.google.protobuf.ByteString;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.security.KeyPair;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PerspectiveAndroidUtils {
 
-    public static final int ACCESS_ACTIVITY = BCAndroidUtils.ACCESS_ACTIVITY;
-    public static final int ACCOUNT_ACTIVITY = BCAndroidUtils.ACCOUNT_ACTIVITY;
-    public static final int GAME_ACTIVITY = 102;
-    public static final int SETTINGS_ACTIVITY = 103;
     public static final String PUZZLE_EXTRA = "puzzle";
     public static final String WORLD_EXTRA = "world";
+    public static final String TUTORIAL_WORLD = "tutorial";
+    public static final String GROUND_ZERO_WORLD = "ground-0";
+    public static final String ALPHA_ONE_WORLD = "alpha-1";
+    public static final String PORTAL_TWO_WORLD = "portal-2";
+    public static final String SEA_THREE_WORLD = "sea-3";
+    public static final String HIGH_FIVE_WORLD = "high-5";
+    public static final String MAGIC_EIGHT_WORLD = "magic-8";
+    public static final String CLOUD_NINE_WORLD = "cloud-9";
 
-    private PerspectiveAndroidUtils() {}
-
-    public static String getPerspectiveHostname() {
-        return BuildConfig.DEBUG ? PerspectiveUtils.PERSPECTIVE_HOST_TEST : PerspectiveUtils.PERSPECTIVE_HOST;
+    private PerspectiveAndroidUtils() {
     }
 
-    @WorkerThread
-    public static InetAddress getPerspectiveHost() {
-        try {
-            return InetAddress.getByName(getPerspectiveHostname());
-        } catch (Exception e) {
-            /* Ignored */
-            e.printStackTrace();
-        }
-        return null;
+    public static World getWorld(AssetManager assets, String world) throws IOException {
+        return PerspectiveUtils.readWorld(assets.open("world/" + world + ".pb"));
     }
 
-    public static String getPerspectiveWebsite() {
-        return "https://" + getPerspectiveHostname();
-    }
-
-    public static GLScene createScene(String alias, KeyPair keys, File cache, InetAddress host, String worldId) {
+    public static GLScene createScene(AssetManager assets, String world) throws IOException {
         final GLScene scene = new GLScene();
-        Channel meshes = PerspectiveUtils.getMeshesChannel(worldId, cache, host);
-        // Vertex Meshes
-        new MeshLoader(meshes, alias, keys, "box") {
-            @Override
-            public void onMesh(Mesh mesh) throws IOException {
-                scene.putVertexMesh(mesh.getName(), new GLVertexMesh(mesh));
-            }
-        }.start();
-        // Vertex Normal Meshes
-        new MeshLoader(meshes, alias, keys, "block", "goal", "portal", "sphere") {
-            @Override
-            public void onMesh(Mesh mesh) throws IOException {
-                scene.putVertexNormalMesh(mesh.getName(), new GLVertexNormalMesh(mesh));
-            }
-        }.start();
+        List<String> meshes = new ArrayList<>();
+        meshes.add("goal");
+        meshes.add("outline");
+        meshes.add("sphere");
+        switch (world) {
+            case TUTORIAL_WORLD:
+                meshes.add("cube");
+                break;
+            case PORTAL_TWO_WORLD:
+                meshes.add("portal");
+                // Fall Through
+            case GROUND_ZERO_WORLD:
+            case ALPHA_ONE_WORLD:
+            case SEA_THREE_WORLD:
+            case HIGH_FIVE_WORLD:
+            case MAGIC_EIGHT_WORLD:
+                meshes.add("block");
+                break;
+            case CLOUD_NINE_WORLD:
+                meshes.add("cloud");
+                break;
+        }
+        for (String name : meshes) {
+            new MeshLoader(assets.open("mesh/" + name + ".pb")) {
+                @Override
+                public void onMesh(Mesh mesh) throws IOException {
+                    System.out.println("Name: " + mesh.getName());
+                    scene.putVertexNormalMesh(mesh.getName(), new GLVertexNormalMesh(mesh));
+                }
+            }.start();
+        }
 
         return scene;
     }
 
-    public static MatrixTransformationNode createBasicSceneGraph(String alias, KeyPair keys, File cache, InetAddress host, GLScene scene, String worldId, World world) throws IOException {
-        ByteString hash = world.getShaderOrThrow("basic");
-        Channel shaders = PerspectiveUtils.getShadersChannel(worldId, cache, host);
-        Shader shader = PerspectiveUtils.getShader(shaders, alias, keys, hash.toByteArray());
+    public static MatrixTransformationNode createBasicSceneGraph(GLScene scene, World world) {
+        if (!world.containsShader("basic")) {
+            Log.d(PerspectiveUtils.TAG, "Missing basic shader");
+        }
+        Shader shader = world.getShaderOrThrow("basic");
         GLProgram basicProgram = new GLProgram(shader);
 
         GLProgramNode basicNode = new GLProgramNode(basicProgram);
@@ -115,61 +123,39 @@ public class PerspectiveAndroidUtils {
         GLCameraNode camera = new GLCameraNode();
         light.addChild(camera);
 
-        MatrixTransformationNode basicRotation = new MatrixTransformationNode("main-rotation");
-        camera.addChild(basicRotation);
+        MatrixTransformationNode rotation = new MatrixTransformationNode("main-rotation");
+        camera.addChild(rotation);
 
-        return basicRotation;
+        return rotation;
     }
 
-    public static MatrixTransformationNode createLineSceneGraph(String alias, KeyPair keys, File cache, InetAddress host, GLScene scene, String worldId, World world) throws IOException {
-        ByteString hash = world.getShaderOrThrow("line");
-        Channel shaders = PerspectiveUtils.getShadersChannel(worldId, cache, host);
-        Shader shader = PerspectiveUtils.getShader(shaders, alias, keys, hash.toByteArray());
-        GLProgram lineProgram = new GLProgram(shader);
-
-        GLProgramNode lineNode = new GLProgramNode(lineProgram);
-        scene.putProgramNode("line", lineNode);
-
-        MatrixTransformationNode lineRotation = new MatrixTransformationNode("main-rotation");
-        lineNode.addChild(lineRotation);
-
-        return lineRotation;
-    }
-
-    public static World getWorld(String alias, KeyPair keys, File cache, InetAddress host, byte[] worldId) throws IOException {
-        Channel worlds = PerspectiveUtils.getWorldsChannel(cache, host);
-        return PerspectiveUtils.getWorld(worlds, alias, keys, worldId);
-    }
-
-    public static Puzzle getPuzzle(String alias, KeyPair keys, File cache, InetAddress host, String worldId, World world, int puzzleIndex) throws IOException {
+    public static Puzzle getPuzzle(World world, int puzzleIndex) {
         if (puzzleIndex < world.getPuzzleCount()) {
-            ByteString hash = world.getPuzzle(puzzleIndex);
-            Channel puzzles = PerspectiveUtils.getPuzzlesChannel(worldId, cache, host);
-            return PerspectiveUtils.getPuzzle(puzzles, alias, keys, hash.toByteArray());
+            return world.getPuzzle(puzzleIndex);
         }
         return null;
     }
 
-    public static SceneGraphNode getSceneGraphNode(String program, String name, String type) {
+    public static SceneGraphNode getSceneGraphNode(String program, String name, String type, String mesh) {
         switch (type) {
-            case "box":
-                return new GLVertexMeshNode(program, type);
+            case "outline":
             case "block":
             case "goal":
             case "portal":
             case "sphere":
-                return new GLVertexNormalMeshNode(program, type);
+                return new GLVertexNormalMeshNode(program, mesh);
             default:
-                System.err.println("Unrecognized: " + program + " " + name + " " + type);
+                System.err.println("Unrecognized: " + program + " " + name + " " + type + " " + mesh);
         }
         return null;
     }
 
-    public static AttributeNode getAttributeNode(String program, String name, String type, String colour) {
-        if (name.equals("outline") && type.equals("box") && colour.equals("multi-colour")) {
+    public static AttributeNode getAttributeNode(String program, String type, String colour) {
+        if (type.equals("outline") && colour.equals("multi-colour")) {
             return new AttributeNode(new GLColourAttribute(program, colour) {
                 private final float[] hsv = {0.0f, 0.9f, 0.5f};
                 private final float[] rgba = {1.0f, 1.0f, 1.0f, 1.0f};
+
                 @Override
                 public float[] getColour(Scene scene) {
                     hsv[0] = (hsv[0] + 0.1f) % 360;
@@ -185,5 +171,42 @@ public class PerspectiveAndroidUtils {
             });
         }
         return new AttributeNode(new GLColourAttribute(program, colour));
+    }
+
+    @WorkerThread
+    public static void saveSolution(Context context, String world, int puzzle, Solution solution) throws IOException {
+        File directory = new File(new File(context.getFilesDir(), "solutions"), world);
+        if (!directory.exists()) {
+            if (!directory.mkdirs()) {
+                throw new IOException("Could not create directory: " + directory.getAbsolutePath());
+            }
+        }
+        File file = new File(directory, puzzle + ".pb");
+        try (FileOutputStream out = new FileOutputStream(file)) {
+            solution.writeDelimitedTo(out);
+        }
+    }
+
+    @WorkerThread
+    public static Solution loadSolution(Context context, String world, int puzzle) throws IOException {
+        File directory = new File(new File(context.getFilesDir(), "solutions"), world);
+        if (!directory.exists()) {
+            return null;
+        }
+        File file = new File(directory, puzzle + ".pb");
+        if (!file.exists()) {
+            return null;
+        }
+        try (FileInputStream in = new FileInputStream(file)) {
+            return Solution.parseDelimitedFrom(in);
+        }
+    }
+
+    @WorkerThread
+    public static void clearSolutions(Context context) throws IOException {
+        File directory = new File(context.getFilesDir(), "solutions");
+        if (!CommonAndroidUtils.recursiveDelete(directory)) {
+            throw new IOException("Could not delete directory: " + directory.getAbsolutePath());
+        }
     }
 }

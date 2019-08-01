@@ -17,168 +17,58 @@
 package com.aletheiaware.perspective.android.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
-import com.aletheiaware.bc.BC.Channel;
-import com.aletheiaware.bc.BC.Channel.EntryCallback;
-import com.aletheiaware.bc.BCProto.Block;
-import com.aletheiaware.bc.BCProto.BlockEntry;
-import com.aletheiaware.bc.android.ui.AccountActivity;
-import com.aletheiaware.bc.android.utils.BCAndroidUtils;
-import com.aletheiaware.perspective.PerspectiveProto.World;
+import com.aletheiaware.common.android.utils.CommonAndroidUtils;
 import com.aletheiaware.perspective.android.R;
-import com.aletheiaware.perspective.android.WorldAdapter;
 import com.aletheiaware.perspective.android.utils.PerspectiveAndroidUtils;
-import com.aletheiaware.perspective.utils.PerspectiveUtils;
-import com.google.protobuf.ByteString;
-import com.google.protobuf.InvalidProtocolBufferException;
-
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-
-    private WorldAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // RecyclerView
-        RecyclerView recyclerView = findViewById(R.id.main_recycler);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, layoutManager.getOrientation()));
-
-        // Adapter
-        adapter = new WorldAdapter(this) {
+        // TODO on first use show legalese
+        Button playButton = findViewById(R.id.main_play_button);
+        playButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSelection(ByteString hash, World world) {
-                // TODO play tutorial first (world 0)
-                // TODO show world/puzzle selector
-                // TODO allow new worlds to be purchased
-                Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                intent.putExtra(PerspectiveAndroidUtils.WORLD_EXTRA, hash.toByteArray());
-                intent.putExtra(PerspectiveAndroidUtils.PUZZLE_EXTRA, 0);
-                startActivityForResult(intent, PerspectiveAndroidUtils.GAME_ACTIVITY);
-            }
-        };
-        recyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (BCAndroidUtils.isInitialized()) {
-            String alias = BCAndroidUtils.getAlias();
-        }
-        if (adapter.isEmpty()) {
-            refresh();
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        switch (requestCode) {
-            case PerspectiveAndroidUtils.ACCESS_ACTIVITY:
-                switch (resultCode) {
-                    case RESULT_OK:
-                        refresh();
-                        break;
-                    case RESULT_CANCELED:
-                        setResult(RESULT_CANCELED);
-                        finish();
-                        break;
-                    default:
-                        break;
+            public void onClick(View v) {
+                String preference = CommonAndroidUtils.getPreference(MainActivity.this, getString(R.string.preference_tutorial_completed), "false");
+                if (Boolean.parseBoolean(preference)) {
+                    Intent intent = new Intent(MainActivity.this, LevelSelectActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                    intent.putExtra(PerspectiveAndroidUtils.WORLD_EXTRA, PerspectiveAndroidUtils.TUTORIAL_WORLD);
+                    intent.putExtra(PerspectiveAndroidUtils.PUZZLE_EXTRA, 0);
+                    startActivity(intent);
                 }
-                break;
-            case PerspectiveAndroidUtils.ACCOUNT_ACTIVITY:
-                refresh();
-                break;
-            default:
-                super.onActivityResult(requestCode, resultCode, intent);
-                break;
-        }
-    }
+            }
+        });
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_refresh:
-                refresh();
-                return true;
-            case R.id.menu_account:
-                account();
-                return true;
-            case R.id.menu_settings:
-                settings();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void refresh() {
-        // TODO start refresh menu animate
-        new Thread() {
+        Button settingsButton = findViewById(R.id.main_settings_button);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                Channel worlds = PerspectiveUtils.getWorldsChannel(getCacheDir(), PerspectiveAndroidUtils.getPerspectiveHost());
-                try {
-                    worlds.iterate(new EntryCallback() {
-                        @Override
-                        public boolean onEntry(ByteString hash, Block block, BlockEntry entry) {
-                            Log.d(PerspectiveUtils.TAG, "Entry: " + entry);
-                            try {
-                                World world = World.newBuilder().mergeFrom(entry.getRecord().getPayload()).build();
-                                Log.d(PerspectiveUtils.TAG, "World: " + world);
-                                adapter.addWorld(entry.getRecordHash(), entry.getRecord().getTimestamp(), world);
-                            } catch (InvalidProtocolBufferException e) {
-                                /* Ignored */
-                                e.printStackTrace();
-                            }
-                            return true;
-                        }
-                    });
-                } catch (IOException e) {
-                    BCAndroidUtils.showErrorDialog(MainActivity.this, R.string.error_read_worlds_failed, e);
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // TODO stop refresh menu animate
-                    }
-                });
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
             }
-        }.start();
-    }
+        });
 
-    private void account() {
-        Intent i = new Intent(this, AccountActivity.class);
-        startActivityForResult(i, PerspectiveAndroidUtils.ACCOUNT_ACTIVITY);
-    }
-
-    private void settings() {
-        Intent i = new Intent(this, SettingsActivity.class);
-        startActivityForResult(i, PerspectiveAndroidUtils.SETTINGS_ACTIVITY);
+        ImageButton logoButton = findViewById(R.id.aletheia_ware_llc_logo);
+        logoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://aletheiaware.com"));
+                startActivity(intent);
+            }
+        });
     }
 }

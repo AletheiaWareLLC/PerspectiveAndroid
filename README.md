@@ -7,14 +7,20 @@ This is an Android implementation of Perspective - blockchain-backed, 3D puzzle 
 
 Setup
 =====
+
+AAR Libraries
+
+    ln -s <awcommonandroidaardebug> aletheiaware-common-android/app-debug.aar
+    ln -s <awcommonandroidaarrelease> aletheiaware-common-android/app-release.aar
+
+    ln -s <joyandroidaardebug> joy-android/app-debug.aar
+    ln -s <joyandroidaarrelease> joy-android/app-release.aar
+
 Libraries
 
     mkdir app/libs
-    ln -s <bcjavalib> app/libs/BCJava.jar
-    ln -s <aliasjavalib> app/libs/AliasJava.jar
-    ln -s <financejavalib> app/libs/FinanceJava.jar
+    ln -s <awcommonjavalib> app/libs/AletheiaWareCommonJava.jar
     ln -s <perspectivejavalib> app/libs/PerspectiveJava.jar
-    ln -s <bcandroidaar> bc-android/app-debug.aar
     ln -s <joyandroidaar> joy-android/app-debug.aar
 
 Build

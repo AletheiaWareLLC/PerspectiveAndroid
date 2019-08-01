@@ -21,24 +21,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
-import com.aletheiaware.bc.android.ui.PasswordUnlockDialog;
-import com.aletheiaware.bc.android.utils.BCAndroidUtils;
-import com.aletheiaware.bc.android.utils.BiometricUtils;
-import com.aletheiaware.bc.utils.BCUtils;
+import com.aletheiaware.common.android.utils.CommonAndroidUtils;
 import com.aletheiaware.perspective.android.BuildConfig;
 import com.aletheiaware.perspective.android.R;
+import com.aletheiaware.perspective.android.utils.PerspectiveAndroidUtils;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-
-import javax.crypto.NoSuchPaddingException;
+import java.io.IOException;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -57,13 +50,8 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    // FIXME these settings are shared between all accounts
-    // ie. if one user disables biometric unlock, all users will have it disabled
-    // Possible solutions are a) use SQLite or b) store files prefixed with alias or c) store in blockchain, either way don't rely on SharedPreferences
     public static class SettingsPreferenceFragment extends PreferenceFragmentCompat {
-        private Preference cacheSizePreference;
-        private Preference cachePurgePreference;
-        private CheckBoxPreference biometricPreference;
+        private Preference clearProgressPreference;
         private Preference appVersionPreference;
         private Preference supportPreference;
 
@@ -71,47 +59,42 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreatePreferences(Bundle bundle, String s) {
             addPreferencesFromResource(R.xml.fragment_preference);
 
-            cacheSizePreference = findPreference(getString(R.string.preference_cache_size_key));
-            cacheSizePreference.setShouldDisableView(true);
-            cacheSizePreference.setEnabled(false);
-            cacheSizePreference.setSelectable(false);
-
-            cachePurgePreference = findPreference(getString(R.string.preference_cache_purge_key));
-            cachePurgePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            clearProgressPreference = findPreference(getString(R.string.preference_clear_progress_key));
+            clearProgressPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    boolean result = BCAndroidUtils.purgeCache(getContext());
-                    update();
-                    return result;
-                }
-            });
-
-            biometricPreference = (CheckBoxPreference) findPreference(getString(R.string.preference_biometric_key));
-            biometricPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object o) {
                     final FragmentActivity activity = getActivity();
                     if (activity == null) {
                         return false;
                     }
-                    final String alias = BCAndroidUtils.getAlias();
-                    if ((Boolean) o) {
-                        new PasswordUnlockDialog(activity, alias) {
-                            @Override
-                            public void onUnlock(DialogInterface dialog, char[] password) {
-                                dialog.dismiss();
-                                try {
-                                    BiometricUtils.enableBiometricUnlock(activity, alias, password);
-                                    update();
-                                } catch (InvalidAlgorithmParameterException | InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | NoSuchProviderException e) {
-                                    BCAndroidUtils.showErrorDialog(activity, R.string.error_biometric_enroll, e);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AlertDialogTheme);
+                    builder.setIcon(R.drawable.warning);
+                    builder.setTitle(R.string.preference_clear_progress_confirmation_title);
+                    builder.setMessage(R.string.preference_clear_progress_confirmation_message);
+                    builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            CommonAndroidUtils.setPreference(activity, getString(R.string.preference_tutorial_completed), "false");
+                            new Thread() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        PerspectiveAndroidUtils.clearSolutions(activity);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                            }
-                        }.create();
-                        return BiometricUtils.isBiometricUnlockAvailable(activity);
-                    } else {
-                        return BiometricUtils.disableBiometricUnlock(activity, alias);
-                    }
+                            }.start();
+                        }
+                    });
+                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.show();
+                    return true;
                 }
             });
 
@@ -128,7 +111,7 @@ public class SettingsActivity extends AppCompatActivity {
                     if (activity == null) {
                         return false;
                     }
-                    BCAndroidUtils.support(activity, new StringBuilder());
+                    CommonAndroidUtils.support(activity, new StringBuilder());
                     return true;
                 }
             });
@@ -141,17 +124,6 @@ public class SettingsActivity extends AppCompatActivity {
             if (activity == null) {
                 return;
             }
-            final String alias = BCAndroidUtils.getAlias();
-
-            long size = BCAndroidUtils.getCacheSize(activity);
-            cacheSizePreference.setSummary(BCUtils.sizeToString(size));
-            cachePurgePreference.setEnabled(size > 0L);
-
-            boolean available = BiometricUtils.isBiometricUnlockAvailable(activity);
-            biometricPreference.setEnabled(available);
-            biometricPreference.setSelectable(available);
-            biometricPreference.setVisible(available);
-            biometricPreference.setChecked(BiometricUtils.isBiometricUnlockEnabled(activity, alias));
 
             appVersionPreference.setSummary(BuildConfig.BUILD_TYPE + "-" + BuildConfig.VERSION_NAME);
         }
