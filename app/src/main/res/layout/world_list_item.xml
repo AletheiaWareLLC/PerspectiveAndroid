@@ -14,27 +14,91 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/view_margin"
-    android:background="@color/background"
-    android:orientation="vertical">
+    android:gravity="center_vertical">
 
     <TextView
         android:id="@+id/world_item_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/view_margin"
+        android:layout_marginStart="4dp"
         android:padding="@dimen/view_padding"
-        android:textColor="@color/primary_dark"
-        android:textSize="@dimen/text_primary_size" />
+        android:textColor="@color/text"
+        android:textSize="@dimen/text_primary_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/world_puzzle_recycler"
-        android:layout_width="match_parent"
+
+    <ImageView
+        android:id="@+id/world_item_star1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/view_margin"
-        android:scrollbars="vertical" />
+        android:contentDescription="@string/star_one"
+        android:src="@drawable/star"
+        android:tint="@color/yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/world_item_star2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/star_two"
+        android:src="@drawable/star"
+        android:tint="@color/yellow"
+        app:layout_constraintEnd_toStartOf="@+id/world_item_star1"
+        app:layout_constraintTop_toTopOf="@+id/world_item_star1" />
+
+    <ImageView
+        android:id="@+id/world_item_star3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@string/star_three"
+        android:src="@drawable/star"
+        android:tint="@color/yellow"
+        app:layout_constraintEnd_toStartOf="@+id/world_item_star2"
+        app:layout_constraintTop_toTopOf="@+id/world_item_star2" />
+
+    <ImageView
+        android:id="@+id/world_item_star4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@string/star_four"
+        android:src="@drawable/star"
+        android:tint="@color/yellow"
+        app:layout_constraintEnd_toStartOf="@+id/world_item_star3"
+        app:layout_constraintTop_toTopOf="@+id/world_item_star3" />
+
+    <ImageView
+        android:id="@+id/world_item_star5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@string/star_five"
+        android:src="@drawable/star"
+        android:tint="@color/yellow"
+        app:layout_constraintEnd_toStartOf="@+id/world_item_star4"
+        app:layout_constraintTop_toTopOf="@+id/world_item_star4" />
+
+
+    <Button
+        android:id="@+id/item_world_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:padding="@dimen/view_padding"
+        android:textColor="@color/yellow"
+        android:textSize="@dimen/text_primary_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

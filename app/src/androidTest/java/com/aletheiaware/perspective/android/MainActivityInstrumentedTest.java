@@ -43,7 +43,16 @@ public class MainActivityInstrumentedTest {
     @Test
     public void screenshot() throws Exception {
         MainActivity activity = intentsTestRule.launchActivity(new Intent());
+        CommonAndroidUtils.setPreference(activity, activity.getString(R.string.preference_legalese_accepted), "true");
         Thread.sleep(1000);
         CommonAndroidUtils.captureScreenshot(activity, "com.aletheiaware.perspective.android.MainActivity.png");
+    }
+
+    @Test
+    public void screenshotLegalese() throws Exception {
+        MainActivity activity = intentsTestRule.launchActivity(new Intent());
+        CommonAndroidUtils.setPreference(activity, activity.getString(R.string.preference_legalese_accepted), "false");
+        Thread.sleep(1000);
+        CommonAndroidUtils.captureScreenshot(activity, activity.legaleseDialog.getWindow(), "com.aletheiaware.perspective.android.MainActivity-legalese.png");
     }
 }

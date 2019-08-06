@@ -21,7 +21,7 @@ limitations under the License.
     android:background="@color/background"
     android:orientation="vertical"
     android:padding="@dimen/activity_padding"
-    tool:context=".ui.LevelSelectActivity">
+    tool:context=".ui.WorldSelectActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/world_recycler"

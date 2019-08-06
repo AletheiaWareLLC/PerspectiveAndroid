@@ -1,43 +1,6 @@
-
-tutorialwhite"black*_
-
-outline
-light-blue"
-g1goalyellow"ÿÿÿÿÿÿÿÿÿ2
-s1sphereorange":Tap to Drop*e
-
-outline
-light-blue"
-g1goalyellow" ÿÿÿÿÿÿÿÿÿ2
-s1sphereorange" :Swipe to Rotate@*
-
-outline
-light-blue(
-b1cubegrey"ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ"
-g1goalyellow"2#
-s1sphereorange"ÿÿÿÿÿÿÿÿÿ:Stop Your Drop@*µ
-
-outline
-light-blue*
-b1cubegrey"ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ 
-b2cubegrey" "
-g1goalyellow" ÿÿÿÿÿÿÿÿÿ2%
-s1sphereorange"ÿÿÿÿÿÿÿÿÿ :Use the Blocks@*Ú
-
-outline
-light-blue"*
-g1goalyellow"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ*0
-p1portalblue" ÿÿÿÿÿÿÿÿÿ*ÿÿÿÿÿÿÿÿÿ *0
-p2portalblue"ÿÿÿÿÿÿÿÿÿ * ÿÿÿÿÿÿÿÿÿ2
-s1sphereorange" :Traverse the Portal@*¦
-
-outline
-light-blue*
-b1cubegrey"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ"*
-g1goalyellow"ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ*=
-p2portalblue"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ*ÿÿÿÿÿÿÿÿÿ *=
-p1portalblue"ÿÿÿÿÿÿÿÿÿ *ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ2%
-s1sphereorange"ÿÿÿÿÿÿÿÿÿ :Solve the Maze@2è	
+†
+
+world12	light-red"red2è	
 basicŞ	
 basic¬#if __VERSION__ >= 130
   #define attribute in

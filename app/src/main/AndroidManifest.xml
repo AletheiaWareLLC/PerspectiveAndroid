@@ -18,7 +18,8 @@ limitations under the License.
     xmlns:tools="http://schemas.android.com/tools"
     package="com.aletheiaware.perspective.android">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:allowBackup="true"
@@ -28,7 +29,7 @@ limitations under the License.
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.LevelSelectActivity"
+        <activity android:name=".ui.WorldSelectActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.GameActivity"

@@ -7,8 +7,8 @@ android {
         minSdkVersion 22
         targetSdkVersion 28
         vectorDrawables.useSupportLibrary = true
-        versionCode 3
-        versionName "0.3"
+        versionCode 4
+        versionName "0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -17,12 +17,14 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "app_name", "\"Perspective\""
+            resValue "string", "app_public_key", "\"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApiBjCB06cOWGgvwwBHzzpdeT40CQeicumhKmxYpCwEviGd5YIGMk9mRCIf0S/0bcXtziGdPWrmfNngLIvE6y2DeSRwpo8T+HLD+gChCNXVyCTJ6qZmbjMtq6KURtyt7rEizj2pXVwZLAOjeKiQo2RqbiHQiaiVfQ44HuI3KeE03i/DzIM2O+naXYm8yL3AOsc1g7RTh1AOnBoVo1YmsNxwnhEI8ULipv6NEQVruV+WkD6TUi5/I8sr4uTeOk63kvOgv0jLsRKEGcolmOT5qfbd6LTzs29MhAUvGTQpy6WBW5da7DnNKnJWNeZMqm2FijSbVFNO0O2qEe4DNxZF48VwIDAQAB\""
         }
         debug {
             minifyEnabled false
             applicationIdSuffix '.debug'
             versionNameSuffix '-DEBUG'
             resValue "string", "app_name", "\"PerspectiveD\""
+            resValue "string", "app_public_key", "\"TODO\""
         }
     }
 }
@@ -40,6 +42,7 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:preference-v7:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.billingclient:billing:2.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'

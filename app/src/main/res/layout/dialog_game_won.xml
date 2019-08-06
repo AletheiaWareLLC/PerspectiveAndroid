@@ -58,6 +58,22 @@ limitations under the License.
             android:src="@drawable/star"
             android:contentDescription="@string/star_three" />
 
+        <ImageView
+            android:id="@+id/game_won_star4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/yellow"
+            android:src="@drawable/star"
+            android:contentDescription="@string/star_four" />
+
+        <ImageView
+            android:id="@+id/game_won_star5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/yellow"
+            android:src="@drawable/star"
+            android:contentDescription="@string/star_five" />
+
     </LinearLayout>
 
 </LinearLayout>

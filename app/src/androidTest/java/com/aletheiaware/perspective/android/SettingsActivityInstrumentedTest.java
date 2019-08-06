@@ -45,4 +45,17 @@ public class SettingsActivityInstrumentedTest {
         Thread.sleep(1000);
         CommonAndroidUtils.captureScreenshot(activity, "com.aletheiaware.perspective.android.SettingsActivity.png");
     }
+
+    @Test
+    public void screenshotClearProgressWarning() throws Exception {
+        final SettingsActivity activity = intentsTestRule.launchActivity(new Intent());
+        activity.runOnUiThread(new Runnable() {
+           @Override
+           public void run() {
+               activity.preferenceFragment.clearProgress(activity);
+           }
+       });
+        Thread.sleep(1000);
+        CommonAndroidUtils.captureScreenshot(activity, activity.preferenceFragment.clearProgressDialog.getWindow(), "com.aletheiaware.perspective.android.SettingsActivity-clear-progress-warning.png");
+    }
 }

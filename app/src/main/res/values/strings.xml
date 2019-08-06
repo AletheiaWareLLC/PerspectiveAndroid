@@ -23,6 +23,12 @@ limitations under the License.
     <string name="empty_world_list">No worlds found</string>
     <string name="empty_puzzle_list">No puzzles found</string>
 
+    <string name="error_add_world">Failed to add world</string>
+    <string name="error_game_init">Failed to initialize game</string>
+    <string name="error_get_scene_graph_node">Failed to get scene graph node</string>
+    <string name="error_save_solution">Failed to save solution</string>
+    <string name="error_clear_solutions">Failed to clear solutions</string>
+
     <string name="loading">Loading…</string>
 
     <string name="main_menu">Menu</string>
@@ -31,24 +37,27 @@ limitations under the License.
 
     <string name="puzzle_next">Next</string>
     <string name="puzzle_retry">Retry</string>
+    <string name="puzzle_locked">Puzzle is locked</string>
 
     <string name="game_lost">Game Over</string>
     <string name="game_won">Congratulations!</string>
     <string name="star_one">One Star</string>
     <string name="star_two">Two Stars</string>
     <string name="star_three">Three Stars</string>
+    <string name="star_four">Four Stars</string>
+    <string name="star_five">Five Stars</string>
 
     <string name="preference_game_title">Game</string>
     <string name="preference_puzzle_outline_key">puzzle_outline_preference</string>
-    <string name="preference_puzzle_outline_title">Puzzle Outline</string>
-    <string name="preference_puzzle_outline_enabled_description">Puzzle outline is enabled</string>
-    <string name="preference_puzzle_outline_disabled_description">Puzzle outline is disabled</string>
+    <string name="preference_puzzle_outline_title">Outline</string>
+    <string name="preference_puzzle_vibration_key">puzzle_vibration_preference</string>
+    <string name="preference_puzzle_vibration_title">Vibration</string>
 
-    <string name="preference_tutorial_completed">tutorial_completed_preference</string>
     <string name="preference_clear_progress_key">clear_progress_preference</string>
     <string name="preference_clear_progress_title">Clear Progress</string>
     <string name="preference_clear_progress_description">Resets all game progress</string>
     <string name="preference_clear_progress_confirmation_title">Are you sure?</string>
     <string name="preference_clear_progress_confirmation_message">All game progress will be deleted.</string>
+    <string name="preference_clear_progress_action">Delete</string>
 
 </resources>

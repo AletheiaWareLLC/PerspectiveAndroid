@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <resources>
-    <color name="icon_launcher_background">@color/primary</color>
-    <color name="background">@color/primary</color>
+    <color name="icon_launcher_background">@color/blue</color>
+    <color name="background">@color/blue</color>
     <color name="foreground">@color/black</color>
     <color name="primary">@color/light_blue</color>
     <color name="primary_dark">@color/dark_blue</color>
@@ -27,16 +27,23 @@ limitations under the License.
     <color name="warning">@color/red</color>
 
     <color name="black">#FF000000</color>
-    <color name="blue">#FF2B559D</color>
-    <color name="dark_blue">#FF0E367C</color>
+    <color name="blue">#FF2582E3</color>
+    <color name="dark_blue">#FF2175CC</color>
+    <color name="dark_green">#FF22964A</color>
     <color name="dark_grey">#FF333333</color>
-    <color name="green">#FF107C48</color>
+    <color name="dark_orange">#FFE46803</color>
+    <color name="dark_red">#FFD02D2D</color>
+    <color name="dark_yellow">#FFE3BB0F</color>
+    <color name="green">#FF26A753</color>
     <color name="grey">#FF7F7F7F</color>
-    <color name="light_blue">#FF4874BF</color>
+    <color name="light_blue">#FF3A8EE5</color>
+    <color name="light_green">#FF3BAF64</color>
     <color name="light_grey">#FFCCCCCC</color>
-    <color name="orange">#FFF75F1C</color>
-    <color name="purple">#FF881EE4</color>
-    <color name="red">#FFCD3333</color>
+    <color name="light_orange">#FFFE811D</color>
+    <color name="light_red">#FFEA4647</color>
+    <color name="light_yellow">#FFFDD428</color>
+    <color name="orange">#FFFE7404</color>
+    <color name="red">#FFE83233</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="yellow">#FFE6E600</color>
+    <color name="yellow">#FFFDD011</color>
 </resources>

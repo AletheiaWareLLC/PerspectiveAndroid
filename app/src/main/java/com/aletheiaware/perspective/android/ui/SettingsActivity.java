@@ -17,8 +17,9 @@
 package com.aletheiaware.perspective.android.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -35,15 +36,15 @@ import java.io.IOException;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    public SettingsPreferenceFragment preferenceFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Setup UI
         setContentView(R.layout.activity_settings);
 
-        if (savedInstanceState == null) {
-            Fragment preferenceFragment = new SettingsPreferenceFragment();
+        if (savedInstanceState == null || preferenceFragment == null) {
+            preferenceFragment = new SettingsPreferenceFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.preference_frame, preferenceFragment);
             ft.commit();
@@ -51,9 +52,11 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public static class SettingsPreferenceFragment extends PreferenceFragmentCompat {
+        public AlertDialog clearProgressDialog;
         private Preference clearProgressPreference;
-        private Preference appVersionPreference;
+        private Preference versionPreference;
         private Preference supportPreference;
+        private Preference morePreference;
 
         @Override
         public void onCreatePreferences(Bundle bundle, String s) {
@@ -67,41 +70,15 @@ public class SettingsActivity extends AppCompatActivity {
                     if (activity == null) {
                         return false;
                     }
-                    AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AlertDialogTheme);
-                    builder.setIcon(R.drawable.warning);
-                    builder.setTitle(R.string.preference_clear_progress_confirmation_title);
-                    builder.setMessage(R.string.preference_clear_progress_confirmation_message);
-                    builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            CommonAndroidUtils.setPreference(activity, getString(R.string.preference_tutorial_completed), "false");
-                            new Thread() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        PerspectiveAndroidUtils.clearSolutions(activity);
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }.start();
-                        }
-                    });
-                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.show();
+                    clearProgress(activity);
                     return true;
                 }
             });
 
-            appVersionPreference = findPreference(getString(R.string.preference_app_version_key));
-            appVersionPreference.setShouldDisableView(true);
-            appVersionPreference.setEnabled(false);
-            appVersionPreference.setSelectable(false);
+            versionPreference = findPreference(getString(R.string.preference_version_key));
+            versionPreference.setShouldDisableView(true);
+            versionPreference.setEnabled(false);
+            versionPreference.setSelectable(false);
 
             supportPreference = findPreference(getString(R.string.preference_support_key));
             supportPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -116,7 +93,43 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
+            morePreference = findPreference(getString(R.string.preference_more_key));
+            morePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Aletheia+Ware+LLC"));
+                    startActivity(intent);
+                    return true;
+                }
+            });
+
             update();
+        }
+
+        public void clearProgress(final FragmentActivity activity) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.WarningDialogTheme);
+            builder.setIcon(R.drawable.warning);
+            builder.setTitle(R.string.preference_clear_progress_confirmation_title);
+            builder.setMessage(R.string.preference_clear_progress_confirmation_message);
+            builder.setPositiveButton(R.string.preference_clear_progress_action, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    CommonAndroidUtils.setPreference(activity, getString(R.string.preference_tutorial_completed), "false");
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                PerspectiveAndroidUtils.clearSolutions(activity);
+                            } catch (IOException e) {
+                                CommonAndroidUtils.showErrorDialog(activity, R.style.ErrorDialogTheme, R.string.error_clear_solutions, e);
+                                e.printStackTrace();
+                            }
+                        }
+                    }.start();
+                }
+            });
+            clearProgressDialog = builder.create();
+            clearProgressDialog.show();
         }
 
         public void update() {
@@ -125,7 +138,7 @@ public class SettingsActivity extends AppCompatActivity {
                 return;
             }
 
-            appVersionPreference.setSummary(BuildConfig.BUILD_TYPE + "-" + BuildConfig.VERSION_NAME);
+            versionPreference.setSummary(BuildConfig.BUILD_TYPE + "-" + BuildConfig.VERSION_NAME);
         }
     }
 }

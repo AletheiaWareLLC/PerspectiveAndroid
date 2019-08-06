@@ -23,8 +23,7 @@ import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.aletheiaware.common.android.utils.CommonAndroidUtils;
-import com.aletheiaware.perspective.android.ui.LevelSelectActivity;
-import com.aletheiaware.perspective.android.ui.MainActivity;
+import com.aletheiaware.perspective.android.ui.WorldSelectActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,9 +31,9 @@ import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class LevelSelectActivityInstrumentedTest {
+public class WorldSelectActivityInstrumentedTest {
 
-    public IntentsTestRule<LevelSelectActivity> intentsTestRule = new IntentsTestRule<>(LevelSelectActivity.class, false, false);
+    public IntentsTestRule<WorldSelectActivity> intentsTestRule = new IntentsTestRule<>(WorldSelectActivity.class, false, false);
 
     @Rule
     public RuleChain ruleChain = RuleChain.outerRule(GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE))
@@ -42,8 +41,8 @@ public class LevelSelectActivityInstrumentedTest {
 
     @Test
     public void screenshot() throws Exception {
-        LevelSelectActivity activity = intentsTestRule.launchActivity(new Intent());
+        WorldSelectActivity activity = intentsTestRule.launchActivity(new Intent());
         Thread.sleep(1000);
-        CommonAndroidUtils.captureScreenshot(activity, "com.aletheiaware.perspective.android.LevelSelectActivity.png");
+        CommonAndroidUtils.captureScreenshot(activity, "com.aletheiaware.perspective.android.WorldSelectActivity.png");
     }
 }

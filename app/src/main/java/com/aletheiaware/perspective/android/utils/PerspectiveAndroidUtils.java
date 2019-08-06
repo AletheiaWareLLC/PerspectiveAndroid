@@ -47,64 +47,31 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PerspectiveAndroidUtils {
 
+    public static final int MAX_STARS = 5;
     public static final String PUZZLE_EXTRA = "puzzle";
     public static final String WORLD_EXTRA = "world";
-    public static final String TUTORIAL_WORLD = "tutorial";
-    public static final String GROUND_ZERO_WORLD = "ground-0";
-    public static final String ALPHA_ONE_WORLD = "alpha-1";
-    public static final String PORTAL_TWO_WORLD = "portal-2";
-    public static final String SEA_THREE_WORLD = "sea-3";
-    public static final String HIGH_FIVE_WORLD = "high-5";
-    public static final String MAGIC_EIGHT_WORLD = "magic-8";
-    public static final String CLOUD_NINE_WORLD = "cloud-9";
+    public static final String WORLD_TUTORIAL = "tutorial";
+    public static final String WORLD_ONE = "world1";
+    public static final String WORLD_TWO = "world2";
+    public static final String WORLD_THREE = "world3";
+    public static final String WORLD_FOUR = "world4";
+    public static final String WORLD_FIVE = "world5";
+    public static final String WORLD_SIX = "world6";
+    public static final String WORLD_SEVEN = "world7";
+    public static final String WORLD_EIGHT = "world8";
+    public static final String WORLD_NINE = "world9";
+    public static final String WORLD_TEN = "world10";
+    public static final String WORLD_ELEVEN = "world11";
+    public static final String WORLD_TWELVE = "world12";
 
     private PerspectiveAndroidUtils() {
     }
 
     public static World getWorld(AssetManager assets, String world) throws IOException {
         return PerspectiveUtils.readWorld(assets.open("world/" + world + ".pb"));
-    }
-
-    public static GLScene createScene(AssetManager assets, String world) throws IOException {
-        final GLScene scene = new GLScene();
-        List<String> meshes = new ArrayList<>();
-        meshes.add("goal");
-        meshes.add("outline");
-        meshes.add("sphere");
-        switch (world) {
-            case TUTORIAL_WORLD:
-                meshes.add("cube");
-                break;
-            case PORTAL_TWO_WORLD:
-                meshes.add("portal");
-                // Fall Through
-            case GROUND_ZERO_WORLD:
-            case ALPHA_ONE_WORLD:
-            case SEA_THREE_WORLD:
-            case HIGH_FIVE_WORLD:
-            case MAGIC_EIGHT_WORLD:
-                meshes.add("block");
-                break;
-            case CLOUD_NINE_WORLD:
-                meshes.add("cloud");
-                break;
-        }
-        for (String name : meshes) {
-            new MeshLoader(assets.open("mesh/" + name + ".pb")) {
-                @Override
-                public void onMesh(Mesh mesh) throws IOException {
-                    System.out.println("Name: " + mesh.getName());
-                    scene.putVertexNormalMesh(mesh.getName(), new GLVertexNormalMesh(mesh));
-                }
-            }.start();
-        }
-
-        return scene;
     }
 
     public static MatrixTransformationNode createBasicSceneGraph(GLScene scene, World world) {
@@ -129,14 +96,24 @@ public class PerspectiveAndroidUtils {
         return rotation;
     }
 
-    public static Puzzle getPuzzle(World world, int puzzleIndex) {
-        if (puzzleIndex < world.getPuzzleCount()) {
-            return world.getPuzzle(puzzleIndex);
+    public static Puzzle getPuzzle(World world, int puzzle) {
+        int index = puzzle - 1;
+        if (index >= 0 && index < world.getPuzzleCount()) {
+            return world.getPuzzle(index);
         }
         return null;
     }
 
-    public static SceneGraphNode getSceneGraphNode(String program, String name, String type, String mesh) {
+    public static SceneGraphNode getSceneGraphNode(final GLScene scene, AssetManager assets, String program, String name, String type, String mesh) throws IOException {
+        if (scene.getVertexNormalMesh(mesh) == null) {
+            new MeshLoader(assets.open("mesh/" + mesh + ".pb")) {
+                @Override
+                public void onMesh(Mesh mesh) throws IOException {
+                    System.out.println("Name: " + mesh.getName());
+                    scene.putVertexNormalMesh(mesh.getName(), new GLVertexNormalMesh(mesh));
+                }
+            }.start();
+        }
         switch (type) {
             case "outline":
             case "block":
@@ -182,6 +159,13 @@ public class PerspectiveAndroidUtils {
             }
         }
         File file = new File(directory, puzzle + ".pb");
+        if (file.exists()) {
+            Solution s = loadSolution(file);
+            // Only overwrite existing solution if new solution has better (lower) score
+            if (s.getScore() < solution.getScore()) {
+                return;
+            }
+        }
         try (FileOutputStream out = new FileOutputStream(file)) {
             solution.writeDelimitedTo(out);
         }
@@ -190,13 +174,17 @@ public class PerspectiveAndroidUtils {
     @WorkerThread
     public static Solution loadSolution(Context context, String world, int puzzle) throws IOException {
         File directory = new File(new File(context.getFilesDir(), "solutions"), world);
-        if (!directory.exists()) {
-            return null;
+        if (directory.exists()) {
+            File file = new File(directory, puzzle + ".pb");
+            if (file.exists()) {
+                return loadSolution(file);
+            }
         }
-        File file = new File(directory, puzzle + ".pb");
-        if (!file.exists()) {
-            return null;
-        }
+        return null;
+    }
+
+    @WorkerThread
+    private static Solution loadSolution(File file) throws IOException {
         try (FileInputStream in = new FileInputStream(file)) {
             return Solution.parseDelimitedFrom(in);
         }
@@ -208,5 +196,16 @@ public class PerspectiveAndroidUtils {
         if (!CommonAndroidUtils.recursiveDelete(directory)) {
             throw new IOException("Could not delete directory: " + directory.getAbsolutePath());
         }
+    }
+
+    public static String capitalize(String string) {
+        if (string == null || string.isEmpty()) {
+            return string;
+        }
+        return string.substring(0, 1).toUpperCase() + string.substring(1);
+    }
+
+    public static int scoreToStars(int score, int target) {
+        return Math.min(MAX_STARS, Math.max(MAX_STARS - (score - target), 0));
     }
 }

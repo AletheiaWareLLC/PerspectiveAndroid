@@ -18,31 +18,60 @@ package com.aletheiaware.perspective.android;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.aletheiaware.perspective.PerspectiveProto.World;
+import com.aletheiaware.perspective.android.utils.PerspectiveAndroidUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WorldAdapter extends Adapter<WorldAdapter.WorldViewHolder> {
 
-    private final Activity activity;
-    private final List<World> worlds = new ArrayList<>();
-    private final PuzzleAdapter.Callback callback;
+    public interface Callback {
+        void onSelect(World world);
+        void onBuy(String world);
+    }
 
-    public WorldAdapter(Activity activity, PuzzleAdapter.Callback callback) {
+    private final Activity activity;
+    private final List<String> names = new ArrayList<>();
+    private final Map<String, Integer> starsMap = new HashMap<>();
+    private final Map<String, String> pricesMap = new HashMap<>();
+    private final Map<String, World> worldsMap = new HashMap<>();
+    private final Callback callback;
+
+    public WorldAdapter(Activity activity, Callback callback) {
         this.activity = activity;
         this.callback = callback;
     }
 
-    public synchronized void addWorld(World world) {
-        worlds.add(world);
+    public synchronized void addWorld(World world, int stars) {
+        String name = world.getName();
+        if (!names.contains(name)) {
+            names.add(name);
+        }
+        worldsMap.put(name, world);
+        starsMap.put(name, stars);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                notifyDataSetChanged();
+            }
+        });
+    }
+
+    public synchronized void addWorld(String name, String price) {
+        if (!names.contains(name)) {
+            names.add(name);
+        }
+        pricesMap.put(name, price);
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -54,47 +83,123 @@ public class WorldAdapter extends Adapter<WorldAdapter.WorldViewHolder> {
     @NonNull
     @Override
     public WorldViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final LinearLayout view = (LinearLayout) activity.getLayoutInflater().inflate(R.layout.world_list_item, parent, false);
-        return new WorldViewHolder(view);
+        final View view = activity.getLayoutInflater().inflate(R.layout.world_list_item, parent, false);
+        final WorldViewHolder holder = new WorldViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.onSelect(holder.getWorld());
+            }
+        });
+        Button buyButton = view.findViewById(R.id.item_world_buy);
+        buyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.onBuy(holder.getName());
+            }
+        });
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull WorldViewHolder holder, int position) {
-        if (worlds.isEmpty()) {
+        if (names.isEmpty()) {
             holder.setEmptyView();
         } else {
-            World world = worlds.get(position);
-            holder.set(world, new PuzzleAdapter(activity, world, callback));
+            String name = names.get(position);
+            World world = worldsMap.get(name);
+            if (world == null) {
+                holder.set(name, pricesMap.get(name));
+            } else {
+                int s = 0;
+                Integer stars = starsMap.get(name);
+                if (stars != null) {
+                    s = stars;
+                }
+                holder.set(world, s);
+            }
         }
     }
 
     @Override
     public int getItemCount() {
-        if (worlds.isEmpty()) {
+        if (names.isEmpty()) {
             return 1;// For empty view
         }
-        return worlds.size();
+        return names.size();
     }
 
     static class WorldViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView itemName;
-        private RecyclerView itemPuzzles;
+        private final TextView itemName;
+        private final View itemStar1;
+        private final View itemStar2;
+        private final View itemStar3;
+        private final View itemStar4;
+        private final View itemStar5;
+        private final Button itemBuy;
+        private String name;
+        private World world;
 
-        WorldViewHolder(LinearLayout view) {
+        WorldViewHolder(View view) {
             super(view);
             itemName = view.findViewById(R.id.world_item_name);
-            itemPuzzles = view.findViewById(R.id.world_puzzle_recycler);
-            itemPuzzles.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
+            itemStar1 = view.findViewById(R.id.world_item_star1);
+            itemStar2 = view.findViewById(R.id.world_item_star2);
+            itemStar3 = view.findViewById(R.id.world_item_star3);
+            itemStar4 = view.findViewById(R.id.world_item_star4);
+            itemStar5 = view.findViewById(R.id.world_item_star5);
+            itemBuy = view.findViewById(R.id.item_world_buy);
         }
 
-        void set(World world, Adapter<PuzzleAdapter.PuzzleViewHolder> adapter) {
-            itemName.setText(world.getName().toUpperCase());
-            itemPuzzles.setAdapter(adapter);
+        void set(World world, int stars) {
+            setWorld(world);
+            setName(world.getName());
+            itemBuy.setVisibility(View.GONE);
+            itemStar1.setVisibility(stars > 0 ? View.VISIBLE : View.INVISIBLE);
+            itemStar2.setVisibility(stars > 1 ? View.VISIBLE : View.INVISIBLE);
+            itemStar3.setVisibility(stars > 2 ? View.VISIBLE : View.INVISIBLE);
+            itemStar4.setVisibility(stars > 3 ? View.VISIBLE : View.INVISIBLE);
+            itemStar5.setVisibility(stars > 4 ? View.VISIBLE : View.INVISIBLE);
+        }
+
+        void set(String name, String price) {
+            setWorld(null);
+            setName(name);
+            itemBuy.setText(price);
+            itemBuy.setVisibility(View.VISIBLE);
+            itemStar1.setVisibility(View.GONE);
+            itemStar2.setVisibility(View.GONE);
+            itemStar3.setVisibility(View.GONE);
+            itemStar4.setVisibility(View.GONE);
+            itemStar5.setVisibility(View.GONE);
+        }
+
+        void setName(String name) {
+            this.name = name;
+            itemName.setText(PerspectiveAndroidUtils.capitalize(name));
+        }
+
+        void setWorld(World world) {
+            this.world = world;
+        }
+
+        String getName() {
+            return name;
+        }
+
+        World getWorld() {
+            return world;
         }
 
         void setEmptyView() {
             itemName.setText(R.string.empty_world_list);
+            itemBuy.setVisibility(View.GONE);
+            itemStar1.setVisibility(View.GONE);
+            itemStar2.setVisibility(View.GONE);
+            itemStar3.setVisibility(View.GONE);
+            itemStar4.setVisibility(View.GONE);
+            itemStar5.setVisibility(View.GONE);
         }
     }
 

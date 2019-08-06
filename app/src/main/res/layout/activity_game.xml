@@ -32,13 +32,13 @@ limitations under the License.
         android:layout_margin="@dimen/view_margin"
         android:background="@android:color/transparent"
         android:contentDescription="@string/aletheia_ware_llc_logo"
-        android:tint="@color/text_primary"
+        android:tint="@color/white"
         app:srcCompat="@drawable/aletheia_ware_llc_logo" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/text_primary"
+        android:textColor="@color/text"
         android:textSize="@dimen/text_primary_size"
         android:text="@string/loading"/>
 

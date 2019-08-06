@@ -14,12 +14,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/view_margin"
-    android:background="@android:color/transparent"
-    android:padding="@dimen/view_padding"
-    android:textAlignment="center"
-    android:textColor="@color/text_primary"
-    android:textSize="@dimen/text_primary_size" />
+<resources>
+    <dimen name="card_corner_radius">8dp</dimen>
+    <dimen name="card_view_padding">6dp</dimen>
+    <dimen name="text_primary_size">24sp</dimen>
+    <dimen name="text_secondary_size">20sp</dimen>
+    <dimen name="divider_thickness">2dp</dimen>
+</resources>
