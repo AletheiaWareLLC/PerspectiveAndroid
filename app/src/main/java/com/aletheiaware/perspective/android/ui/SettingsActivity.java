@@ -114,6 +114,9 @@ public class SettingsActivity extends AppCompatActivity {
             builder.setPositiveButton(R.string.preference_clear_progress_action, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    // TODO should this clear the outline_enabled_preference?
+                    // TODO should this clear the vibration_enabled_preference?
+                    // TODO should this clear the legalese_accepted_preference?
                     CommonAndroidUtils.setPreference(activity, getString(R.string.preference_tutorial_completed), "false");
                     new Thread() {
                         @Override

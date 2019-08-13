@@ -17,7 +17,6 @@ limitations under the License.
 <resources>
     <!-- <string name="app_name">Perspective</string> moved to gradle -->
 
-    <string name="app_logo">Perspective Logo</string>
     <string name="app_logo_description">Perspective Logo</string>
 
     <string name="empty_world_list">No worlds found</string>
@@ -39,7 +38,8 @@ limitations under the License.
     <string name="puzzle_retry">Retry</string>
     <string name="puzzle_locked">Puzzle is locked</string>
 
-    <string name="game_lost">Game Over</string>
+    <string name="game_over">Game Over</string>
+    <string name="game_lost">You Lose</string>
     <string name="game_won">Congratulations!</string>
     <string name="star_one">One Star</string>
     <string name="star_two">Two Stars</string>

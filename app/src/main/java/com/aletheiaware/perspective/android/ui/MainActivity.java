@@ -22,10 +22,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.aletheiaware.common.android.utils.CommonAndroidUtils;
 import com.aletheiaware.perspective.android.R;
@@ -48,15 +49,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playButton.setEnabled(false);
-                String preference = CommonAndroidUtils.getPreference(MainActivity.this, getString(R.string.preference_tutorial_completed), "false");
-                if (Boolean.parseBoolean(preference)) {
-                    Intent intent = new Intent(MainActivity.this, WorldSelectActivity.class);
-                    startActivity(intent);
+                // Check legalese has been accepted
+                if (Boolean.parseBoolean(CommonAndroidUtils.getPreference(MainActivity.this, getString(R.string.preference_legalese_accepted), "false"))) {
+                    play();
                 } else {
-                    Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                    intent.putExtra(PerspectiveAndroidUtils.WORLD_EXTRA, PerspectiveAndroidUtils.WORLD_TUTORIAL);
-                    intent.putExtra(PerspectiveAndroidUtils.PUZZLE_EXTRA, 1);
-                    startActivity(intent);
+                    showLegalese(new Runnable() {
+                        @Override
+                        public void run() {
+                            play();
+                        }
+                    });
                 }
             }
         });
@@ -83,60 +85,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        playButton.setEnabled(true);
-        settingsButton.setEnabled(true);
-        logoButton.setEnabled(true);
-    }
-
-    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            legalese();
+        playButton.setEnabled(hasFocus);
+        settingsButton.setEnabled(hasFocus);
+        logoButton.setEnabled(hasFocus);
+    }
+
+    private void play() {
+        // Check tutorial has been completed
+        if (Boolean.parseBoolean(CommonAndroidUtils.getPreference(MainActivity.this, getString(R.string.preference_tutorial_completed), "false"))) {
+            Intent intent = new Intent(MainActivity.this, WorldSelectActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(MainActivity.this, GameActivity.class);
+            intent.putExtra(PerspectiveAndroidUtils.WORLD_EXTRA, PerspectiveAndroidUtils.WORLD_TUTORIAL);
+            intent.putExtra(PerspectiveAndroidUtils.PUZZLE_EXTRA, 1);
+            startActivity(intent);
         }
     }
 
-    public void legalese() {
-        String preference = CommonAndroidUtils.getPreference(MainActivity.this, getString(R.string.preference_legalese_accepted), "false");
-        if (!Boolean.parseBoolean(preference)) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.LegaleseDialogTheme);
-            View view = getLayoutInflater().inflate(R.layout.dialog_legalese, null);
-            final CheckBox termsCheck = view.findViewById(R.id.legalese_terms_of_service_check);
-            final CheckBox policyCheck = view.findViewById(R.id.legalese_privacy_policy_check);
-            final CheckBox betaCheck = view.findViewById(R.id.legalese_beta_test_agreement_check);
-            builder.setView(view);
-            builder.setPositiveButton(R.string.legalese_action_accept, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int id) {
-                    if (!termsCheck.isChecked()) {
-                        CommonAndroidUtils.showErrorDialog(MainActivity.this, R.style.ErrorDialogTheme, getString(R.string.error_terms_of_service_required));
-                        return;
-                    }
-                    if (!policyCheck.isChecked()) {
-                        CommonAndroidUtils.showErrorDialog(MainActivity.this, R.style.ErrorDialogTheme, getString(R.string.error_privacy_policy_required));
-                        return;
-                    }
-                    if (!betaCheck.isChecked()) {
-                        CommonAndroidUtils.showErrorDialog(MainActivity.this, R.style.ErrorDialogTheme, getString(R.string.error_beta_test_agreement_required));
-                        return;
-                    }
-                    CommonAndroidUtils.setPreference(MainActivity.this, getString(R.string.preference_legalese_accepted), "true");
-                    dialog.cancel();
+    public void showLegalese(final Runnable runnable) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.LegaleseDialogTheme);
+        View view = getLayoutInflater().inflate(R.layout.dialog_legalese, null);
+        TextView legaleseLabel = view.findViewById(R.id.legalese_label);
+        legaleseLabel.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView legaleseBetaLabel = view.findViewById(R.id.legalese_beta_label);
+        legaleseBetaLabel.setMovementMethod(LinkMovementMethod.getInstance());
+        builder.setView(view);
+        builder.setPositiveButton(R.string.legalese_action_accept, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                CommonAndroidUtils.setPreference(MainActivity.this, getString(R.string.preference_legalese_accepted), "true");
+                dialog.cancel();
+                if (runnable != null) {
+                    runnable.run();
                 }
-            });
-            builder.setNegativeButton(R.string.legalese_action_reject, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
-                    setResult(RESULT_CANCELED);
-                    finish();
-                }
-            });
-            builder.setCancelable(false);
-            legaleseDialog = builder.create();
-            legaleseDialog.show();
-        }
+            }
+        });
+        builder.setNegativeButton(R.string.legalese_action_reject, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        legaleseDialog = builder.create();
+        legaleseDialog.show();
     }
 }

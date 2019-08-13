@@ -51,6 +51,8 @@ import java.io.IOException;
 public class PerspectiveAndroidUtils {
 
     public static final int MAX_STARS = 5;
+    public static final String ORIENTATION_EXTRA = "orientation";
+    public static final String OUTLINE_EXTRA = "outline";
     public static final String PUZZLE_EXTRA = "puzzle";
     public static final String WORLD_EXTRA = "world";
     public static final String WORLD_TUTORIAL = "tutorial";
@@ -207,5 +209,9 @@ public class PerspectiveAndroidUtils {
 
     public static int scoreToStars(int score, int target) {
         return Math.min(MAX_STARS, Math.max(MAX_STARS - (score - target), 0));
+    }
+
+    public static boolean isTutorial(String worldName) {
+        return WORLD_TUTORIAL.equals(worldName);
     }
 }

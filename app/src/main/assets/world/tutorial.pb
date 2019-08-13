@@ -1,35 +1,35 @@
-
-tutorialwhite"black*_
+Ù
+tutorialwhite"black*i
 
 outline
 light-blue"
 g1goalyellow"ÿÿÿÿÿÿÿÿÿ2
-s1sphereorange":Tap to Drop*e
+s1sphereorange":Tap to Drop into Goal*w
 
 outline
 light-blue"
 g1goalyellow" ÿÿÿÿÿÿÿÿÿ2
-s1sphereorange" :Swipe to Rotate@*
+s1sphereorange" :!Swipe to Orient Sphere Above Goal@*›
 
 outline
-light-blue(
-b1cubegrey"ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ"
-g1goalyellow"2#
-s1sphereorange"ÿÿÿÿÿÿÿÿÿ:Stop Your Drop@*µ
+light-blue
+b1cubegrey""
+g1goalyellow"ÿÿÿÿÿÿÿÿÿ2#
+s1sphereorange"ÿÿÿÿÿÿÿÿÿ:"Swipe to Orient Sphere Above Block@*¶
 
 outline
-light-blue*
-b1cubegrey"ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ 
-b2cubegrey" "
+light-blue
+b1cubegrey" 
+b2cubegrey"ÿÿÿÿÿÿÿÿÿ "
 g1goalyellow" ÿÿÿÿÿÿÿÿÿ2%
-s1sphereorange"ÿÿÿÿÿÿÿÿÿ :Use the Blocks@*Ú
+s1sphereorange"ÿÿÿÿÿÿÿÿÿ :Use Blocks to Reach Goal@*á
 
 outline
 light-blue"*
 g1goalyellow"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ*0
 p1portalblue" ÿÿÿÿÿÿÿÿÿ*ÿÿÿÿÿÿÿÿÿ *0
 p2portalblue"ÿÿÿÿÿÿÿÿÿ * ÿÿÿÿÿÿÿÿÿ2
-s1sphereorange" :Traverse the Portal@*¦
+s1sphereorange" :Enter Portal to Reach Goal@*²
 
 outline
 light-blue*
@@ -37,7 +37,7 @@ light-blue*
 g1goalyellow"ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ*=
 p2portalblue"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ*ÿÿÿÿÿÿÿÿÿ *=
 p1portalblue"ÿÿÿÿÿÿÿÿÿ *ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ2%
-s1sphereorange"ÿÿÿÿÿÿÿÿÿ :Solve the Maze@2è	
+s1sphereorange"ÿÿÿÿÿÿÿÿÿ :Make Progress Towards Goal@2è	
 basicŞ	
 basic¬#if __VERSION__ >= 130
   #define attribute in

@@ -25,6 +25,9 @@ import android.support.test.runner.AndroidJUnit4;
 import com.aletheiaware.common.android.utils.CommonAndroidUtils;
 import com.aletheiaware.perspective.android.ui.WorldSelectActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.RuleChain;
@@ -33,7 +36,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class WorldSelectActivityInstrumentedTest {
 
-    public IntentsTestRule<WorldSelectActivity> intentsTestRule = new IntentsTestRule<>(WorldSelectActivity.class, false, false);
+    private IntentsTestRule<WorldSelectActivity> intentsTestRule = new IntentsTestRule<>(WorldSelectActivity.class, true, false);
 
     @Rule
     public RuleChain ruleChain = RuleChain.outerRule(GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE))
@@ -44,5 +47,35 @@ public class WorldSelectActivityInstrumentedTest {
         WorldSelectActivity activity = intentsTestRule.launchActivity(new Intent());
         Thread.sleep(1000);
         CommonAndroidUtils.captureScreenshot(activity, "com.aletheiaware.perspective.android.WorldSelectActivity.png");
+    }
+
+    @Test
+    public void screenshotSKUPurchased() throws Exception {
+        WorldSelectActivity activity = intentsTestRule.launchActivity(new Intent());
+        List<String> skus = new ArrayList<>();
+        skus.add("android.test.purchased");
+        activity.querySkuDetails(skus);
+        Thread.sleep(1000);
+        CommonAndroidUtils.captureScreenshot(activity, "com.aletheiaware.perspective.android.WorldSelectActivity-sku-purchased.png");
+    }
+
+    @Test
+    public void screenshotSKUCanceled() throws Exception {
+        WorldSelectActivity activity = intentsTestRule.launchActivity(new Intent());
+        List<String> skus = new ArrayList<>();
+        skus.add("android.test.canceled");
+        activity.querySkuDetails(skus);
+        Thread.sleep(1000);
+        CommonAndroidUtils.captureScreenshot(activity, "com.aletheiaware.perspective.android.WorldSelectActivity-sku-canceled.png");
+    }
+
+    @Test
+    public void screenshotSKUItemUnavailable() throws Exception {
+        WorldSelectActivity activity = intentsTestRule.launchActivity(new Intent());
+        List<String> skus = new ArrayList<>();
+        skus.add("android.test.item_unavailable");
+        activity.querySkuDetails(skus);
+        Thread.sleep(1000);
+        CommonAndroidUtils.captureScreenshot(activity, "com.aletheiaware.perspective.android.WorldSelectActivity-sku-item_unavailable.png");
     }
 }

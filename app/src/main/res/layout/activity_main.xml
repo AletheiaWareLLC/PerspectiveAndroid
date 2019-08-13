@@ -89,7 +89,7 @@ limitations under the License.
             android:layout_margin="@dimen/view_margin"
             android:background="@android:color/transparent"
             android:contentDescription="@string/aletheia_ware_llc_logo"
-            android:tint="@color/accent"
+            android:tint="@color/white"
             app:srcCompat="@drawable/aletheia_ware_llc_logo" />
 
     </LinearLayout>

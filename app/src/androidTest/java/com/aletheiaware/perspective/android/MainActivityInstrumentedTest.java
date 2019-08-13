@@ -18,7 +18,6 @@ package com.aletheiaware.perspective.android;
 
 import android.Manifest;
 import android.content.Intent;
-import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -34,7 +33,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class MainActivityInstrumentedTest {
 
-    public IntentsTestRule<MainActivity> intentsTestRule = new IntentsTestRule<>(MainActivity.class, false, false);
+    private IntentsTestRule<MainActivity> intentsTestRule = new IntentsTestRule<>(MainActivity.class, true, false);
 
     @Rule
     public RuleChain ruleChain = RuleChain.outerRule(GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE))
@@ -43,15 +42,19 @@ public class MainActivityInstrumentedTest {
     @Test
     public void screenshot() throws Exception {
         MainActivity activity = intentsTestRule.launchActivity(new Intent());
-        CommonAndroidUtils.setPreference(activity, activity.getString(R.string.preference_legalese_accepted), "true");
         Thread.sleep(1000);
         CommonAndroidUtils.captureScreenshot(activity, "com.aletheiaware.perspective.android.MainActivity.png");
     }
 
     @Test
     public void screenshotLegalese() throws Exception {
-        MainActivity activity = intentsTestRule.launchActivity(new Intent());
-        CommonAndroidUtils.setPreference(activity, activity.getString(R.string.preference_legalese_accepted), "false");
+        final MainActivity activity = intentsTestRule.launchActivity(new Intent());
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                activity.showLegalese(null);
+            }
+        });
         Thread.sleep(1000);
         CommonAndroidUtils.captureScreenshot(activity, activity.legaleseDialog.getWindow(), "com.aletheiaware.perspective.android.MainActivity-legalese.png");
     }

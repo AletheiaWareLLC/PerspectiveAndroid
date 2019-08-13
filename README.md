@@ -1,9 +1,9 @@
-![Perspective](./perspective.svg)
+![Perspective](./app/src/main/res/drawable/banner.png)
 
 PerspectiveAndroid
-============
+==================
 
-This is an Android implementation of Perspective - blockchain-backed, 3D puzzle game.
+This is an Android implementation of Perspective - 3D puzzle game.
 
 Setup
 =====

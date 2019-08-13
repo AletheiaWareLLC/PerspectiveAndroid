@@ -161,6 +161,7 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
 
     @Override
     public void onBillingClientSetup() {
+        Log.d(PerspectiveUtils.TAG, "Billing Client Setup");
         new Thread() {
             @Override
             public void run() {
@@ -171,26 +172,14 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
                 skus.add(PerspectiveAndroidUtils.WORLD_TEN);
                 skus.add(PerspectiveAndroidUtils.WORLD_ELEVEN);
                 skus.add(PerspectiveAndroidUtils.WORLD_TWELVE);
-                manager.querySkuDetailsAsync(SkuType.INAPP, skus, new SkuDetailsResponseListener() {
-                    @Override
-                    public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
-                        int code = billingResult.getResponseCode();
-                        Log.d(PerspectiveUtils.TAG, "SKU query finished. Response code: " + code);
-                        if (code == BillingResponseCode.OK) {
-                            for (SkuDetails details : skuDetailsList) {
-                                Log.d(PerspectiveUtils.TAG, "SKU: " + details);
-                                skuDetails.put(details.getSku(), details);
-                                adapter.addWorld(details.getSku(), details.getPrice());
-                            }
-                        }
-                    }
-                });
+                querySkuDetails(skus);
             }
         }.start();
     }
 
     @Override
     public void onPurchasesUpdated() {
+        Log.d(PerspectiveUtils.TAG, "Purchases Updated");
         new Thread() {
             @Override
             public void run() {
@@ -218,6 +207,25 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
 
     @Override
     public void onTokenConsumed(String purchaseToken) {
+        Log.d(PerspectiveUtils.TAG, "Token Consumed: " + purchaseToken);
         // TODO
+    }
+
+    public void querySkuDetails(List<String> skus) {
+        Log.d(PerspectiveUtils.TAG, "Querying SKUs: " + skus);
+        manager.querySkuDetailsAsync(SkuType.INAPP, skus, new SkuDetailsResponseListener() {
+            @Override
+            public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
+                int code = billingResult.getResponseCode();
+                Log.d(PerspectiveUtils.TAG, "SKU query finished. Response code: " + code);
+                if (code == BillingResponseCode.OK) {
+                    for (SkuDetails details : skuDetailsList) {
+                        Log.d(PerspectiveUtils.TAG, "SKU: " + details);
+                        skuDetails.put(details.getSku(), details);
+                        adapter.addWorld(details.getSku(), details.getPrice());
+                    }
+                }
+            }
+        });
     }
 }

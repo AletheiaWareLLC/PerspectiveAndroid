@@ -214,7 +214,7 @@ public class BillingManager implements PurchasesUpdatedListener {
             sig.initVerify(key);
             sig.update(purchase.getOriginalJson().getBytes());
             if (sig.verify(signatureBytes)) {
-                Log.d(PerspectiveUtils.TAG, "Got a verified purchase: " + purchase);
+                Log.d(PerspectiveUtils.TAG, "Purchase Verified: " + purchase);
                 purchases.put(purchase.getSku(), purchase);
                 if (!purchase.isAcknowledged()) {
                     client.acknowledgePurchase(AcknowledgePurchaseParams.newBuilder()

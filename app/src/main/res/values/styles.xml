@@ -30,6 +30,7 @@ limitations under the License.
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
@@ -80,11 +81,11 @@ limitations under the License.
     </style>
 
     <style name="GameWonDialogNextButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">@color/orange</item>
+        <item name="android:textColor">@color/yellow</item>
     </style>
 
     <style name="GameWonDialogRetryButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">@color/yellow</item>
+        <item name="android:textColor">@color/orange</item>
     </style>
 
     <style name="LegaleseDialogTheme" parent="AlertDialogTheme">

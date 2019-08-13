@@ -21,7 +21,7 @@ limitations under the License.
         <android.support.v7.preference.SwitchPreferenceCompat
             android:key="@string/preference_puzzle_outline_key"
             android:title="@string/preference_puzzle_outline_title"
-            android:defaultValue="true" />
+            android:defaultValue="false" />
 
         <android.support.v7.preference.SwitchPreferenceCompat
             android:key="@string/preference_puzzle_vibration_key"

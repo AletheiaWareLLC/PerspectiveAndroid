@@ -47,16 +47,20 @@ import java.io.IOException;
 
 public class GameActivity extends AppCompatActivity implements Perspective.Callback, BillingManager.Callback {
 
+    private static final long STAR_VIBRATION_GAP = 60;
     private static final long[][] STAR_VIBRATIONS = {
-            {0, 75},
-            {0, 75, 100, 150},
-            {0, 75, 100, 150, 75, 300},
-            {0, 75, 100, 150, 75, 300, 50, 600},
-            {0, 75, 100, 150, 75, 300, 50, 600, 25, 1200},
+            {0, 70},
+            {0, 70, STAR_VIBRATION_GAP, 90},
+            {0, 70, STAR_VIBRATION_GAP, 90, STAR_VIBRATION_GAP, 115},
+            {0, 70, STAR_VIBRATION_GAP, 90, STAR_VIBRATION_GAP, 115, STAR_VIBRATION_GAP, 145},
+            {0, 70, STAR_VIBRATION_GAP, 90, STAR_VIBRATION_GAP, 115, STAR_VIBRATION_GAP, 145, STAR_VIBRATION_GAP, 180},
     };
+    private static final long[] DROP_VIBRATION = {0, 10};
+
     public AlertDialog gameOverDialog;
     private String worldName;
     private int puzzleIndex;
+    private boolean outlineEnabled;
     private World world;
     private GameView gameView;
     private GLScene glScene;
@@ -70,22 +74,43 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        final Intent intent = getIntent();
-        if (intent != null) {
-            Bundle data = intent.getExtras();
-            if (data != null) {
-                worldName = data.getString(PerspectiveAndroidUtils.WORLD_EXTRA);
-                puzzleIndex = data.getInt(PerspectiveAndroidUtils.PUZZLE_EXTRA);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        manager = new BillingManager(this, this);
+
+        if (savedInstanceState != null) {
+            load(savedInstanceState);
+        } else {
+            final Intent intent = getIntent();
+            if (intent != null) {
+                Bundle data = intent.getExtras();
+                if (data != null) {
+                    load(data);
+                }
             }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(PerspectiveAndroidUtils.WORLD_EXTRA, worldName);
+        outState.putInt(PerspectiveAndroidUtils.PUZZLE_EXTRA, puzzleIndex);
+        outState.putBoolean(PerspectiveAndroidUtils.OUTLINE_EXTRA, outlineEnabled);
+    }
+
+    private void load(Bundle data) {
+        worldName = data.getString(PerspectiveAndroidUtils.WORLD_EXTRA);
+        puzzleIndex = data.getInt(PerspectiveAndroidUtils.PUZZLE_EXTRA);
+        if (data.containsKey(PerspectiveAndroidUtils.ORIENTATION_EXTRA)) {
+            setRequestedOrientation(data.getInt(PerspectiveAndroidUtils.ORIENTATION_EXTRA));
         }
         if (puzzleIndex < 1) {
             puzzleIndex = 1;
         }
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-
-        manager = new BillingManager(this, this);
+        outlineEnabled = PerspectiveAndroidUtils.isTutorial(worldName)
+                || data.getBoolean(PerspectiveAndroidUtils.OUTLINE_EXTRA, false)
+                || preferences.getBoolean(getString(R.string.preference_puzzle_outline_key), false);
     }
 
     @Override
@@ -105,7 +130,9 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
     @Override
     protected void onResume() {
         super.onResume();
-        init();
+        if (gameView == null) {
+            init();
+        }
     }
 
     public GLScene getGlScene() {
@@ -127,7 +154,7 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
                     glScene = new GLScene();
                     perspective = new Perspective(GameActivity.this, glScene, world.getSize());
                     perspective.rotationNode = PerspectiveAndroidUtils.createBasicSceneGraph(glScene, world);
-                    perspective.outlineEnabled = preferences.getBoolean(getString(R.string.preference_puzzle_outline_key), true);
+                    perspective.outlineEnabled = outlineEnabled;
                     float[] background = PerspectiveUtils.BLACK;
                     String colour = world.getBackgroundColour();
                     if (colour != null && !colour.isEmpty()) {
@@ -202,10 +229,13 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
                         descriptionText.setTextColor(color);
                         descriptionText.setVisibility(View.VISIBLE);
                     }
+                    // TODO maybe Toast isn't the right tool for the job
                     Toast toast = new Toast(GameActivity.this);
+                    // TODO increase duration
                     toast.setDuration(Toast.LENGTH_LONG);
                     toast.setView(view);
                     toast.show();
+                    // TODO if toast is still showing when game is over, call toast.cancel();
                 }
             });
         }
@@ -230,6 +260,7 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
     @Override
     public void onDropComplete() {
         Log.d(PerspectiveUtils.TAG, "Drop Complete");
+        vibrate(DROP_VIBRATION);
         // TODO
     }
 
@@ -251,7 +282,8 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
                 builder.setPositiveButton(R.string.puzzle_retry, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        perspective.reset();
+                        perspective.clearAllLocations();
+                        loadPuzzle();
                         dialog.cancel();
                     }
                 });
@@ -291,13 +323,13 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
             }
         }.start();
 
-        if (PerspectiveAndroidUtils.WORLD_TUTORIAL.equals(worldName)) {
+        if (PerspectiveAndroidUtils.isTutorial(worldName)) {
             CommonAndroidUtils.setPreference(GameActivity.this, getString(R.string.preference_tutorial_completed), "true");
         }
 
         // Vibrate once for each star earned
         if (stars > 0) {
-            vibrate(STAR_VIBRATIONS[stars-1]);
+            vibrate(STAR_VIBRATIONS[stars - 1]);
         }
 
         runOnUiThread(new Runnable() {
@@ -340,7 +372,8 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
                     builder.setNegativeButton(R.string.puzzle_retry, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            perspective.reset();
+                            perspective.clearAllLocations();
+                            loadPuzzle();
                             dialog.cancel();
                         }
                     });
@@ -405,16 +438,19 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
 
     @Override
     public void onBillingClientSetup() {
+        Log.d(PerspectiveUtils.TAG, "Billing Client Setup");
         // TODO
     }
 
     @Override
     public void onPurchasesUpdated() {
+        Log.d(PerspectiveUtils.TAG, "Purchases Updated");
         // TODO
     }
 
     @Override
     public void onTokenConsumed(String purchaseToken) {
+        Log.d(PerspectiveUtils.TAG, "Token Consumed: " + purchaseToken);
         // TODO
     }
 }
