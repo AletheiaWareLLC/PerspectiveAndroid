@@ -20,9 +20,6 @@
 .idea/workspace.xml
 app/build
 build
-gradle
-gradlew
-gradlew.bat
 gradle.properties
 local.properties
 private
@@ -31,11 +28,11 @@ private
 .mtj.tmp/
 
 # Package Files #
-*.aar
+#*.aar
 *.apk
 *.dex
 *.ear
-*.jar
+#*.jar
 *.war
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
