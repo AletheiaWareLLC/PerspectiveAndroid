@@ -109,8 +109,8 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
             puzzleIndex = 1;
         }
         outlineEnabled = PerspectiveAndroidUtils.isTutorial(worldName)
-                || data.getBoolean(PerspectiveAndroidUtils.OUTLINE_EXTRA, false)
-                || preferences.getBoolean(getString(R.string.preference_puzzle_outline_key), false);
+                || data.getBoolean(PerspectiveAndroidUtils.OUTLINE_EXTRA)
+                || preferences.getBoolean(getString(R.string.preference_puzzle_outline_key), true);
     }
 
     @Override
@@ -206,27 +206,27 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
         if (puzzle != null) {
             perspective.importPuzzle(puzzle);
             final String name = PerspectiveAndroidUtils.capitalize(world.getName()) + " - " + puzzleIndex;
-            float[] foreground = PerspectiveUtils.WHITE;
+            float[] array = PerspectiveUtils.WHITE;
             String colour = world.getForegroundColour();
             if (colour != null && !colour.isEmpty()) {
-                foreground = glScene.getFloatArray(colour);
+                array = glScene.getFloatArray(colour);
             }
-            int red = (int) (foreground[0] * 255f);
-            int green = (int) (foreground[1] * 255f);
-            int blue = (int) (foreground[2] * 255f);
-            final int color = 0xff << 24 | (red & 0xff) << 16 | (green & 0xff) << 8 | (blue & 0xff);
+            int red = (int) (array[0] * 255f);
+            int green = (int) (array[1] * 255f);
+            int blue = (int) (array[2] * 255f);
+            final int foreground = 0xff << 24 | (red & 0xff) << 16 | (green & 0xff) << 8 | (blue & 0xff);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     LinearLayout view = (LinearLayout) getLayoutInflater().inflate(R.layout.puzzle_toast, null);
                     TextView nameText = view.findViewById(R.id.puzzle_toast_name);
                     nameText.setText(name);
-                    nameText.setTextColor(color);
+                    nameText.setTextColor(foreground);
                     final String description = puzzle.getDescription();
                     if (description != null && !description.isEmpty()) {
                         TextView descriptionText = view.findViewById(R.id.puzzle_toast_description);
                         descriptionText.setText(description);
-                        descriptionText.setTextColor(color);
+                        descriptionText.setTextColor(foreground);
                         descriptionText.setVisibility(View.VISIBLE);
                     }
                     // TODO maybe Toast isn't the right tool for the job

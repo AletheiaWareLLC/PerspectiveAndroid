@@ -195,7 +195,9 @@ public class BillingManager implements PurchasesUpdatedListener {
                 client.consumeAsync(consumeParams, new ConsumeResponseListener() {
                     @Override
                     public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                        if (billingResult.getResponseCode() == BillingResponseCode.OK) {
+                        int code = billingResult.getResponseCode();
+                        Log.d(PerspectiveUtils.TAG, "Consume Token Response Code: " + code);
+                        if (code == BillingResponseCode.OK) {
                             callback.onTokenConsumed(purchaseToken);
                         }
                     }
@@ -223,7 +225,7 @@ public class BillingManager implements PurchasesUpdatedListener {
                         @Override
                         public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
                             int code = billingResult.getResponseCode();
-                            Log.d(PerspectiveUtils.TAG, "Purchase Acknowledgement finished. Response code: " + code);
+                            Log.d(PerspectiveUtils.TAG, "Purchase Acknowledgement Response Code: " + code);
                             if (code == BillingResponseCode.OK) {
                                 // TODO
                             }
@@ -252,7 +254,7 @@ public class BillingManager implements PurchasesUpdatedListener {
         }
 
         int code = purchasesResult.getResponseCode();
-        Log.d(PerspectiveUtils.TAG, "Purchase query finished. Response code: " + code);
+        Log.d(PerspectiveUtils.TAG, "Purchase Query Response Code: " + code);
         if (code == BillingResponseCode.OK) {
             purchases.clear();
             onPurchasesUpdated(purchasesResult.getBillingResult(), purchasesResult.getPurchasesList());
@@ -277,7 +279,7 @@ public class BillingManager implements PurchasesUpdatedListener {
                 @Override
                 public void onBillingSetupFinished(BillingResult billingResult) {
                     int code = billingResult.getResponseCode();
-                    Log.d(PerspectiveUtils.TAG, "Setup finished. Response code: " + code);
+                    Log.d(PerspectiveUtils.TAG, "Setup Response Code: " + code);
                     if (code == BillingClient.BillingResponseCode.OK) {
                         isConnected = true;
                         if (executeOnSuccess != null) {

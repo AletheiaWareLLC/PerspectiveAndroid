@@ -17,7 +17,6 @@ limitations under the License.
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/background"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -25,16 +24,8 @@ limitations under the License.
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/game_over"
+        android:text="@string/game_lost"
         android:textColor="@color/text"
         android:textSize="@dimen/text_primary_size" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/game_lost"
-        android:textColor="@color/text_secondary"
-        android:textSize="@dimen/text_secondary_size" />
 
 </LinearLayout>

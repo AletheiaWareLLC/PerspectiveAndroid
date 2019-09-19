@@ -43,7 +43,7 @@ import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsResponseListener;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,13 +75,9 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
         new Thread() {
             @Override
             public void run() {
-                addWorld(PerspectiveAndroidUtils.WORLD_TUTORIAL);
-                addWorld(PerspectiveAndroidUtils.WORLD_ONE);
-                addWorld(PerspectiveAndroidUtils.WORLD_TWO);
-                addWorld(PerspectiveAndroidUtils.WORLD_THREE);
-                addWorld(PerspectiveAndroidUtils.WORLD_FOUR);
-                addWorld(PerspectiveAndroidUtils.WORLD_FIVE);
-                addWorld(PerspectiveAndroidUtils.WORLD_SIX);
+                for (String world : PerspectiveAndroidUtils.FREE_WORLDS) {
+                    addWorld(world);
+                }
             }
         }.start();
     }
@@ -165,14 +161,7 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
         new Thread() {
             @Override
             public void run() {
-                List<String> skus = new ArrayList<>();
-                skus.add(PerspectiveAndroidUtils.WORLD_SEVEN);
-                skus.add(PerspectiveAndroidUtils.WORLD_EIGHT);
-                skus.add(PerspectiveAndroidUtils.WORLD_NINE);
-                skus.add(PerspectiveAndroidUtils.WORLD_TEN);
-                skus.add(PerspectiveAndroidUtils.WORLD_ELEVEN);
-                skus.add(PerspectiveAndroidUtils.WORLD_TWELVE);
-                querySkuDetails(skus);
+                querySkuDetails(Arrays.asList(PerspectiveAndroidUtils.PAID_WORLDS));
             }
         }.start();
     }
@@ -183,23 +172,10 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
         new Thread() {
             @Override
             public void run() {
-                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_SEVEN)) {
-                    addWorld(PerspectiveAndroidUtils.WORLD_SEVEN);
-                }
-                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_EIGHT)) {
-                    addWorld(PerspectiveAndroidUtils.WORLD_EIGHT);
-                }
-                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_NINE)) {
-                    addWorld(PerspectiveAndroidUtils.WORLD_NINE);
-                }
-                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_TEN)) {
-                    addWorld(PerspectiveAndroidUtils.WORLD_TEN);
-                }
-                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_ELEVEN)) {
-                    addWorld(PerspectiveAndroidUtils.WORLD_ELEVEN);
-                }
-                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_TWELVE)) {
-                    addWorld(PerspectiveAndroidUtils.WORLD_TWELVE);
+                for (String world : PerspectiveAndroidUtils.PAID_WORLDS) {
+                    if (manager.hasPurchased(world)) {
+                        addWorld(world);
+                    }
                 }
             }
         }.start();

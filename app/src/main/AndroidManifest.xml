@@ -33,6 +33,7 @@ limitations under the License.
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.GameActivity"
+            android:screenOrientation="locked"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" >

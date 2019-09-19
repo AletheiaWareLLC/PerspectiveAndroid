@@ -68,6 +68,23 @@ public class PerspectiveAndroidUtils {
     public static final String WORLD_TEN = "world10";
     public static final String WORLD_ELEVEN = "world11";
     public static final String WORLD_TWELVE = "world12";
+    public static final String[] FREE_WORLDS = {
+            WORLD_TUTORIAL,
+            WORLD_ONE,
+            WORLD_TWO,
+            WORLD_THREE,
+            WORLD_FOUR,
+            WORLD_FIVE,
+            WORLD_SIX,
+    };
+    public static final String[] PAID_WORLDS = {
+            WORLD_SEVEN,
+            WORLD_EIGHT,
+            WORLD_NINE,
+            WORLD_TEN,
+            WORLD_ELEVEN,
+            WORLD_TWELVE,
+    };
 
     private PerspectiveAndroidUtils() {
     }

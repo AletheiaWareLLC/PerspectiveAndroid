@@ -21,7 +21,6 @@ Libraries
     mkdir app/libs
     ln -s <awcommonjavalib> app/libs/AletheiaWareCommonJava.jar
     ln -s <perspectivejavalib> app/libs/PerspectiveJava.jar
-    ln -s <joyandroidaar> joy-android/app-debug.aar
 
 Build
 =====

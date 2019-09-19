@@ -38,8 +38,7 @@ limitations under the License.
     <string name="puzzle_retry">Retry</string>
     <string name="puzzle_locked">Puzzle is locked</string>
 
-    <string name="game_over">Game Over</string>
-    <string name="game_lost">You Lose</string>
+    <string name="game_lost">Game Over</string>
     <string name="game_won">Congratulations!</string>
     <string name="star_one">One Star</string>
     <string name="star_two">Two Stars</string>

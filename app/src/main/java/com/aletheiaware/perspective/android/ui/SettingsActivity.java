@@ -62,7 +62,16 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreatePreferences(Bundle bundle, String s) {
             addPreferencesFromResource(R.xml.fragment_preference);
 
+            int white = getResources().getColor(R.color.white);
+
+            Preference outlinePreference = findPreference(getString(R.string.preference_puzzle_outline_key));
+            outlinePreference.getIcon().setTint(white);
+
+            Preference vibrationPreference = findPreference(getString(R.string.preference_puzzle_vibration_key));
+            vibrationPreference.getIcon().setTint(white);
+
             clearProgressPreference = findPreference(getString(R.string.preference_clear_progress_key));
+            clearProgressPreference.getIcon().setTint(white);
             clearProgressPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -76,11 +85,18 @@ public class SettingsActivity extends AppCompatActivity {
             });
 
             versionPreference = findPreference(getString(R.string.preference_version_key));
-            versionPreference.setShouldDisableView(true);
-            versionPreference.setEnabled(false);
-            versionPreference.setSelectable(false);
+            versionPreference.getIcon().setTint(white);
+            versionPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.aletheiaware.perspective.android"));
+                    startActivity(intent);
+                    return true;
+                }
+            });
 
             supportPreference = findPreference(getString(R.string.preference_support_key));
+            supportPreference.getIcon().setTint(white);
             supportPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -94,6 +110,7 @@ public class SettingsActivity extends AppCompatActivity {
             });
 
             morePreference = findPreference(getString(R.string.preference_more_key));
+            morePreference.getIcon().setTint(white);
             morePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {

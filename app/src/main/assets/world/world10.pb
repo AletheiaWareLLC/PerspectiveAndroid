@@ -1,37 +1,7 @@
-º
-tutorialblue"white*d
-
-outlinewhite"
-g1goalyellow"ÿÿÿÿÿÿÿÿÿ2
-s1sphereorange":Tap to Drop into Goal*r
-
-outlinewhite"
-g1goalyellow" ÿÿÿÿÿÿÿÿÿ2
-s1sphereorange" :!Swipe to Orient Sphere Above Goal@*–
-
-outlinewhite
-b1cubegrey""
-g1goalyellow"ÿÿÿÿÿÿÿÿÿ2#
-s1sphereorange"ÿÿÿÿÿÿÿÿÿ:"Swipe to Orient Sphere Above Block@*±
-
-outlinewhite
-b1cubegrey" 
-b2cubegrey"ÿÿÿÿÿÿÿÿÿ "
-g1goalyellow" ÿÿÿÿÿÿÿÿÿ2%
-s1sphereorange"ÿÿÿÿÿÿÿÿÿ :Use Blocks to Reach Goal@*Ü
-
-outlinewhite"*
-g1goalyellow"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ*0
-p1portalblue" ÿÿÿÿÿÿÿÿÿ*ÿÿÿÿÿÿÿÿÿ *0
-p2portalblue"ÿÿÿÿÿÿÿÿÿ * ÿÿÿÿÿÿÿÿÿ2
-s1sphereorange" :Enter Portal to Reach Goal@*­
-
-outlinewhite*
-b1cubegrey"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ"*
-g1goalyellow"ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ*=
-p2portalblue"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ*ÿÿÿÿÿÿÿÿÿ *=
-p1portalblue"ÿÿÿÿÿÿÿÿÿ *ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ2%
-s1sphereorange"ÿÿÿÿÿÿÿÿÿ :Make Progress Towards Goal@2è	
+‰
+
+world10	
+dark-green"green2è	
 basicŞ	
 basic¬#if __VERSION__ >= 130
   #define attribute in
