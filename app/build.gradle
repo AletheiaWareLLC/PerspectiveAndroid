@@ -30,9 +30,9 @@ android {
 }
 
 dependencies {
-    implementation files('libs/AletheiaWareCommonJava.jar')
-    implementation files('libs/PerspectiveJava.jar')
-    implementation files('libs/protobuf-lite-3.0.1.jar')
+    implementation files('../../AletheiaWareCommonJava/out/AletheiaWareCommonJava.jar')
+    implementation files('../../PerspectiveJava/out/PerspectiveJava.jar')
+    implementation files('../../JavaCommon/libs/protobuf-java-3.9.1.jar')
     debugImplementation project(path:':aletheiaware-common-android', configuration: 'debug')
     releaseImplementation project(path:':aletheiaware-common-android', configuration: 'release')
     debugImplementation project(path:':joy-android', configuration: 'debug')
