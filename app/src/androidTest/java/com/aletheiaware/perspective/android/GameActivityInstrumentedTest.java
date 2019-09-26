@@ -24,10 +24,10 @@ import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.os.Environment;
 import android.os.PowerManager;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.intent.rule.IntentsTestRule;
-import android.support.test.rule.GrantPermissionRule;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.espresso.intent.rule.IntentsTestRule;
+import androidx.test.rule.GrantPermissionRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import android.util.Log;
 
 import com.aletheiaware.common.android.utils.CommonAndroidUtils;
@@ -63,7 +63,7 @@ public class GameActivityInstrumentedTest {
 
     @BeforeClass
     public static void setUpClass() {
-        PowerManager power = (PowerManager) InstrumentationRegistry.getTargetContext().getSystemService(Context.POWER_SERVICE);
+        PowerManager power = (PowerManager) InstrumentationRegistry.getInstrumentation().getTargetContext().getSystemService(Context.POWER_SERVICE);
         wakeLock = power.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE, "GameActivityInstrumentedTest");
         wakeLock.acquire();
     }

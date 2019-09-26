@@ -19,7 +19,7 @@ package com.aletheiaware.perspective.android.utils;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Color;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.WorkerThread;
 import android.util.Log;
 
 import com.aletheiaware.common.android.utils.CommonAndroidUtils;

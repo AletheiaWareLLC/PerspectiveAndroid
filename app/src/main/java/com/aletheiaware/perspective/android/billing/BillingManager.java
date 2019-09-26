@@ -17,7 +17,7 @@
 package com.aletheiaware.perspective.android.billing;
 
 import android.app.Activity;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Base64;
 import android.util.Log;
 
