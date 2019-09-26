@@ -24,7 +24,7 @@ limitations under the License.
     android:orientation="vertical"
     tools:context=".ui.GameActivity">
 
-    <android.support.v7.widget.AppCompatImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/aletheia_ware_llc_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
