@@ -1,6 +1,545 @@
-Š
+Ï·
+world9	black"yellow*ø
 
-world9	dark-yellow"yellow2è	
+
+outlineyellow
+b0block	dark-grey" '
+b1block	dark-grey"ÿÿÿÿÿÿÿÿÿ '
+b2block	dark-grey" şÿÿÿÿÿÿÿÿ0
+b3block	dark-grey"ÿÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ0
+b4block	dark-grey"üÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ
+b5block	dark-grey" 0
+b6block	dark-grey"şÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ'
+b7block	dark-grey"ıÿÿÿÿÿÿÿÿ 0
+b8block	dark-grey"ıÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ
+b9block	dark-grey" 1
+b10block	dark-grey"ıÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ(
+b11block	dark-grey" ÿÿÿÿÿÿÿÿÿ&
+b12block	dark-grey" üÿÿÿÿÿÿÿÿ(
+b13block	dark-grey"şÿÿÿÿÿÿÿÿ 1
+b14block	dark-grey"üÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ1
+b15block	dark-grey"şÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ 1
+b16block	dark-grey"ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ 
+b17block	dark-grey" 1
+b18block	dark-grey"şÿÿÿÿÿÿÿÿüÿÿÿÿÿÿÿÿ 1
+b19block	dark-grey"ÿÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ1
+b20block	dark-grey"üÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ 
+b21block	dark-grey" &
+b22block	dark-grey" şÿÿÿÿÿÿÿÿ&
+b23block	dark-grey"şÿÿÿÿÿÿÿÿ:
+b24block	dark-grey"!şÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ(
+b25block	dark-grey" ıÿÿÿÿÿÿÿÿ(
+b26block	dark-grey"ÿÿÿÿÿÿÿÿÿ "#
+g0goalyellow"şÿÿÿÿÿÿÿÿ *=
+p0portalblue" ıÿÿÿÿÿÿÿÿ*üÿÿÿÿÿÿÿÿüÿÿÿÿÿÿÿÿ *=
+p1portalblue"üÿÿÿÿÿÿÿÿüÿÿÿÿÿÿÿÿ * ıÿÿÿÿÿÿÿÿ2
+s0sphereorange" @*‘
+
+outlineyellow.
+b0block	dark-grey"ÿÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ0
+b1block	dark-grey"ıÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ%
+b2block	dark-grey" üÿÿÿÿÿÿÿÿ%
+b3block	dark-grey" şÿÿÿÿÿÿÿÿ0
+b4block	dark-grey"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ
+b5block	dark-grey" 
+b6block	dark-grey"
+b7block	dark-grey"%
+b8block	dark-grey" ÿÿÿÿÿÿÿÿÿ9
+b9block	dark-grey"!ıÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ$
+b10block	dark-grey"şÿÿÿÿÿÿÿÿ
+b11block	dark-grey" &
+b12block	dark-grey"ıÿÿÿÿÿÿÿÿ (
+b13block	dark-grey" ÿÿÿÿÿÿÿÿÿ(
+b14block	dark-grey"ıÿÿÿÿÿÿÿÿ (
+b15block	dark-grey"üÿÿÿÿÿÿÿÿ :
+b16block	dark-grey"!şÿÿÿÿÿÿÿÿüÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ
+b17block	dark-grey" 1
+b18block	dark-grey"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ(
+b19block	dark-grey"şÿÿÿÿÿÿÿÿ (
+b20block	dark-grey" şÿÿÿÿÿÿÿÿ&
+b21block	dark-grey"şÿÿÿÿÿÿÿÿ (
+b22block	dark-grey"ÿÿÿÿÿÿÿÿÿ (
+b23block	dark-grey" ıÿÿÿÿÿÿÿÿ/
+b24block	dark-grey"ıÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ(
+b25block	dark-grey"ÿÿÿÿÿÿÿÿÿ (
+b26block	dark-grey" ÿÿÿÿÿÿÿÿÿ",
+g0goalyellow"şÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ *X
+p0portalblue"!şÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ*!şÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ*X
+p1portalblue"!şÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ*!şÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ2,
+s0sphereorange"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ@*Ê
+
+
+outlineyellow
+b0block	dark-grey"0
+b1block	dark-grey"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ'
+b2block	dark-grey"şÿÿÿÿÿÿÿÿ %
+b3block	dark-grey"ıÿÿÿÿÿÿÿÿ 9
+b4block	dark-grey"!ÿÿÿÿÿÿÿÿÿüÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ
+b5block	dark-grey" '
+b6block	dark-grey"üÿÿÿÿÿÿÿÿ 
+b7block	dark-grey" '
+b8block	dark-grey" ÿÿÿÿÿÿÿÿÿ'
+b9block	dark-grey"şÿÿÿÿÿÿÿÿ 
+b10block	dark-grey" (
+b11block	dark-grey"üÿÿÿÿÿÿÿÿ (
+b12block	dark-grey"şÿÿÿÿÿÿÿÿ /
+b13block	dark-grey"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ$
+b14block	dark-grey"üÿÿÿÿÿÿÿÿ1
+b15block	dark-grey"ıÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ /
+b16block	dark-grey"şÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ&
+b17block	dark-grey"ÿÿÿÿÿÿÿÿÿ (
+b18block	dark-grey"üÿÿÿÿÿÿÿÿ (
+b19block	dark-grey"ÿÿÿÿÿÿÿÿÿ 
+b20block	dark-grey"(
+b21block	dark-grey" şÿÿÿÿÿÿÿÿ:
+b22block	dark-grey"!üÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ
+b23block	dark-grey" &
+b24block	dark-grey"ıÿÿÿÿÿÿÿÿ(
+b25block	dark-grey" ıÿÿÿÿÿÿÿÿ(
+b26block	dark-grey"şÿÿÿÿÿÿÿÿ "#
+g0goalyellow" üÿÿÿÿÿÿÿÿ*=
+p0portalblue"üÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ * ıÿÿÿÿÿÿÿÿ*=
+p1portalblue" ıÿÿÿÿÿÿÿÿ*üÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ 2.
+s0sphereorange"üÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ@*À
+
+outlineyellow%
+b0block	dark-grey"ıÿÿÿÿÿÿÿÿ0
+b1block	dark-grey"şÿÿÿÿÿÿÿÿüÿÿÿÿÿÿÿÿ '
+b2block	dark-grey" ıÿÿÿÿÿÿÿÿ'
+b3block	dark-grey" ıÿÿÿÿÿÿÿÿ'
+b4block	dark-grey" ıÿÿÿÿÿÿÿÿ
+b5block	dark-grey" 0
+b6block	dark-grey"üÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ9
+b7block	dark-grey"!ÿÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ'
+b8block	dark-grey" ıÿÿÿÿÿÿÿÿ0
+b9block	dark-grey"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ1
+b10block	dark-grey"üÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ
+b11block	dark-grey" 
+b12block	dark-grey"$
+b13block	dark-grey"ıÿÿÿÿÿÿÿÿ1
+b14block	dark-grey"ıÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ 1
+b15block	dark-grey"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ:
+b16block	dark-grey"!ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ:
+b17block	dark-grey"!ÿÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ1
+b18block	dark-grey"ÿÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ&
+b19block	dark-grey" üÿÿÿÿÿÿÿÿ1
+b20block	dark-grey"üÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ (
+b21block	dark-grey"üÿÿÿÿÿÿÿÿ (
+b22block	dark-grey" üÿÿÿÿÿÿÿÿ(
+b23block	dark-grey"şÿÿÿÿÿÿÿÿ (
+b24block	dark-grey"üÿÿÿÿÿÿÿÿ (
+b25block	dark-grey"ıÿÿÿÿÿÿÿÿ 
+b26block	dark-grey" "
+g0goalyellow" *O
+p0portalblue"ıÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ *!ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ*O
+p1portalblue"!ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ*ıÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ 27
+s0sphereorange"!üÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ@*ú
+
+
+outlineyellow%
+b0block	dark-grey"ÿÿÿÿÿÿÿÿÿ'
+b1block	dark-grey" üÿÿÿÿÿÿÿÿ0
+b2block	dark-grey"ıÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ
+b3block	dark-grey" %
+b4block	dark-grey" ıÿÿÿÿÿÿÿÿ%
+b5block	dark-grey" ıÿÿÿÿÿÿÿÿ.
+b6block	dark-grey"ıÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ
+b7block	dark-grey" 
+b8block	dark-grey"0
+b9block	dark-grey"üÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ:
+b10block	dark-grey"!ÿÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ(
+b11block	dark-grey" şÿÿÿÿÿÿÿÿ
+b12block	dark-grey" (
+b13block	dark-grey"ÿÿÿÿÿÿÿÿÿ 1
+b14block	dark-grey"ÿÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ1
+b15block	dark-grey"şÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ&
+b16block	dark-grey"ÿÿÿÿÿÿÿÿÿ (
+b17block	dark-grey"ıÿÿÿÿÿÿÿÿ 
+b18block	dark-grey"(
+b19block	dark-grey"şÿÿÿÿÿÿÿÿ :
+b20block	dark-grey"!üÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ/
+b21block	dark-grey"üÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ1
+b22block	dark-grey"üÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ1
+b23block	dark-grey"üÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ
+b24block	dark-grey" 1
+b25block	dark-grey"ÿÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ(
+b26block	dark-grey" ÿÿÿÿÿÿÿÿÿ"#
+g0goalyellow"ıÿÿÿÿÿÿÿÿ *B
+p0portalblue"şÿÿÿÿÿÿÿÿüÿÿÿÿÿÿÿÿ*ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ*B
+p1portalblue"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ*şÿÿÿÿÿÿÿÿüÿÿÿÿÿÿÿÿ2%
+s0sphereorange"ÿÿÿÿÿÿÿÿÿ @*Ç
+
+
+outlineyellow0
+b0block	dark-grey"üÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ 
+b1block	dark-grey" 0
+b2block	dark-grey"şÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ0
+b3block	dark-grey"ÿÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ
+b4block	dark-grey"'
+b5block	dark-grey"ıÿÿÿÿÿÿÿÿ 
+b6block	dark-grey" 9
+b7block	dark-grey"!üÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ
+b8block	dark-grey" 9
+b9block	dark-grey"!üÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ
+b10block	dark-grey" (
+b11block	dark-grey" ÿÿÿÿÿÿÿÿÿ1
+b12block	dark-grey"şÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ(
+b13block	dark-grey"ÿÿÿÿÿÿÿÿÿ &
+b14block	dark-grey" şÿÿÿÿÿÿÿÿ(
+b15block	dark-grey"üÿÿÿÿÿÿÿÿ 
+b16block	dark-grey" 
+b17block	dark-grey" (
+b18block	dark-grey"ıÿÿÿÿÿÿÿÿ &
+b19block	dark-grey" şÿÿÿÿÿÿÿÿ(
+b20block	dark-grey"ıÿÿÿÿÿÿÿÿ 
+b21block	dark-grey" 1
+b22block	dark-grey"üÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ&
+b23block	dark-grey"ÿÿÿÿÿÿÿÿÿ (
+b24block	dark-grey"ÿÿÿÿÿÿÿÿÿ &
+b25block	dark-grey"ÿÿÿÿÿÿÿÿÿ 1
+b26block	dark-grey"ÿÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ"*
+g0goalyellow"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ*=
+p0portalblue"şÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ * şÿÿÿÿÿÿÿÿ*=
+p1portalblue" şÿÿÿÿÿÿÿÿ*şÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ 2
+s0sphereorange" @*ß
+
+
+outlineyellow%
+b0block	dark-grey" ıÿÿÿÿÿÿÿÿ%
+b1block	dark-grey" ıÿÿÿÿÿÿÿÿ0
+b2block	dark-grey"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ#
+b3block	dark-grey" üÿÿÿÿÿÿÿÿ'
+b4block	dark-grey" üÿÿÿÿÿÿÿÿ0
+b5block	dark-grey"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ9
+b6block	dark-grey"!ÿÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ'
+b7block	dark-grey"şÿÿÿÿÿÿÿÿ %
+b8block	dark-grey"şÿÿÿÿÿÿÿÿ %
+b9block	dark-grey"ıÿÿÿÿÿÿÿÿ &
+b10block	dark-grey" şÿÿÿÿÿÿÿÿ
+b11block	dark-grey" (
+b12block	dark-grey" ıÿÿÿÿÿÿÿÿ(
+b13block	dark-grey" şÿÿÿÿÿÿÿÿ
+b14block	dark-grey" /
+b15block	dark-grey"ÿÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ(
+b16block	dark-grey"şÿÿÿÿÿÿÿÿ &
+b17block	dark-grey" ÿÿÿÿÿÿÿÿÿ:
+b18block	dark-grey"!ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ1
+b19block	dark-grey"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ
+b20block	dark-grey" 1
+b21block	dark-grey"ÿÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ
+b22block	dark-grey" /
+b23block	dark-grey"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ(
+b24block	dark-grey" şÿÿÿÿÿÿÿÿ&
+b25block	dark-grey"şÿÿÿÿÿÿÿÿ 1
+b26block	dark-grey"ıÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ",
+g0goalyellow"şÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ*4
+p0portalblue"şÿÿÿÿÿÿÿÿ *ÿÿÿÿÿÿÿÿÿ *4
+p1portalblue"ÿÿÿÿÿÿÿÿÿ *şÿÿÿÿÿÿÿÿ 2#
+s0sphereorange" ÿÿÿÿÿÿÿÿÿ@* 
+
+
+outlineyellow
+b0block	dark-grey" 
+b1block	dark-grey" 0
+b2block	dark-grey"üÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ'
+b3block	dark-grey"şÿÿÿÿÿÿÿÿ '
+b4block	dark-grey" ıÿÿÿÿÿÿÿÿ0
+b5block	dark-grey"şÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ
+b6block	dark-grey" '
+b7block	dark-grey"ÿÿÿÿÿÿÿÿÿ '
+b8block	dark-grey"ıÿÿÿÿÿÿÿÿ 0
+b9block	dark-grey"üÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ &
+b10block	dark-grey" üÿÿÿÿÿÿÿÿ1
+b11block	dark-grey"üÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ:
+b12block	dark-grey"!şÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ(
+b13block	dark-grey" şÿÿÿÿÿÿÿÿ(
+b14block	dark-grey"ÿÿÿÿÿÿÿÿÿ /
+b15block	dark-grey"üÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ&
+b16block	dark-grey"ÿÿÿÿÿÿÿÿÿ(
+b17block	dark-grey"şÿÿÿÿÿÿÿÿ 
+b18block	dark-grey" (
+b19block	dark-grey"şÿÿÿÿÿÿÿÿ 
+b20block	dark-grey" 
+b21block	dark-grey" 1
+b22block	dark-grey"ıÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ 
+b23block	dark-grey" 1
+b24block	dark-grey"üÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ
+b25block	dark-grey" (
+b26block	dark-grey"üÿÿÿÿÿÿÿÿ ",
+g0goalyellow"şÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ*+
+p0portalblue" *ıÿÿÿÿÿÿÿÿ *+
+p1portalblue"ıÿÿÿÿÿÿÿÿ * 2
+s0sphereorange" @*Â
+
+
+outlineyellow'
+b0block	dark-grey"ıÿÿÿÿÿÿÿÿ %
+b1block	dark-grey"şÿÿÿÿÿÿÿÿ0
+b2block	dark-grey"üÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ0
+b3block	dark-grey"üÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ
+b4block	dark-grey" 
+b5block	dark-grey".
+b6block	dark-grey"ÿÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ
+b7block	dark-grey"9
+b8block	dark-grey"!ıÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ
+b9block	dark-grey" 1
+b10block	dark-grey"ÿÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ (
+b11block	dark-grey"ÿÿÿÿÿÿÿÿÿ (
+b12block	dark-grey"ÿÿÿÿÿÿÿÿÿ 
+b13block	dark-grey" 
+b14block	dark-grey" /
+b15block	dark-grey"ÿÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ(
+b16block	dark-grey"ÿÿÿÿÿÿÿÿÿ 1
+b17block	dark-grey"şÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ
+b18block	dark-grey" &
+b19block	dark-grey"şÿÿÿÿÿÿÿÿ (
+b20block	dark-grey"ıÿÿÿÿÿÿÿÿ :
+b21block	dark-grey"!ÿÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ1
+b22block	dark-grey"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ1
+b23block	dark-grey"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ(
+b24block	dark-grey"üÿÿÿÿÿÿÿÿ 1
+b25block	dark-grey"ÿÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ &
+b26block	dark-grey" şÿÿÿÿÿÿÿÿ"
+g0goalyellow" *2
+p0portalblue"ÿÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ* *2
+p1portalblue" *ÿÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ2#
+s0sphereorange" şÿÿÿÿÿÿÿÿ@	*í
+
+outlineyellow0
+b0block	dark-grey"ıÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ'
+b1block	dark-grey"ıÿÿÿÿÿÿÿÿ .
+b2block	dark-grey"ÿÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ
+b3block	dark-grey" 9
+b4block	dark-grey"!şÿÿÿÿÿÿÿÿüÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ0
+b5block	dark-grey"üÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ9
+b6block	dark-grey"!üÿÿÿÿÿÿÿÿüÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ
+b7block	dark-grey"#
+b8block	dark-grey"şÿÿÿÿÿÿÿÿ'
+b9block	dark-grey"ÿÿÿÿÿÿÿÿÿ 1
+b10block	dark-grey"üÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ &
+b11block	dark-grey"ÿÿÿÿÿÿÿÿÿ &
+b12block	dark-grey" ÿÿÿÿÿÿÿÿÿ(
+b13block	dark-grey"ıÿÿÿÿÿÿÿÿ :
+b14block	dark-grey"!şÿÿÿÿÿÿÿÿüÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ1
+b15block	dark-grey"üÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ (
+b16block	dark-grey" üÿÿÿÿÿÿÿÿ1
+b17block	dark-grey"ıÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ 1
+b18block	dark-grey"üÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ &
+b19block	dark-grey"ıÿÿÿÿÿÿÿÿ:
+b20block	dark-grey"!ÿÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ(
+b21block	dark-grey"ıÿÿÿÿÿÿÿÿ 1
+b22block	dark-grey"şÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ1
+b23block	dark-grey"şÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ&
+b24block	dark-grey" ÿÿÿÿÿÿÿÿÿ/
+b25block	dark-grey"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ:
+b26block	dark-grey"!ıÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ"!
+g0goalyellow"üÿÿÿÿÿÿÿÿ*O
+p0portalblue"ıÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ *!ÿÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ*O
+p1portalblue"!ÿÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ*ıÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ 2#
+s0sphereorange"ıÿÿÿÿÿÿÿÿ @
+*ä
+
+
+outlineyellow
+b0block	dark-grey" 0
+b1block	dark-grey"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ
+b2block	dark-grey" '
+b3block	dark-grey"şÿÿÿÿÿÿÿÿ 
+b4block	dark-grey" 0
+b5block	dark-grey"üÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ%
+b6block	dark-grey"üÿÿÿÿÿÿÿÿ
+b7block	dark-grey" '
+b8block	dark-grey"şÿÿÿÿÿÿÿÿ '
+b9block	dark-grey" şÿÿÿÿÿÿÿÿ1
+b10block	dark-grey"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ&
+b11block	dark-grey"üÿÿÿÿÿÿÿÿ(
+b12block	dark-grey"üÿÿÿÿÿÿÿÿ 
+b13block	dark-grey" 1
+b14block	dark-grey"ÿÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ(
+b15block	dark-grey" şÿÿÿÿÿÿÿÿ1
+b16block	dark-grey"şÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ (
+b17block	dark-grey"üÿÿÿÿÿÿÿÿ :
+b18block	dark-grey"!şÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ1
+b19block	dark-grey"şÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ1
+b20block	dark-grey"üÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ 
+b21block	dark-grey" 
+b22block	dark-grey" 1
+b23block	dark-grey"ıÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ &
+b24block	dark-grey"şÿÿÿÿÿÿÿÿ 
+b25block	dark-grey" (
+b26block	dark-grey"şÿÿÿÿÿÿÿÿ ",
+g0goalyellow"ÿÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ *D
+p0portalblue"şÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ*üÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ*D
+p1portalblue"üÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ*şÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ2%
+s0sphereorange" ÿÿÿÿÿÿÿÿÿ@*Ÿ
+
+
+outlineyellow0
+b0block	dark-grey"üÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ%
+b1block	dark-grey"ÿÿÿÿÿÿÿÿÿ '
+b2block	dark-grey"ÿÿÿÿÿÿÿÿÿ #
+b3block	dark-grey" ıÿÿÿÿÿÿÿÿ.
+b4block	dark-grey"üÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ0
+b5block	dark-grey"şÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ%
+b6block	dark-grey" üÿÿÿÿÿÿÿÿ0
+b7block	dark-grey"ıÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ'
+b8block	dark-grey" ıÿÿÿÿÿÿÿÿ'
+b9block	dark-grey"şÿÿÿÿÿÿÿÿ 
+b10block	dark-grey" /
+b11block	dark-grey"şÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ(
+b12block	dark-grey" üÿÿÿÿÿÿÿÿ(
+b13block	dark-grey" üÿÿÿÿÿÿÿÿ
+b14block	dark-grey" &
+b15block	dark-grey"şÿÿÿÿÿÿÿÿ(
+b16block	dark-grey" şÿÿÿÿÿÿÿÿ$
+b17block	dark-grey"şÿÿÿÿÿÿÿÿ&
+b18block	dark-grey"ÿÿÿÿÿÿÿÿÿ(
+b19block	dark-grey"şÿÿÿÿÿÿÿÿ &
+b20block	dark-grey"ÿÿÿÿÿÿÿÿÿ (
+b21block	dark-grey"şÿÿÿÿÿÿÿÿ &
+b22block	dark-grey" üÿÿÿÿÿÿÿÿ
+b23block	dark-grey" &
+b24block	dark-grey" üÿÿÿÿÿÿÿÿ
+b25block	dark-grey"(
+b26block	dark-grey"ÿÿÿÿÿÿÿÿÿ "#
+g0goalyellow" ıÿÿÿÿÿÿÿÿ*4
+p0portalblue"ÿÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ* *4
+p1portalblue" *ÿÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ2,
+s0sphereorange"üÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ@*µ
+
+outlineyellow%
+b0block	dark-grey" üÿÿÿÿÿÿÿÿ
+b1block	dark-grey" 0
+b2block	dark-grey"ÿÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ'
+b3block	dark-grey"ÿÿÿÿÿÿÿÿÿ 0
+b4block	dark-grey"ÿÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ0
+b5block	dark-grey"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ%
+b6block	dark-grey"ÿÿÿÿÿÿÿÿÿ0
+b7block	dark-grey"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ
+b8block	dark-grey" .
+b9block	dark-grey"şÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ1
+b10block	dark-grey"şÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ1
+b11block	dark-grey"şÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ(
+b12block	dark-grey" ÿÿÿÿÿÿÿÿÿ&
+b13block	dark-grey" şÿÿÿÿÿÿÿÿ1
+b14block	dark-grey"şÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ:
+b15block	dark-grey"!ıÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ:
+b16block	dark-grey"!şÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ1
+b17block	dark-grey"ÿÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ(
+b18block	dark-grey"ÿÿÿÿÿÿÿÿÿ (
+b19block	dark-grey" ıÿÿÿÿÿÿÿÿ/
+b20block	dark-grey"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ1
+b21block	dark-grey"ÿÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ 
+b22block	dark-grey" 1
+b23block	dark-grey"ıÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ
+b24block	dark-grey" :
+b25block	dark-grey"!şÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ/
+b26block	dark-grey"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ",
+g0goalyellow"ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ *4
+p0portalblue"şÿÿÿÿÿÿÿÿ * ÿÿÿÿÿÿÿÿÿ*4
+p1portalblue" ÿÿÿÿÿÿÿÿÿ*şÿÿÿÿÿÿÿÿ 2%
+s0sphereorange"şÿÿÿÿÿÿÿÿ @*
+
+
+outlineyellow
+b0block	dark-grey" 
+b1block	dark-grey" '
+b2block	dark-grey" ÿÿÿÿÿÿÿÿÿ
+b3block	dark-grey" 
+b4block	dark-grey" '
+b5block	dark-grey" ıÿÿÿÿÿÿÿÿ0
+b6block	dark-grey"üÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ
+b7block	dark-grey" %
+b8block	dark-grey" ÿÿÿÿÿÿÿÿÿ'
+b9block	dark-grey" ÿÿÿÿÿÿÿÿÿ1
+b10block	dark-grey"şÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ /
+b11block	dark-grey"ıÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ&
+b12block	dark-grey"üÿÿÿÿÿÿÿÿ 1
+b13block	dark-grey"ıÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ&
+b14block	dark-grey"üÿÿÿÿÿÿÿÿ &
+b15block	dark-grey"ıÿÿÿÿÿÿÿÿ
+b16block	dark-grey" 
+b17block	dark-grey" (
+b18block	dark-grey"ÿÿÿÿÿÿÿÿÿ (
+b19block	dark-grey"üÿÿÿÿÿÿÿÿ 1
+b20block	dark-grey"ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ (
+b21block	dark-grey" ÿÿÿÿÿÿÿÿÿ(
+b22block	dark-grey"şÿÿÿÿÿÿÿÿ (
+b23block	dark-grey"şÿÿÿÿÿÿÿÿ 1
+b24block	dark-grey"şÿÿÿÿÿÿÿÿüÿÿÿÿÿÿÿÿ (
+b25block	dark-grey"ıÿÿÿÿÿÿÿÿ 
+b26block	dark-grey" "!
+g0goalyellow" ıÿÿÿÿÿÿÿÿ*2
+p0portalblue"üÿÿÿÿÿÿÿÿ *ıÿÿÿÿÿÿÿÿ *2
+p1portalblue"ıÿÿÿÿÿÿÿÿ *üÿÿÿÿÿÿÿÿ 2%
+s0sphereorange"üÿÿÿÿÿÿÿÿ @*‚
+
+outlineyellow.
+b0block	dark-grey"ÿÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ'
+b1block	dark-grey"ÿÿÿÿÿÿÿÿÿ '
+b2block	dark-grey" ıÿÿÿÿÿÿÿÿ%
+b3block	dark-grey"ıÿÿÿÿÿÿÿÿ 
+b4block	dark-grey" 
+b5block	dark-grey" 0
+b6block	dark-grey"şÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ '
+b7block	dark-grey"ıÿÿÿÿÿÿÿÿ '
+b8block	dark-grey" ıÿÿÿÿÿÿÿÿ
+b9block	dark-grey" 
+b10block	dark-grey"&
+b11block	dark-grey"üÿÿÿÿÿÿÿÿ 1
+b12block	dark-grey"ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ 1
+b13block	dark-grey"üÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ&
+b14block	dark-grey"ÿÿÿÿÿÿÿÿÿ 
+b15block	dark-grey" :
+b16block	dark-grey"!ÿÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ(
+b17block	dark-grey"üÿÿÿÿÿÿÿÿ (
+b18block	dark-grey"üÿÿÿÿÿÿÿÿ :
+b19block	dark-grey"!ÿÿÿÿÿÿÿÿÿüÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ:
+b20block	dark-grey"!üÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ1
+b21block	dark-grey"üÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ 1
+b22block	dark-grey"ÿÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ (
+b23block	dark-grey"üÿÿÿÿÿÿÿÿ 
+b24block	dark-grey" &
+b25block	dark-grey" şÿÿÿÿÿÿÿÿ/
+b26block	dark-grey"şÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ",
+g0goalyellow"ÿÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ*=
+p0portalblue" şÿÿÿÿÿÿÿÿ*ÿÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ *=
+p1portalblue"ÿÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ * şÿÿÿÿÿÿÿÿ2.
+s0sphereorange"üÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ@*Ş
+
+
+outlineyellow
+b0block	dark-grey" 0
+b1block	dark-grey"üÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ%
+b2block	dark-grey" şÿÿÿÿÿÿÿÿ'
+b3block	dark-grey" ıÿÿÿÿÿÿÿÿ'
+b4block	dark-grey"şÿÿÿÿÿÿÿÿ %
+b5block	dark-grey"ÿÿÿÿÿÿÿÿÿ'
+b6block	dark-grey"ıÿÿÿÿÿÿÿÿ .
+b7block	dark-grey"şÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ0
+b8block	dark-grey"ıÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ 9
+b9block	dark-grey"!ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ üÿÿÿÿÿÿÿÿ
+b10block	dark-grey" /
+b11block	dark-grey"ıÿÿÿÿÿÿÿÿüÿÿÿÿÿÿÿÿ/
+b12block	dark-grey"ıÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ(
+b13block	dark-grey" üÿÿÿÿÿÿÿÿ1
+b14block	dark-grey"üÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ&
+b15block	dark-grey" üÿÿÿÿÿÿÿÿ1
+b16block	dark-grey"üÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ&
+b17block	dark-grey" ÿÿÿÿÿÿÿÿÿ:
+b18block	dark-grey"!şÿÿÿÿÿÿÿÿıÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ
+b19block	dark-grey" 1
+b20block	dark-grey"şÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ/
+b21block	dark-grey"ÿÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ(
+b22block	dark-grey" ıÿÿÿÿÿÿÿÿ(
+b23block	dark-grey"üÿÿÿÿÿÿÿÿ :
+b24block	dark-grey"!ıÿÿÿÿÿÿÿÿşÿÿÿÿÿÿÿÿ şÿÿÿÿÿÿÿÿ$
+b25block	dark-grey" ıÿÿÿÿÿÿÿÿ1
+b26block	dark-grey"ÿÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ"*
+g0goalyellow"ÿÿÿÿÿÿÿÿÿ ıÿÿÿÿÿÿÿÿ*
+p0portalblue" * *
+p1portalblue" * 2
+s0sphereorange" @2è	
 basicŞ	
 basic¬#if __VERSION__ >= 130
   #define attribute in

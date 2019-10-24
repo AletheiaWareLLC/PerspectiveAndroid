@@ -22,8 +22,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -44,6 +42,11 @@ import com.aletheiaware.perspective.android.utils.PerspectiveAndroidUtils;
 import com.aletheiaware.perspective.utils.PerspectiveUtils;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class GameActivity extends AppCompatActivity implements Perspective.Callback, BillingManager.Callback {
 
@@ -92,7 +95,7 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(PerspectiveAndroidUtils.WORLD_EXTRA, worldName);
         outState.putInt(PerspectiveAndroidUtils.PUZZLE_EXTRA, puzzleIndex);
@@ -315,8 +318,9 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
             @Override
             public void run() {
                 try {
-                    PerspectiveAndroidUtils.saveSolution(GameActivity.this, worldName, puzzleIndex, solution);
-                } catch (IOException e) {
+                    String hash = PerspectiveAndroidUtils.getHash(perspective.puzzle.toByteArray());
+                    PerspectiveAndroidUtils.saveSolution(GameActivity.this, worldName, hash, solution);
+                } catch (IOException | NoSuchAlgorithmException e) {
                     CommonAndroidUtils.showErrorDialog(GameActivity.this, R.style.ErrorDialogTheme, R.string.error_save_solution, e);
                     e.printStackTrace();
                 }
@@ -430,6 +434,10 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
             case PerspectiveAndroidUtils.WORLD_ELEVEN:
                 if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_TWELVE)) {
                     return PerspectiveAndroidUtils.WORLD_TWELVE;
+                } // else fallthrough
+            case PerspectiveAndroidUtils.WORLD_TWELVE:
+                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_THIRTEEN)) {
+                    return PerspectiveAndroidUtils.WORLD_THIRTEEN;
                 } // else fallthrough
             default:
                 return null;

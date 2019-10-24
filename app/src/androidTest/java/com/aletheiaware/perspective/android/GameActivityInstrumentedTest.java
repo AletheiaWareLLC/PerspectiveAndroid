@@ -96,8 +96,8 @@ public class GameActivityInstrumentedTest {
 
     private Intent createIconicIntent() {
         Intent intent = new Intent();
-        intent.putExtra(PerspectiveAndroidUtils.WORLD_EXTRA, PerspectiveAndroidUtils.WORLD_TWO);
-        intent.putExtra(PerspectiveAndroidUtils.PUZZLE_EXTRA, 6);
+        intent.putExtra(PerspectiveAndroidUtils.WORLD_EXTRA, PerspectiveAndroidUtils.WORLD_ONE);
+        intent.putExtra(PerspectiveAndroidUtils.PUZZLE_EXTRA, 7);
         intent.putExtra(PerspectiveAndroidUtils.OUTLINE_EXTRA, true);
         return intent;
     }
@@ -107,7 +107,7 @@ public class GameActivityInstrumentedTest {
         perspective.rotate((float) (Math.PI / 8), 0);
         scene.putFloatArray(GLScene.BACKGROUND, PerspectiveUtils.BLUE);
         // Hack outline to be white
-        scene.putFloatArray("light-blue", PerspectiveUtils.WHITE);
+        scene.putFloatArray("red", PerspectiveUtils.WHITE);
     }
 
     @Test
@@ -260,6 +260,11 @@ public class GameActivityInstrumentedTest {
     }
 
     @Test
+    public void screenshotWorld1Puzzle7() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_ONE, 7);
+    }
+
+    @Test
     public void screenshotWorld2Puzzle1() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_TWO, 1);
     }
@@ -308,7 +313,7 @@ public class GameActivityInstrumentedTest {
     public void screenshotWorld2Puzzle10() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_TWO, 10);
     }
-
+/*
     @Test
     public void screenshotWorld2Puzzle11() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_TWO, 11);
@@ -318,7 +323,7 @@ public class GameActivityInstrumentedTest {
     public void screenshotWorld2Puzzle12() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_TWO, 12);
     }
-
+ */
     @Test
     public void screenshotWorld3Puzzle1() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_THREE, 1);
@@ -363,7 +368,7 @@ public class GameActivityInstrumentedTest {
     public void screenshotWorld3Puzzle9() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_THREE, 9);
     }
-
+/*
     @Test
     public void screenshotWorld3Puzzle10() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_THREE, 10);
@@ -378,7 +383,7 @@ public class GameActivityInstrumentedTest {
     public void screenshotWorld3Puzzle12() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_THREE, 12);
     }
-
+*/
     @Test
     public void screenshotWorld4Puzzle1() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_FOUR, 1);
@@ -500,6 +505,26 @@ public class GameActivityInstrumentedTest {
     }
 
     @Test
+    public void screenshotWorld5Puzzle13() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIVE, 13);
+    }
+
+    @Test
+    public void screenshotWorld5Puzzle14() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIVE, 14);
+    }
+
+    @Test
+    public void screenshotWorld5Puzzle15() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIVE, 15);
+    }
+
+    @Test
+    public void screenshotWorld5Puzzle16() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIVE, 16);
+    }
+
+    @Test
     public void screenshotWorld6Puzzle1() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_SIX, 1);
     }
@@ -558,7 +583,17 @@ public class GameActivityInstrumentedTest {
     public void screenshotWorld6Puzzle12() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_SIX, 12);
     }
-/*
+
+    @Test
+    public void screenshotWorld6Puzzle13() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_SIX, 13);
+    }
+
+    @Test
+    public void screenshotWorld6Puzzle14() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_SIX, 14);
+    }
+
     @Test
     public void screenshotWorld7Puzzle1() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_SEVEN, 1);
@@ -617,6 +652,11 @@ public class GameActivityInstrumentedTest {
     @Test
     public void screenshotWorld7Puzzle12() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_SEVEN, 12);
+    }
+
+    @Test
+    public void screenshotWorld7Puzzle13() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_SEVEN, 13);
     }
 
     @Test
@@ -680,6 +720,26 @@ public class GameActivityInstrumentedTest {
     }
 
     @Test
+    public void screenshotWorld8Puzzle13() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_EIGHT, 13);
+    }
+
+    @Test
+    public void screenshotWorld8Puzzle14() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_EIGHT, 14);
+    }
+
+    @Test
+    public void screenshotWorld8Puzzle15() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_EIGHT, 15);
+    }
+
+    @Test
+    public void screenshotWorld8Puzzle16() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_EIGHT, 16);
+    }
+
+    @Test
     public void screenshotWorld9Puzzle1() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_NINE, 1);
     }
@@ -737,6 +797,26 @@ public class GameActivityInstrumentedTest {
     @Test
     public void screenshotWorld9Puzzle12() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_NINE, 12);
+    }
+
+    @Test
+    public void screenshotWorld9Puzzle13() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_NINE, 13);
+    }
+
+    @Test
+    public void screenshotWorld9Puzzle14() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_NINE, 14);
+    }
+
+    @Test
+    public void screenshotWorld9Puzzle15() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_NINE, 15);
+    }
+
+    @Test
+    public void screenshotWorld9Puzzle16() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_NINE, 16);
     }
 
     @Test
@@ -800,6 +880,26 @@ public class GameActivityInstrumentedTest {
     }
 
     @Test
+    public void screenshotWorld10Puzzle13() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_TEN, 13);
+    }
+
+    @Test
+    public void screenshotWorld10Puzzle14() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_TEN, 14);
+    }
+
+    @Test
+    public void screenshotWorld10Puzzle15() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_TEN, 15);
+    }
+
+    @Test
+    public void screenshotWorld10Puzzle16() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_TEN, 16);
+    }
+
+    @Test
     public void screenshotWorld11Puzzle1() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_ELEVEN, 1);
     }
@@ -857,6 +957,21 @@ public class GameActivityInstrumentedTest {
     @Test
     public void screenshotWorld11Puzzle12() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_ELEVEN, 12);
+    }
+
+    @Test
+    public void screenshotWorld11Puzzle13() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_ELEVEN, 13);
+    }
+
+    @Test
+    public void screenshotWorld11Puzzle14() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_ELEVEN, 14);
+    }
+
+    @Test
+    public void screenshotWorld11Puzzle15() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_ELEVEN, 15);
     }
 
     @Test
@@ -918,7 +1033,112 @@ public class GameActivityInstrumentedTest {
     public void screenshotWorld12Puzzle12() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_TWELVE, 12);
     }
-*/
+
+    @Test
+    public void screenshotWorld12Puzzle13() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_TWELVE, 13);
+    }
+
+    @Test
+    public void screenshotWorld12Puzzle14() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_TWELVE, 14);
+    }
+
+    @Test
+    public void screenshotWorld12Puzzle15() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_TWELVE, 15);
+    }
+
+    @Test
+    public void screenshotWorld12Puzzle16() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_TWELVE, 16);
+    }
+
+    @Test
+    public void screenshotWorld12Puzzle17() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_TWELVE, 17);
+    }
+
+    @Test
+    public void screenshotWorld12Puzzle18() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_TWELVE, 18);
+    }
+
+    @Test
+    public void screenshotWorld13Puzzle1() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 1);
+    }
+
+    @Test
+    public void screenshotWorld13Puzzle2() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 2);
+    }
+
+    @Test
+    public void screenshotWorld13Puzzle3() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 3);
+    }
+
+    @Test
+    public void screenshotWorld13Puzzle4() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 4);
+    }
+
+    @Test
+    public void screenshotWorld13Puzzle5() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 5);
+    }
+
+    @Test
+    public void screenshotWorld13Puzzle6() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 6);
+    }
+
+    @Test
+    public void screenshotWorld13Puzzle7() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 7);
+    }
+
+    @Test
+    public void screenshotWorld13Puzzle8() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 8);
+    }
+
+    @Test
+    public void screenshotWorld13Puzzle9() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 9);
+    }
+
+    @Test
+    public void screenshotWorld13Puzzle10() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 10);
+    }
+
+    @Test
+    public void screenshotWorld13Puzzle11() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 11);
+    }
+
+    @Test
+    public void screenshotWorld13Puzzle12() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 12);
+    }
+
+    @Test
+    public void screenshotWorld13Puzzle13() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 13);
+    }
+
+    @Test
+    public void screenshotWorld13Puzzle14() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 14);
+    }
+
+    @Test
+    public void screenshotWorld13Puzzle15() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 15);
+    }
+
     private void captureScreenshot(String world, int puzzle) throws Exception {
         String name = "com.aletheiaware.perspective.android.GameActivity-" + world + "-" + puzzle + ".png";
         Log.d(PerspectiveUtils.TAG, "Capturing " + name);
