@@ -19,10 +19,10 @@ package com.aletheiaware.perspective.android.utils;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Color;
-import androidx.annotation.WorkerThread;
 import android.util.Log;
 
 import com.aletheiaware.common.android.utils.CommonAndroidUtils;
+import com.aletheiaware.common.utils.CommonUtils;
 import com.aletheiaware.joy.JoyProto.Mesh;
 import com.aletheiaware.joy.JoyProto.Shader;
 import com.aletheiaware.joy.android.scene.GLCameraNode;
@@ -47,10 +47,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import androidx.annotation.WorkerThread;
 
 public class PerspectiveAndroidUtils {
 
     public static final int MAX_STARS = 5;
+    public static final String HASH_DIGEST = "SHA-512";
     public static final String ORIENTATION_EXTRA = "orientation";
     public static final String OUTLINE_EXTRA = "outline";
     public static final String PUZZLE_EXTRA = "puzzle";
@@ -68,6 +73,7 @@ public class PerspectiveAndroidUtils {
     public static final String WORLD_TEN = "world10";
     public static final String WORLD_ELEVEN = "world11";
     public static final String WORLD_TWELVE = "world12";
+    public static final String WORLD_THIRTEEN = "world13";
     public static final String[] FREE_WORLDS = {
             WORLD_TUTORIAL,
             WORLD_ONE,
@@ -84,6 +90,7 @@ public class PerspectiveAndroidUtils {
             WORLD_TEN,
             WORLD_ELEVEN,
             WORLD_TWELVE,
+            WORLD_THIRTEEN,
     };
 
     private PerspectiveAndroidUtils() {
@@ -169,8 +176,14 @@ public class PerspectiveAndroidUtils {
         return new AttributeNode(new GLColourAttribute(program, colour));
     }
 
+    public static String getHash(byte[] data) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance(HASH_DIGEST);
+        digest.reset();
+        return new String(CommonUtils.encodeBase64URL(digest.digest(data)));
+    }
+
     @WorkerThread
-    public static void saveSolution(Context context, String world, int puzzle, Solution solution) throws IOException {
+    public static void saveSolution(Context context, String world, String puzzle, Solution solution) throws IOException {
         File directory = new File(new File(context.getFilesDir(), "solutions"), world);
         if (!directory.exists()) {
             if (!directory.mkdirs()) {
@@ -191,7 +204,7 @@ public class PerspectiveAndroidUtils {
     }
 
     @WorkerThread
-    public static Solution loadSolution(Context context, String world, int puzzle) throws IOException {
+    public static Solution loadSolution(Context context, String world, String puzzle) throws IOException {
         File directory = new File(new File(context.getFilesDir(), "solutions"), world);
         if (directory.exists()) {
             File file = new File(directory, puzzle + ".pb");

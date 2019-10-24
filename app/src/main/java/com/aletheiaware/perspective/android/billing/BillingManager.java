@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import android.util.Base64;
 import android.util.Log;
 
+import com.aletheiaware.perspective.android.BuildConfig;
 import com.aletheiaware.perspective.android.R;
 import com.aletheiaware.perspective.utils.PerspectiveUtils;
 import com.android.billingclient.api.AcknowledgePurchaseParams;
@@ -245,7 +246,7 @@ public class BillingManager implements PurchasesUpdatedListener {
 
     public boolean hasPurchased(String sku) {
         Purchase purchase = getPurchase(sku);
-        return purchase != null && purchase.getPurchaseState() == PurchaseState.PURCHASED;
+        return BuildConfig.DEBUG || (purchase != null && purchase.getPurchaseState() == PurchaseState.PURCHASED);
     }
 
     private void onQueryPurchasesFinished(PurchasesResult purchasesResult) {
