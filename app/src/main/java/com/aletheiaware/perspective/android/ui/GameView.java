@@ -16,11 +16,11 @@
 
 package com.aletheiaware.perspective.android.ui;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,19 +34,16 @@ import com.aletheiaware.perspective.utils.PerspectiveUtils;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-@SuppressLint("ViewConstructor")
 public class GameView extends GLSurfaceView implements OnTouchListener, GLSurfaceView.Renderer {
 
-    private final GLScene scene;
-    private final Perspective perspective;
     private final HandlerThread handlerThread;
     private final Handler handler;
+    private GLScene scene;
+    private Perspective perspective;
     private RotationGesture gesture;
 
-    public GameView(Activity activity, final GLScene scene, Perspective perspective) {
-        super(activity);
-        this.scene = scene;
-        this.perspective = perspective;
+    public GameView(Context context, AttributeSet attrs) {
+        super(context, attrs);
         setEGLContextClientVersion(2);
         setEGLConfigChooser(new AntiAliasConfigChooser());
         setOnTouchListener(this);
@@ -57,9 +54,19 @@ public class GameView extends GLSurfaceView implements OnTouchListener, GLSurfac
         handler = new Handler(handlerThread.getLooper());
     }
 
+    public void setScene(GLScene scene) {
+        this.scene = scene;
+    }
+
+    public void setPerspective(Perspective perspective) {
+        this.perspective = perspective;
+    }
+
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        scene.onSurfaceCreated(gl, config);
+        if (scene != null) {
+            scene.onSurfaceCreated(gl, config);
+        }
     }
 
     @Override
@@ -67,20 +74,28 @@ public class GameView extends GLSurfaceView implements OnTouchListener, GLSurfac
         gesture = new RotationGesture(Math.min(width, height)) {
             @Override
             public void rotate(float radX, float radY) {
-                perspective.rotate(radX, radY);
+                if (perspective != null) {
+                    perspective.rotate(radX, radY);
+                }
             }
         };
-        scene.onSurfaceChanged(gl, width, height);
+        if (scene != null) {
+            scene.onSurfaceChanged(gl, width, height);
+        }
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        scene.onDrawFrame(gl);
+        if (scene != null) {
+            scene.onDrawFrame(gl);
+        }
     }
 
     @Override
     public boolean onTouch(View v, final MotionEvent e) {
-        if (perspective.isGameOver()) {
+        if (perspective == null) {
+            Log.d(PerspectiveUtils.TAG, "Perspective unset, ignoring: " + e);
+        } else if (perspective.isGameOver()) {
             Log.d(PerspectiveUtils.TAG, "Game Over, ignoring: " + e);
         } else {
             switch (e.getAction()) {

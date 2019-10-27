@@ -56,8 +56,8 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
 
     private final Map<String, int[]> puzzleStars = new HashMap<>();
     private final Map<String, SkuDetails> skuDetails = new HashMap<>();
-    private RecyclerView recyclerView;
-    private WorldAdapter adapter;
+    public RecyclerView recyclerView;
+    public WorldAdapter adapter;
     private BillingManager manager;
 
     @Override
@@ -108,7 +108,6 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
             final int[] stars = new int[puzzles];
             int totalStars = 0;
             for (int i = 0; i < puzzles; i++) {
-                int target = w.getPuzzle(i).getTarget();
                 stars[i] = -1;
                 Solution s = null;
                 Puzzle p = w.getPuzzle(i);
@@ -121,16 +120,12 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
                     }
                 }
                 if (s != null) {
-                    stars[i] = PerspectiveAndroidUtils.scoreToStars(s.getScore(), target);
+                    stars[i] = PerspectiveAndroidUtils.scoreToStars(s.getScore(), p.getTarget());
                     totalStars += stars[i];
                 }
             }
             puzzleStars.put(world, stars);
-            int worldStars = 0;
-            if (puzzles > 0) {
-                worldStars = totalStars/puzzles;
-            }
-            adapter.addWorld(w, worldStars);
+            adapter.addWorld(w, totalStars);
         } catch (IOException e) {
             CommonAndroidUtils.showErrorDialog(this, R.style.ErrorDialogTheme, R.string.error_add_world, e);
             e.printStackTrace();
@@ -150,9 +145,7 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
             PuzzleAdapter puzzleAdapter = new PuzzleAdapter(this, world, puzzleStars.get(name), new PuzzleAdapter.Callback() {
                 @Override
                 public void onSelect(String world, int puzzle) {
-                    if (dialog.isShowing()) {
-                        dialog.dismiss();
-                    }
+                    dialog.cancel();
                     setResult(RESULT_OK);
                     finish();
                     Intent intent = new Intent(WorldSelectActivity.this, GameActivity.class);
@@ -217,9 +210,7 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
                     for (SkuDetails details : skuDetailsList) {
                         Log.d(PerspectiveUtils.TAG, "SKU: " + details);
                         skuDetails.put(details.getSku(), details);
-                        int count = adapter.getItemCount();
                         adapter.addWorld(details.getSku(), details.getPrice());
-                        recyclerView.scrollToPosition(count);
                     }
                 }
             }

@@ -74,6 +74,8 @@ public class PerspectiveAndroidUtils {
     public static final String WORLD_ELEVEN = "world11";
     public static final String WORLD_TWELVE = "world12";
     public static final String WORLD_THIRTEEN = "world13";
+    public static final String WORLD_FOURTEEN = "world14";
+    public static final String WORLD_FIFTEEN = "world15";
     public static final String[] FREE_WORLDS = {
             WORLD_TUTORIAL,
             WORLD_ONE,
@@ -91,6 +93,8 @@ public class PerspectiveAndroidUtils {
             WORLD_ELEVEN,
             WORLD_TWELVE,
             WORLD_THIRTEEN,
+            WORLD_FOURTEEN,
+            WORLD_FIFTEEN,
     };
 
     private PerspectiveAndroidUtils() {

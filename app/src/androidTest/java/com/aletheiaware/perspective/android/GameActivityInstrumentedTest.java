@@ -24,10 +24,6 @@ import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.os.Environment;
 import android.os.PowerManager;
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.espresso.intent.rule.IntentsTestRule;
-import androidx.test.rule.GrantPermissionRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import android.util.Log;
 
 import com.aletheiaware.common.android.utils.CommonAndroidUtils;
@@ -45,10 +41,16 @@ import java.util.concurrent.CountDownLatch;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
+
+import androidx.test.espresso.intent.rule.IntentsTestRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.GrantPermissionRule;
 
 @RunWith(AndroidJUnit4.class)
 public class GameActivityInstrumentedTest {
@@ -87,6 +89,7 @@ public class GameActivityInstrumentedTest {
     @Test
     public void screenshotLogo() throws Exception {
         Intent intent = createIconicIntent();
+        intent.putExtra(PerspectiveAndroidUtils.ORIENTATION_EXTRA, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         GameActivity activity = intentsTestRule.launchActivity(intent);
         GLScene scene = activity.getGlScene();
         setIconicScene(scene, activity.getPerspective());
@@ -97,7 +100,7 @@ public class GameActivityInstrumentedTest {
     private Intent createIconicIntent() {
         Intent intent = new Intent();
         intent.putExtra(PerspectiveAndroidUtils.WORLD_EXTRA, PerspectiveAndroidUtils.WORLD_ONE);
-        intent.putExtra(PerspectiveAndroidUtils.PUZZLE_EXTRA, 7);
+        intent.putExtra(PerspectiveAndroidUtils.PUZZLE_EXTRA, 6);
         intent.putExtra(PerspectiveAndroidUtils.OUTLINE_EXTRA, true);
         return intent;
     }
@@ -260,11 +263,6 @@ public class GameActivityInstrumentedTest {
     }
 
     @Test
-    public void screenshotWorld1Puzzle7() throws Exception {
-        captureScreenshot(PerspectiveAndroidUtils.WORLD_ONE, 7);
-    }
-
-    @Test
     public void screenshotWorld2Puzzle1() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_TWO, 1);
     }
@@ -309,21 +307,24 @@ public class GameActivityInstrumentedTest {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_TWO, 9);
     }
 
+    @Ignore("Not Generated")
     @Test
     public void screenshotWorld2Puzzle10() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_TWO, 10);
     }
-/*
+
+    @Ignore("Not Generated")
     @Test
     public void screenshotWorld2Puzzle11() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_TWO, 11);
     }
 
+    @Ignore("Not Generated")
     @Test
     public void screenshotWorld2Puzzle12() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_TWO, 12);
     }
- */
+ 
     @Test
     public void screenshotWorld3Puzzle1() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_THREE, 1);
@@ -368,22 +369,24 @@ public class GameActivityInstrumentedTest {
     public void screenshotWorld3Puzzle9() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_THREE, 9);
     }
-/*
+
     @Test
     public void screenshotWorld3Puzzle10() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_THREE, 10);
     }
 
+    @Ignore("Not Generated")
     @Test
     public void screenshotWorld3Puzzle11() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_THREE, 11);
     }
 
+    @Ignore("Not Generated")
     @Test
     public void screenshotWorld3Puzzle12() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_THREE, 12);
     }
-*/
+
     @Test
     public void screenshotWorld4Puzzle1() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_FOUR, 1);
@@ -439,6 +442,7 @@ public class GameActivityInstrumentedTest {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_FOUR, 11);
     }
 
+    @Ignore("Not Generated")
     @Test
     public void screenshotWorld4Puzzle12() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_FOUR, 12);
@@ -509,16 +513,19 @@ public class GameActivityInstrumentedTest {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_FIVE, 13);
     }
 
+    @Ignore("Not Generated")
     @Test
     public void screenshotWorld5Puzzle14() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_FIVE, 14);
     }
 
+    @Ignore("Not Generated")
     @Test
     public void screenshotWorld5Puzzle15() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_FIVE, 15);
     }
 
+    @Ignore("Not Generated")
     @Test
     public void screenshotWorld5Puzzle16() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_FIVE, 16);
@@ -584,14 +591,28 @@ public class GameActivityInstrumentedTest {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_SIX, 12);
     }
 
+    @Ignore("Not Generated")
     @Test
     public void screenshotWorld6Puzzle13() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_SIX, 13);
     }
 
+    @Ignore("Not Generated")
     @Test
     public void screenshotWorld6Puzzle14() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_SIX, 14);
+    }
+
+    @Ignore("Not Generated")
+    @Test
+    public void screenshotWorld6Puzzle15() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_SIX, 15);
+    }
+
+    @Ignore("Not Generated")
+    @Test
+    public void screenshotWorld6Puzzle16() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_SIX, 16);
     }
 
     @Test
@@ -657,6 +678,23 @@ public class GameActivityInstrumentedTest {
     @Test
     public void screenshotWorld7Puzzle13() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_SEVEN, 13);
+    }
+
+    @Test
+    public void screenshotWorld7Puzzle14() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_SEVEN, 14);
+    }
+
+    @Ignore("Not Generated")
+    @Test
+    public void screenshotWorld7Puzzle15() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_SEVEN, 15);
+    }
+
+    @Ignore("Not Generated")
+    @Test
+    public void screenshotWorld7Puzzle16() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_SEVEN, 16);
     }
 
     @Test
@@ -734,6 +772,7 @@ public class GameActivityInstrumentedTest {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_EIGHT, 15);
     }
 
+    @Ignore("Not Generated")
     @Test
     public void screenshotWorld8Puzzle16() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_EIGHT, 16);
@@ -814,6 +853,7 @@ public class GameActivityInstrumentedTest {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_NINE, 15);
     }
 
+    @Ignore("Not Generated")
     @Test
     public void screenshotWorld9Puzzle16() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_NINE, 16);
@@ -894,6 +934,7 @@ public class GameActivityInstrumentedTest {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_TEN, 15);
     }
 
+    @Ignore("Not Generated")
     @Test
     public void screenshotWorld10Puzzle16() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_TEN, 16);
@@ -974,6 +1015,12 @@ public class GameActivityInstrumentedTest {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_ELEVEN, 15);
     }
 
+    @Ignore("Not Generated")
+    @Test
+    public void screenshotWorld11Puzzle16() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_ELEVEN, 16);
+    }
+ 
     @Test
     public void screenshotWorld12Puzzle1() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_TWELVE, 1);
@@ -1055,16 +1102,6 @@ public class GameActivityInstrumentedTest {
     }
 
     @Test
-    public void screenshotWorld12Puzzle17() throws Exception {
-        captureScreenshot(PerspectiveAndroidUtils.WORLD_TWELVE, 17);
-    }
-
-    @Test
-    public void screenshotWorld12Puzzle18() throws Exception {
-        captureScreenshot(PerspectiveAndroidUtils.WORLD_TWELVE, 18);
-    }
-
-    @Test
     public void screenshotWorld13Puzzle1() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 1);
     }
@@ -1137,6 +1174,157 @@ public class GameActivityInstrumentedTest {
     @Test
     public void screenshotWorld13Puzzle15() throws Exception {
         captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 15);
+    }
+
+    @Ignore("Not Generated")
+    @Test
+    public void screenshotWorld13Puzzle16() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_THIRTEEN, 16);
+    }
+
+    @Test
+    public void screenshotWorld14Puzzle1() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 1);
+    }
+
+    @Test
+    public void screenshotWorld14Puzzle2() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 2);
+    }
+
+    @Test
+    public void screenshotWorld14Puzzle3() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 3);
+    }
+
+    @Test
+    public void screenshotWorld14Puzzle4() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 4);
+    }
+
+    @Test
+    public void screenshotWorld14Puzzle5() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 5);
+    }
+
+    @Test
+    public void screenshotWorld14Puzzle6() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 6);
+    }
+
+    @Test
+    public void screenshotWorld14Puzzle7() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 7);
+    }
+
+    @Test
+    public void screenshotWorld14Puzzle8() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 8);
+    }
+
+    @Test
+    public void screenshotWorld14Puzzle9() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 9);
+    }
+
+    @Test
+    public void screenshotWorld14Puzzle10() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 10);
+    }
+
+    @Test
+    public void screenshotWorld14Puzzle11() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 11);
+    }
+
+    @Test
+    public void screenshotWorld14Puzzle12() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 12);
+    }
+
+    @Test
+    public void screenshotWorld14Puzzle13() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 13);
+    }
+
+    @Ignore("Not Generated")
+    @Test
+    public void screenshotWorld14Puzzle14() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 14);
+    }
+
+    @Ignore("Not Generated")
+    @Test
+    public void screenshotWorld14Puzzle15() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 15);
+    }
+
+    @Ignore("Not Generated")
+    @Test
+    public void screenshotWorld14Puzzle16() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FOURTEEN, 16);
+    }
+
+    @Test
+    public void screenshotWorld15Puzzle1() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIFTEEN, 1);
+    }
+
+    @Test
+    public void screenshotWorld15Puzzle2() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIFTEEN, 2);
+    }
+
+    @Test
+    public void screenshotWorld15Puzzle3() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIFTEEN, 3);
+    }
+
+    @Test
+    public void screenshotWorld15Puzzle4() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIFTEEN, 4);
+    }
+
+    @Test
+    public void screenshotWorld15Puzzle5() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIFTEEN, 5);
+    }
+
+    @Test
+    public void screenshotWorld15Puzzle6() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIFTEEN, 6);
+    }
+
+    @Test
+    public void screenshotWorld15Puzzle7() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIFTEEN, 7);
+    }
+
+    @Test
+    public void screenshotWorld15Puzzle8() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIFTEEN, 8);
+    }
+
+    @Test
+    public void screenshotWorld15Puzzle9() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIFTEEN, 9);
+    }
+
+    @Test
+    public void screenshotWorld15Puzzle10() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIFTEEN, 10);
+    }
+
+    @Ignore("Not Generated")
+    @Test
+    public void screenshotWorld15Puzzle11() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIFTEEN, 11);
+    }
+
+    @Ignore("Not Generated")
+    @Test
+    public void screenshotWorld15Puzzle12() throws Exception {
+        captureScreenshot(PerspectiveAndroidUtils.WORLD_FIFTEEN, 12);
     }
 
     private void captureScreenshot(String world, int puzzle) throws Exception {

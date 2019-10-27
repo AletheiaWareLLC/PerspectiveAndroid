@@ -24,9 +24,7 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aletheiaware.common.android.utils.CommonAndroidUtils;
 import com.aletheiaware.joy.android.scene.GLScene;
@@ -45,6 +43,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -75,7 +74,7 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        setContentView(R.layout.activity_game_loading);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -114,39 +113,8 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
         outlineEnabled = PerspectiveAndroidUtils.isTutorial(worldName)
                 || data.getBoolean(PerspectiveAndroidUtils.OUTLINE_EXTRA)
                 || preferences.getBoolean(getString(R.string.preference_puzzle_outline_key), true);
-    }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN);
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (gameView == null) {
-            init();
-        }
-    }
-
-    public GLScene getGlScene() {
-        return glScene;
-    }
-
-    public Perspective getPerspective() {
-        return perspective;
-    }
-
-    private void init() {
+        // Load World, Scene, and Perspective in Worker Thread
         new Thread() {
             @Override
             public void run() {
@@ -164,17 +132,18 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
                         background = glScene.getFloatArray(colour);
                     }
                     glScene.putFloatArray(GLScene.BACKGROUND, background);
-                    Log.d(PerspectiveUtils.TAG, "Loading Puzzle");
-                    loadPuzzle();
+
+                    // Create Game View in UI Thread
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (gameView != null) {
-                                gameView.quit();
-                            }
                             Log.d(PerspectiveUtils.TAG, "Creating View");
-                            gameView = new GameView(GameActivity.this, glScene, perspective);
-                            setContentView(gameView);
+                            setContentView(R.layout.activity_game);
+                            gameView = findViewById(R.id.game_view);
+                            gameView.setScene(glScene);
+                            gameView.setPerspective(perspective);
+
+                            loadPuzzle();
                         }
                     });
                 } catch (IOException e) {
@@ -183,6 +152,28 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
                 }
             }
         }.start();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN);
+        }
+    }
+
+    public GLScene getGlScene() {
+        return glScene;
+    }
+
+    public Perspective getPerspective() {
+        return perspective;
     }
 
     @Override
@@ -204,44 +195,46 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
         }
     }
 
+    @UiThread
     private void loadPuzzle() {
-        final Puzzle puzzle = PerspectiveAndroidUtils.getPuzzle(world, puzzleIndex);
-        if (puzzle != null) {
-            perspective.importPuzzle(puzzle);
-            final String name = PerspectiveAndroidUtils.capitalize(world.getName()) + " - " + puzzleIndex;
-            float[] array = PerspectiveUtils.WHITE;
-            String colour = world.getForegroundColour();
-            if (colour != null && !colour.isEmpty()) {
-                array = glScene.getFloatArray(colour);
-            }
-            int red = (int) (array[0] * 255f);
-            int green = (int) (array[1] * 255f);
-            int blue = (int) (array[2] * 255f);
-            final int foreground = 0xff << 24 | (red & 0xff) << 16 | (green & 0xff) << 8 | (blue & 0xff);
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    LinearLayout view = (LinearLayout) getLayoutInflater().inflate(R.layout.puzzle_toast, null);
-                    TextView nameText = view.findViewById(R.id.puzzle_toast_name);
-                    nameText.setText(name);
-                    nameText.setTextColor(foreground);
-                    final String description = puzzle.getDescription();
-                    if (description != null && !description.isEmpty()) {
-                        TextView descriptionText = view.findViewById(R.id.puzzle_toast_description);
-                        descriptionText.setText(description);
-                        descriptionText.setTextColor(foreground);
-                        descriptionText.setVisibility(View.VISIBLE);
-                    }
-                    // TODO maybe Toast isn't the right tool for the job
-                    Toast toast = new Toast(GameActivity.this);
-                    // TODO increase duration
-                    toast.setDuration(Toast.LENGTH_LONG);
-                    toast.setView(view);
-                    toast.show();
-                    // TODO if toast is still showing when game is over, call toast.cancel();
+        Log.d(PerspectiveUtils.TAG, "Loading Puzzle: " + puzzleIndex);
+        new Thread() {
+            @Override
+            public void run() {
+                final Puzzle puzzle = PerspectiveAndroidUtils.getPuzzle(world, puzzleIndex);
+                if (puzzle != null) {
+                    perspective.importPuzzle(puzzle);
+                    final String name = PerspectiveAndroidUtils.capitalize(world.getName()) + " - " + puzzleIndex;
+                    final int foreground = colourStringToInt(world.getForegroundColour());
+                    final int background = colourStringToInt(world.getBackgroundColour());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View root = findViewById(R.id.game_root);
+                            root.setBackgroundColor(background);
+                            TextView titleText = findViewById(R.id.game_puzzle_title);
+                            titleText.setText(name);
+                            titleText.setTextColor(foreground);
+                            TextView descriptionText = findViewById(R.id.game_puzzle_description);
+                            descriptionText.setText(puzzle.getDescription());
+                            descriptionText.setTextColor(foreground);
+                            descriptionText.setVisibility(View.VISIBLE);
+                        }
+                    });
                 }
-            });
+            }
+        }.start();
+    }
+
+    private int colourStringToInt(String colour) {
+        float[] array = PerspectiveUtils.WHITE;
+        if (colour != null && !colour.isEmpty()) {
+            array = glScene.getFloatArray(colour);
         }
+        int red = (int) (array[0] * 255f);
+        int green = (int) (array[1] * 255f);
+        int blue = (int) (array[2] * 255f);
+        return 0xff << 24 | (red & 0xff) << 16 | (green & 0xff) << 8 | (blue & 0xff);
     }
 
     @Override
@@ -285,9 +278,9 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
                 builder.setPositiveButton(R.string.puzzle_retry, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
                         perspective.clearAllLocations();
                         loadPuzzle();
-                        dialog.cancel();
                     }
                 });
                 builder.setNeutralButton(R.string.main_menu, new DialogInterface.OnClickListener() {
@@ -353,21 +346,25 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
                             perspective.clearAllLocations();
-                            perspective.mainRotation.makeIdentity();
                             puzzleIndex++;
                             loadPuzzle();
                         }
                     });
                 } else {
                     final String nextWorld = getNextWorld();
-                    if (nextWorld != null) {
+                    if (!nextWorld.equals(PerspectiveAndroidUtils.WORLD_TUTORIAL)) {
                         builder.setPositiveButton(R.string.puzzle_next, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                                 worldName = nextWorld;
                                 puzzleIndex = 1;
-                                init();
+                                setResult(RESULT_OK);
+                                finish();
+                                Intent intent = new Intent(GameActivity.this, GameActivity.class);
+                                intent.putExtra(PerspectiveAndroidUtils.WORLD_EXTRA, worldName);
+                                intent.putExtra(PerspectiveAndroidUtils.PUZZLE_EXTRA, puzzleIndex);
+                                startActivity(intent);
                             }
                         });
                     }
@@ -376,9 +373,9 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
                     builder.setNegativeButton(R.string.puzzle_retry, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
                             perspective.clearAllLocations();
                             loadPuzzle();
-                            dialog.cancel();
                         }
                     });
                 }
@@ -397,6 +394,7 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
         });
     }
 
+    @NonNull
     private String getNextWorld() {
         switch (worldName) {
             case PerspectiveAndroidUtils.WORLD_TUTORIAL:
@@ -439,8 +437,16 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
                 if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_THIRTEEN)) {
                     return PerspectiveAndroidUtils.WORLD_THIRTEEN;
                 } // else fallthrough
+            case PerspectiveAndroidUtils.WORLD_THIRTEEN:
+                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_FOURTEEN)) {
+                    return PerspectiveAndroidUtils.WORLD_FOURTEEN;
+                } // else fallthrough
+            case PerspectiveAndroidUtils.WORLD_FOURTEEN:
+                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_FIFTEEN)) {
+                    return PerspectiveAndroidUtils.WORLD_FIFTEEN;
+                } // else fallthrough
             default:
-                return null;
+                return PerspectiveAndroidUtils.WORLD_TUTORIAL;
         }
     }
 

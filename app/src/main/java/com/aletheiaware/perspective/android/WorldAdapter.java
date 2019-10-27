@@ -17,9 +17,6 @@
 package com.aletheiaware.perspective.android;
 
 import android.app.Activity;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.Adapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -29,11 +26,20 @@ import com.aletheiaware.perspective.PerspectiveProto.World;
 import com.aletheiaware.perspective.android.utils.PerspectiveAndroidUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WorldAdapter extends Adapter<WorldAdapter.WorldViewHolder> {
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+
+public class WorldAdapter extends Adapter<ViewHolder> {
+
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_WORLD = 1;
 
     public interface Callback {
         void onSelect(World world);
@@ -59,12 +65,7 @@ public class WorldAdapter extends Adapter<WorldAdapter.WorldViewHolder> {
         }
         worldsMap.put(name, world);
         starsMap.put(name, stars);
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                notifyDataSetChanged();
-            }
-        });
+        sort();
     }
 
     public synchronized void addWorld(String name, String price) {
@@ -72,6 +73,37 @@ public class WorldAdapter extends Adapter<WorldAdapter.WorldViewHolder> {
             names.add(name);
         }
         pricesMap.put(name, price);
+        sort();
+    }
+
+    private synchronized void sort() {
+        // Sort names of free worlds first, then paid worlds second
+        Collections.sort(names, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                int i1 = -1;
+                int i2 = -1;
+                for (int i = 0; i < PerspectiveAndroidUtils.FREE_WORLDS.length; i++) {
+                    String w = PerspectiveAndroidUtils.FREE_WORLDS[i];
+                    if (o1.equals(w)) {
+                        i1 = i;
+                    }
+                    if (o2.equals(w)) {
+                        i2 = i;
+                    }
+                }
+                for (int i = 0; i < PerspectiveAndroidUtils.PAID_WORLDS.length; i++) {
+                    String w = PerspectiveAndroidUtils.PAID_WORLDS[i];
+                    if (o1.equals(w)) {
+                        i1 = i + PerspectiveAndroidUtils.FREE_WORLDS.length;
+                    }
+                    if (o2.equals(w)) {
+                        i2 = i + PerspectiveAndroidUtils.FREE_WORLDS.length;
+                    }
+                }
+                return Integer.compare(i1, i2);
+            }
+        });
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -82,7 +114,10 @@ public class WorldAdapter extends Adapter<WorldAdapter.WorldViewHolder> {
 
     @NonNull
     @Override
-    public WorldViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == TYPE_HEADER) {
+            return new StarCountHolder(activity.getLayoutInflater().inflate(R.layout.star_count, parent, false));
+        }
         final View view = activity.getLayoutInflater().inflate(R.layout.world_list_item, parent, false);
         final WorldViewHolder holder = new WorldViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
@@ -102,41 +137,90 @@ public class WorldAdapter extends Adapter<WorldAdapter.WorldViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WorldViewHolder holder, int position) {
-        if (names.isEmpty()) {
-            holder.setEmptyView();
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        if (position == 0) {
+            updateStarCountHolder((StarCountHolder) holder);
         } else {
-            String name = names.get(position);
-            World world = worldsMap.get(name);
-            if (world == null) {
-                holder.set(name, pricesMap.get(name));
+            WorldViewHolder wvh = (WorldViewHolder) holder;
+            if (names.isEmpty()) {
+                wvh.setEmptyView();
             } else {
-                int s = 0;
-                Integer stars = starsMap.get(name);
-                if (stars != null) {
-                    s = stars;
+                String name = names.get(position - 1);
+                World world = worldsMap.get(name);
+                if (world == null) {
+                    String price = pricesMap.get(name);
+                    if (price == null) {
+                        price = "?";
+                    }
+                    wvh.set(name, price);
+                } else {
+                    int s = 0;
+                    Integer stars = starsMap.get(name);
+                    if (stars != null) {
+                        s = stars;
+                    }
+                    int puzzles = world.getPuzzleCount();
+                    int worldStars = 0;
+                    if (puzzles > 0) {
+                        worldStars = s / puzzles;
+                    }
+                    wvh.set(world, worldStars);
                 }
-                holder.set(world, s);
             }
         }
     }
 
-    @Override
-    public int getItemCount() {
-        if (names.isEmpty()) {
-            return 1;// For empty view
+    private synchronized void updateStarCountHolder(StarCountHolder holder) {
+        int earned = 0;
+        int max = 0;
+        for (String name : names) {
+            Integer i = starsMap.get(name);
+            if (i != null) {
+                earned += i;
+            }
+            World w = worldsMap.get(name);
+            if (w != null) {
+                max += w.getPuzzleCount() * PerspectiveAndroidUtils.MAX_STARS;
+            }
         }
-        return names.size();
+        holder.setStars(earned, max);
     }
 
-    static class WorldViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return TYPE_HEADER;
+        }
+        return TYPE_WORLD;
+    }
+
+    @Override
+    public int getItemCount() {
+        int count = 1; // Header
+        if (names.isEmpty()) {
+            return count + 1;// Empty view
+        }
+        return count + names.size();
+    }
+
+    static class StarCountHolder extends ViewHolder {
+
+        private final TextView starCount;
+
+        StarCountHolder(View view) {
+            super(view);
+            starCount = view.findViewById(R.id.world_star_count);
+        }
+
+        void setStars(int earned, int max) {
+            starCount.setText(starCount.getContext().getString(R.string.star_count_format, earned, max));
+        }
+    }
+
+    static class WorldViewHolder extends ViewHolder {
 
         private final TextView itemName;
-        private final View itemStar1;
-        private final View itemStar2;
-        private final View itemStar3;
-        private final View itemStar4;
-        private final View itemStar5;
+        private final View[] itemStars = new View[PerspectiveAndroidUtils.MAX_STARS];
         private final Button itemBuy;
         private String name;
         private World world;
@@ -144,11 +228,11 @@ public class WorldAdapter extends Adapter<WorldAdapter.WorldViewHolder> {
         WorldViewHolder(View view) {
             super(view);
             itemName = view.findViewById(R.id.world_item_name);
-            itemStar1 = view.findViewById(R.id.world_item_star1);
-            itemStar2 = view.findViewById(R.id.world_item_star2);
-            itemStar3 = view.findViewById(R.id.world_item_star3);
-            itemStar4 = view.findViewById(R.id.world_item_star4);
-            itemStar5 = view.findViewById(R.id.world_item_star5);
+            itemStars[0] = view.findViewById(R.id.world_item_star1);
+            itemStars[1] = view.findViewById(R.id.world_item_star2);
+            itemStars[2] = view.findViewById(R.id.world_item_star3);
+            itemStars[3] = view.findViewById(R.id.world_item_star4);
+            itemStars[4] = view.findViewById(R.id.world_item_star5);
             itemBuy = view.findViewById(R.id.item_world_buy);
         }
 
@@ -156,11 +240,9 @@ public class WorldAdapter extends Adapter<WorldAdapter.WorldViewHolder> {
             setWorld(world);
             setName(world.getName());
             itemBuy.setVisibility(View.GONE);
-            itemStar1.setVisibility(stars > 0 ? View.VISIBLE : View.INVISIBLE);
-            itemStar2.setVisibility(stars > 1 ? View.VISIBLE : View.INVISIBLE);
-            itemStar3.setVisibility(stars > 2 ? View.VISIBLE : View.INVISIBLE);
-            itemStar4.setVisibility(stars > 3 ? View.VISIBLE : View.INVISIBLE);
-            itemStar5.setVisibility(stars > 4 ? View.VISIBLE : View.INVISIBLE);
+            for (int i = 0; i < PerspectiveAndroidUtils.MAX_STARS; i++) {
+                itemStars[i].setVisibility(stars > i ? View.VISIBLE : View.INVISIBLE);
+            }
         }
 
         void set(String name, String price) {
@@ -168,11 +250,9 @@ public class WorldAdapter extends Adapter<WorldAdapter.WorldViewHolder> {
             setName(name);
             itemBuy.setText(price);
             itemBuy.setVisibility(View.VISIBLE);
-            itemStar1.setVisibility(View.GONE);
-            itemStar2.setVisibility(View.GONE);
-            itemStar3.setVisibility(View.GONE);
-            itemStar4.setVisibility(View.GONE);
-            itemStar5.setVisibility(View.GONE);
+            for (View itemStar : itemStars) {
+                itemStar.setVisibility(View.GONE);
+            }
         }
 
         void setName(String name) {
@@ -195,11 +275,9 @@ public class WorldAdapter extends Adapter<WorldAdapter.WorldViewHolder> {
         void setEmptyView() {
             itemName.setText(R.string.empty_world_list);
             itemBuy.setVisibility(View.GONE);
-            itemStar1.setVisibility(View.GONE);
-            itemStar2.setVisibility(View.GONE);
-            itemStar3.setVisibility(View.GONE);
-            itemStar4.setVisibility(View.GONE);
-            itemStar5.setVisibility(View.GONE);
+            for (View itemStar : itemStars) {
+                itemStar.setVisibility(View.GONE);
+            }
         }
     }
 

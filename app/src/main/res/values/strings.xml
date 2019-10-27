@@ -45,6 +45,7 @@ limitations under the License.
     <string name="star_three">Three Stars</string>
     <string name="star_four">Four Stars</string>
     <string name="star_five">Five Stars</string>
+    <string name="star_count_format">\n%d / %d\n</string>
 
     <string name="preference_game_title">Game</string>
     <string name="preference_puzzle_outline_key">puzzle_outline_preference</string>
