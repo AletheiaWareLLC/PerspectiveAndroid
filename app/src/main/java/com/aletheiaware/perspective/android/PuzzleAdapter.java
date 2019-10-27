@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aletheiaware.perspective.PerspectiveProto.World;
+import com.aletheiaware.perspective.android.utils.PerspectiveAndroidUtils;
 
 public class PuzzleAdapter extends Adapter<PuzzleAdapter.PuzzleViewHolder> {
 
@@ -95,11 +96,7 @@ public class PuzzleAdapter extends Adapter<PuzzleAdapter.PuzzleViewHolder> {
         private final Context context;
         private final CardView itemCard;
         private final TextView itemName;
-        private final View itemStar1;
-        private final View itemStar2;
-        private final View itemStar3;
-        private final View itemStar4;
-        private final View itemStar5;
+        private final View[] itemStars = new View[PerspectiveAndroidUtils.MAX_STARS];
         private final ImageView itemLock;
         private int puzzle;
         private boolean locked;
@@ -109,11 +106,11 @@ public class PuzzleAdapter extends Adapter<PuzzleAdapter.PuzzleViewHolder> {
             context = view.getContext();
             itemCard = view;
             itemName = view.findViewById(R.id.puzzle_list_text);
-            itemStar1 = view.findViewById(R.id.puzzle_list_star1);
-            itemStar2 = view.findViewById(R.id.puzzle_list_star2);
-            itemStar3 = view.findViewById(R.id.puzzle_list_star3);
-            itemStar4 = view.findViewById(R.id.puzzle_list_star4);
-            itemStar5 = view.findViewById(R.id.puzzle_list_star5);
+            itemStars[0] = view.findViewById(R.id.puzzle_list_star1);
+            itemStars[1] = view.findViewById(R.id.puzzle_list_star2);
+            itemStars[2] = view.findViewById(R.id.puzzle_list_star3);
+            itemStars[3] = view.findViewById(R.id.puzzle_list_star4);
+            itemStars[4] = view.findViewById(R.id.puzzle_list_star5);
             itemLock = view.findViewById(R.id.puzzle_list_locked);
         }
 
@@ -123,11 +120,9 @@ public class PuzzleAdapter extends Adapter<PuzzleAdapter.PuzzleViewHolder> {
             itemCard.setCardBackgroundColor(ContextCompat.getColor(context, locked ? R.color.grey : R.color.white));
             itemName.setText(String.valueOf(puzzle));
             itemName.setTextColor(ContextCompat.getColor(context, locked ? R.color.dark_grey : R.color.accent));
-            itemStar1.setVisibility(stars > 0 ? View.VISIBLE : View.INVISIBLE);
-            itemStar2.setVisibility(stars > 1 ? View.VISIBLE : View.INVISIBLE);
-            itemStar3.setVisibility(stars > 2 ? View.VISIBLE : View.INVISIBLE);
-            itemStar4.setVisibility(stars > 3 ? View.VISIBLE : View.INVISIBLE);
-            itemStar5.setVisibility(stars > 4 ? View.VISIBLE : View.INVISIBLE);
+            for (int i = 0; i < PerspectiveAndroidUtils.MAX_STARS; i++) {
+                itemStars[i].setVisibility(!locked && stars > i ? View.VISIBLE : View.INVISIBLE);
+            }
             itemLock.setVisibility(locked ? View.VISIBLE : View.INVISIBLE);
         }
 
@@ -144,11 +139,9 @@ public class PuzzleAdapter extends Adapter<PuzzleAdapter.PuzzleViewHolder> {
             itemCard.setCardBackgroundColor(ContextCompat.getColor(context, R.color.grey));
             itemName.setText(R.string.empty_puzzle_list);
             itemName.setTextColor(ContextCompat.getColor(context, R.color.dark_grey));
-            itemStar1.setVisibility(View.INVISIBLE);
-            itemStar2.setVisibility(View.INVISIBLE);
-            itemStar3.setVisibility(View.INVISIBLE);
-            itemStar4.setVisibility(View.INVISIBLE);
-            itemStar5.setVisibility(View.INVISIBLE);
+            for (View itemStar : itemStars) {
+                itemStar.setVisibility(View.INVISIBLE);
+            }
             itemLock.setVisibility(View.INVISIBLE);
         }
     }

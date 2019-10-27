@@ -1,13 +1,13 @@
-Ğ
-tutorialwhite"blue*c
+÷
+tutorialwhite"blue*v
 
 outlineblue"
 g1goalyellow"ÿÿÿÿÿÿÿÿÿ2
-s1sphereorange":Tap to Drop into Goal*q
+s1sphereorange":(Tap to Enable Gravity and Drop into Goal*
 
 outlineblue"
 g1goalyellow" ÿÿÿÿÿÿÿÿÿ2
-s1sphereorange" :!Swipe to Orient Sphere Above Goal@*•
+s1sphereorange" :1Swipe to Rotate Maze and Orient Sphere Above Goal@*•
 
 outlineblue
 b1cubegrey""
@@ -18,13 +18,13 @@
 b1cubegrey" 
 b2cubegrey"ÿÿÿÿÿÿÿÿÿ "
 g1goalyellow" ÿÿÿÿÿÿÿÿÿ2%
-s1sphereorange"ÿÿÿÿÿÿÿÿÿ :!Advance Towards Goal using Blocks@*Û
+s1sphereorange"ÿÿÿÿÿÿÿÿÿ :!Advance Towards Goal using Blocks@*Ş
 
 outlineblue"*
 g1goalyellow"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ*0
 p1portalblue" ÿÿÿÿÿÿÿÿÿ*ÿÿÿÿÿÿÿÿÿ *0
 p2portalblue"ÿÿÿÿÿÿÿÿÿ * ÿÿÿÿÿÿÿÿÿ2
-s1sphereorange" :Enter Portal to Reach Goal@*¿
+s1sphereorange" :Traverse Portal to Reach Goal@*¿
 
 outlineblue*
 b1cubegrey"ÿÿÿÿÿÿÿÿÿ ÿÿÿÿÿÿÿÿÿ"*
