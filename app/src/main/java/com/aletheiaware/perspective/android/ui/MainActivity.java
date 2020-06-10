@@ -20,15 +20,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.aletheiaware.common.android.utils.CommonAndroidUtils;
+import com.aletheiaware.perspective.android.BuildConfig;
 import com.aletheiaware.perspective.android.R;
 import com.aletheiaware.perspective.android.utils.PerspectiveAndroidUtils;
 
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button playButton;
     private Button settingsButton;
+    private Button debugButton;
     private ImageButton logoButton;
     public AlertDialog legaleseDialog;
 
@@ -73,6 +76,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        debugButton = findViewById(R.id.main_debug_button);
+        if (BuildConfig.DEBUG) {
+            debugButton.setVisibility(View.VISIBLE);
+            debugButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    debugButton.setEnabled(false);
+                    Intent intent = new Intent(MainActivity.this, DebugActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
         logoButton = findViewById(R.id.aletheia_ware_llc_logo);
         logoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
         playButton.setEnabled(hasFocus);
         settingsButton.setEnabled(hasFocus);
+        debugButton.setEnabled(hasFocus);
         logoButton.setEnabled(hasFocus);
     }
 

@@ -178,13 +178,15 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (gameView != null) {
             gameView.quit();
+            gameView = null;
         }
         if (manager != null) {
             manager.destroy();
+            manager = null;
         }
+        super.onDestroy();
     }
 
     private void vibrate(long[] pattern) {

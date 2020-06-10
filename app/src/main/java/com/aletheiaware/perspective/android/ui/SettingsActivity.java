@@ -67,6 +67,12 @@ public class SettingsActivity extends AppCompatActivity {
             Preference outlinePreference = findPreference(getString(R.string.preference_puzzle_outline_key));
             outlinePreference.getIcon().setTint(white);
 
+            Preference musicPreference = findPreference(getString(R.string.preference_puzzle_music_key));
+            musicPreference.getIcon().setTint(white);
+
+            Preference soundPreference = findPreference(getString(R.string.preference_puzzle_sound_key));
+            soundPreference.getIcon().setTint(white);
+
             Preference vibrationPreference = findPreference(getString(R.string.preference_puzzle_vibration_key));
             vibrationPreference.getIcon().setTint(white);
 
@@ -132,6 +138,8 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     // TODO should this clear the outline_enabled_preference?
+                    // TODO should this clear the music_enabled_preference?
+                    // TODO should this clear the sound_enabled_preference?
                     // TODO should this clear the vibration_enabled_preference?
                     // TODO should this clear the legalese_accepted_preference?
                     CommonAndroidUtils.setPreference(activity, getString(R.string.preference_tutorial_completed), "false");

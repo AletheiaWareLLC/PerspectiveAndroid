@@ -29,13 +29,16 @@ limitations under the License.
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.WorldSelectActivity"
+        <activity
+            android:name=".ui.DebugActivity"
+            android:screenOrientation="locked"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.GameActivity"
             android:screenOrientation="locked"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.MainActivity"
+        <activity
+            android:name=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,6 +48,9 @@ limitations under the License.
         </activity>
         <activity
             android:name=".ui.SettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.WorldSelectActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
