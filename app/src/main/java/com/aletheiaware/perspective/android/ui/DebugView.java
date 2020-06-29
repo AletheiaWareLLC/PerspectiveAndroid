@@ -20,6 +20,7 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 
+import com.aletheiaware.joy.android.scene.GLAntiAliasConfigChooser;
 import com.aletheiaware.joy.android.scene.GLScene;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -32,7 +33,7 @@ public class DebugView extends GLSurfaceView implements GLSurfaceView.Renderer {
     public DebugView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setEGLContextClientVersion(2);
-        setEGLConfigChooser(new AntiAliasConfigChooser());
+        setEGLConfigChooser(new GLAntiAliasConfigChooser());
         setRenderer(this);
         setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR | GLSurfaceView.DEBUG_LOG_GL_CALLS);
     }

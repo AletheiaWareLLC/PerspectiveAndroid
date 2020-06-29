@@ -26,6 +26,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
+import com.aletheiaware.joy.android.scene.GLAntiAliasConfigChooser;
 import com.aletheiaware.joy.android.scene.GLScene;
 import com.aletheiaware.joy.scene.RotationGesture;
 import com.aletheiaware.perspective.Perspective;
@@ -45,7 +46,7 @@ public class GameView extends GLSurfaceView implements OnTouchListener, GLSurfac
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setEGLContextClientVersion(2);
-        setEGLConfigChooser(new AntiAliasConfigChooser());
+        setEGLConfigChooser(new GLAntiAliasConfigChooser());
         setOnTouchListener(this);
         setRenderer(this);
 
