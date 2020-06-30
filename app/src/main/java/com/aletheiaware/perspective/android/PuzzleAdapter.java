@@ -29,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aletheiaware.perspective.PerspectiveProto.World;
-import com.aletheiaware.perspective.android.utils.PerspectiveAndroidUtils;
+import com.aletheiaware.perspective.utils.PerspectiveUtils;
 
 public class PuzzleAdapter extends Adapter<PuzzleAdapter.PuzzleViewHolder> {
 
@@ -96,7 +96,7 @@ public class PuzzleAdapter extends Adapter<PuzzleAdapter.PuzzleViewHolder> {
         private final Context context;
         private final CardView itemCard;
         private final TextView itemName;
-        private final View[] itemStars = new View[PerspectiveAndroidUtils.MAX_STARS];
+        private final View[] itemStars = new View[PerspectiveUtils.MAX_STARS];
         private final ImageView itemLock;
         private int puzzle;
         private boolean locked;
@@ -120,7 +120,7 @@ public class PuzzleAdapter extends Adapter<PuzzleAdapter.PuzzleViewHolder> {
             itemCard.setCardBackgroundColor(ContextCompat.getColor(context, locked ? R.color.grey : R.color.white));
             itemName.setText(String.valueOf(puzzle));
             itemName.setTextColor(ContextCompat.getColor(context, locked ? R.color.dark_grey : R.color.accent));
-            for (int i = 0; i < PerspectiveAndroidUtils.MAX_STARS; i++) {
+            for (int i = 0; i < PerspectiveUtils.MAX_STARS; i++) {
                 itemStars[i].setVisibility(!locked && stars > i ? View.VISIBLE : View.INVISIBLE);
             }
             itemLock.setVisibility(locked ? View.VISIBLE : View.INVISIBLE);

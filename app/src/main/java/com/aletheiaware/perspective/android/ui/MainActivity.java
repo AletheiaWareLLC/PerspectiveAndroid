@@ -33,6 +33,7 @@ import com.aletheiaware.common.android.utils.CommonAndroidUtils;
 import com.aletheiaware.perspective.android.BuildConfig;
 import com.aletheiaware.perspective.android.R;
 import com.aletheiaware.perspective.android.utils.PerspectiveAndroidUtils;
+import com.aletheiaware.perspective.utils.PerspectiveUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         } else {
             Intent intent = new Intent(MainActivity.this, GameActivity.class);
-            intent.putExtra(PerspectiveAndroidUtils.WORLD_EXTRA, PerspectiveAndroidUtils.WORLD_TUTORIAL);
+            intent.putExtra(PerspectiveAndroidUtils.WORLD_EXTRA, PerspectiveUtils.WORLD_TUTORIAL);
             intent.putExtra(PerspectiveAndroidUtils.PUZZLE_EXTRA, 1);
             startActivity(intent);
         }

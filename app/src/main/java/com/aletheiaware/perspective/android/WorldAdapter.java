@@ -22,8 +22,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.aletheiaware.common.utils.CommonUtils;
 import com.aletheiaware.perspective.PerspectiveProto.World;
 import com.aletheiaware.perspective.android.utils.PerspectiveAndroidUtils;
+import com.aletheiaware.perspective.utils.PerspectiveUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -83,8 +85,8 @@ public class WorldAdapter extends Adapter<ViewHolder> {
             public int compare(String o1, String o2) {
                 int i1 = -1;
                 int i2 = -1;
-                for (int i = 0; i < PerspectiveAndroidUtils.FREE_WORLDS.length; i++) {
-                    String w = PerspectiveAndroidUtils.FREE_WORLDS[i];
+                for (int i = 0; i < PerspectiveUtils.FREE_WORLDS.length; i++) {
+                    String w = PerspectiveUtils.FREE_WORLDS[i];
                     if (o1.equals(w)) {
                         i1 = i;
                     }
@@ -92,13 +94,13 @@ public class WorldAdapter extends Adapter<ViewHolder> {
                         i2 = i;
                     }
                 }
-                for (int i = 0; i < PerspectiveAndroidUtils.PAID_WORLDS.length; i++) {
-                    String w = PerspectiveAndroidUtils.PAID_WORLDS[i];
+                for (int i = 0; i < PerspectiveUtils.PAID_WORLDS.length; i++) {
+                    String w = PerspectiveUtils.PAID_WORLDS[i];
                     if (o1.equals(w)) {
-                        i1 = i + PerspectiveAndroidUtils.FREE_WORLDS.length;
+                        i1 = i + PerspectiveUtils.FREE_WORLDS.length;
                     }
                     if (o2.equals(w)) {
-                        i2 = i + PerspectiveAndroidUtils.FREE_WORLDS.length;
+                        i2 = i + PerspectiveUtils.FREE_WORLDS.length;
                     }
                 }
                 return Integer.compare(i1, i2);
@@ -180,7 +182,7 @@ public class WorldAdapter extends Adapter<ViewHolder> {
             }
             World w = worldsMap.get(name);
             if (w != null) {
-                max += w.getPuzzleCount() * PerspectiveAndroidUtils.MAX_STARS;
+                max += w.getPuzzleCount() * PerspectiveUtils.MAX_STARS;
             }
         }
         holder.setStars(earned, max);
@@ -220,7 +222,7 @@ public class WorldAdapter extends Adapter<ViewHolder> {
     static class WorldViewHolder extends ViewHolder {
 
         private final TextView itemName;
-        private final View[] itemStars = new View[PerspectiveAndroidUtils.MAX_STARS];
+        private final View[] itemStars = new View[PerspectiveUtils.MAX_STARS];
         private final Button itemBuy;
         private String name;
         private World world;
@@ -240,7 +242,7 @@ public class WorldAdapter extends Adapter<ViewHolder> {
             setWorld(world);
             setName(world.getName());
             itemBuy.setVisibility(View.GONE);
-            for (int i = 0; i < PerspectiveAndroidUtils.MAX_STARS; i++) {
+            for (int i = 0; i < PerspectiveUtils.MAX_STARS; i++) {
                 itemStars[i].setVisibility(stars > i ? View.VISIBLE : View.INVISIBLE);
             }
         }
@@ -257,7 +259,7 @@ public class WorldAdapter extends Adapter<ViewHolder> {
 
         void setName(String name) {
             this.name = name;
-            itemName.setText(PerspectiveAndroidUtils.capitalize(name));
+            itemName.setText(CommonUtils.capitalize(name));
         }
 
         void setWorld(World world) {

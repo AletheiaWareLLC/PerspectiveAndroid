@@ -43,59 +43,16 @@ import com.aletheiaware.perspective.PerspectiveProto.Solution;
 import com.aletheiaware.perspective.PerspectiveProto.World;
 import com.aletheiaware.perspective.utils.PerspectiveUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import androidx.annotation.WorkerThread;
 
 public class PerspectiveAndroidUtils {
 
-    public static final int MAX_STARS = 5;
-    public static final String HASH_DIGEST = "SHA-512";
     public static final String ORIENTATION_EXTRA = "orientation";
     public static final String OUTLINE_EXTRA = "outline";
     public static final String PUZZLE_EXTRA = "puzzle";
     public static final String WORLD_EXTRA = "world";
-    public static final String WORLD_TUTORIAL = "tutorial";
-    public static final String WORLD_ONE = "world1";
-    public static final String WORLD_TWO = "world2";
-    public static final String WORLD_THREE = "world3";
-    public static final String WORLD_FOUR = "world4";
-    public static final String WORLD_FIVE = "world5";
-    public static final String WORLD_SIX = "world6";
-    public static final String WORLD_SEVEN = "world7";
-    public static final String WORLD_EIGHT = "world8";
-    public static final String WORLD_NINE = "world9";
-    public static final String WORLD_TEN = "world10";
-    public static final String WORLD_ELEVEN = "world11";
-    public static final String WORLD_TWELVE = "world12";
-    public static final String WORLD_THIRTEEN = "world13";
-    public static final String WORLD_FOURTEEN = "world14";
-    public static final String WORLD_FIFTEEN = "world15";
-    public static final String[] FREE_WORLDS = {
-            WORLD_TUTORIAL,
-            WORLD_ONE,
-            WORLD_TWO,
-            WORLD_THREE,
-            WORLD_FOUR,
-            WORLD_FIVE,
-            WORLD_SIX,
-    };
-    public static final String[] PAID_WORLDS = {
-            WORLD_SEVEN,
-            WORLD_EIGHT,
-            WORLD_NINE,
-            WORLD_TEN,
-            WORLD_ELEVEN,
-            WORLD_TWELVE,
-            WORLD_THIRTEEN,
-            WORLD_FOURTEEN,
-            WORLD_FIFTEEN,
-    };
 
     private PerspectiveAndroidUtils() {
     }
@@ -126,30 +83,22 @@ public class PerspectiveAndroidUtils {
         return rotation;
     }
 
-    public static Puzzle getPuzzle(World world, int puzzle) {
-        int index = puzzle - 1;
-        if (index >= 0 && index < world.getPuzzleCount()) {
-            return world.getPuzzle(index);
-        }
-        return null;
-    }
-
     public static SceneGraphNode getSceneGraphNode(final GLScene scene, AssetManager assets, String program, String name, String type, String mesh) throws IOException {
-        if (scene.getVertexNormalMesh(mesh) == null) {
-            new MeshLoader(assets.open("mesh/" + mesh + ".pb")) {
-                @Override
-                public void onMesh(Mesh mesh) throws IOException {
-                    System.out.println("Name: " + mesh.getName());
-                    scene.putVertexNormalMesh(mesh.getName(), new GLVertexNormalMesh(mesh));
-                }
-            }.start();
-        }
         switch (type) {
             case "outline":
             case "block":
             case "goal":
             case "portal":
             case "sphere":
+                if (scene.getVertexNormalMesh(mesh) == null) {
+                    new MeshLoader(assets.open("mesh/" + mesh + ".pb")) {
+                        @Override
+                        public void onMesh(Mesh mesh) throws IOException {
+                            System.out.println("Name: " + mesh.getName());
+                            scene.putVertexNormalMesh(mesh.getName(), new GLVertexNormalMesh(mesh));
+                        }
+                    }.start();
+                }
                 return new GLVertexNormalMeshNode(program, mesh);
             default:
                 System.err.println("Unrecognized: " + program + " " + name + " " + type + " " + mesh);
@@ -180,72 +129,18 @@ public class PerspectiveAndroidUtils {
         return new AttributeNode(new GLColourAttribute(program, colour));
     }
 
-    public static String getHash(byte[] data) throws NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance(HASH_DIGEST);
-        digest.reset();
-        return new String(CommonUtils.encodeBase64URL(digest.digest(data)));
-    }
-
     @WorkerThread
     public static void saveSolution(Context context, String world, String puzzle, Solution solution) throws IOException {
-        File directory = new File(new File(context.getFilesDir(), "solutions"), world);
-        if (!directory.exists()) {
-            if (!directory.mkdirs()) {
-                throw new IOException("Could not create directory: " + directory.getAbsolutePath());
-            }
-        }
-        File file = new File(directory, puzzle + ".pb");
-        if (file.exists()) {
-            Solution s = loadSolution(file);
-            // Only overwrite existing solution if new solution has better (lower) score
-            if (s.getScore() < solution.getScore()) {
-                return;
-            }
-        }
-        try (FileOutputStream out = new FileOutputStream(file)) {
-            solution.writeDelimitedTo(out);
-        }
+        PerspectiveUtils.saveSolution(context.getFilesDir(), world, puzzle, solution);
     }
 
     @WorkerThread
     public static Solution loadSolution(Context context, String world, String puzzle) throws IOException {
-        File directory = new File(new File(context.getFilesDir(), "solutions"), world);
-        if (directory.exists()) {
-            File file = new File(directory, puzzle + ".pb");
-            if (file.exists()) {
-                return loadSolution(file);
-            }
-        }
-        return null;
-    }
-
-    @WorkerThread
-    private static Solution loadSolution(File file) throws IOException {
-        try (FileInputStream in = new FileInputStream(file)) {
-            return Solution.parseDelimitedFrom(in);
-        }
+        return PerspectiveUtils.loadSolution(context.getFilesDir(), world, puzzle);
     }
 
     @WorkerThread
     public static void clearSolutions(Context context) throws IOException {
-        File directory = new File(context.getFilesDir(), "solutions");
-        if (!CommonAndroidUtils.recursiveDelete(directory)) {
-            throw new IOException("Could not delete directory: " + directory.getAbsolutePath());
-        }
-    }
-
-    public static String capitalize(String string) {
-        if (string == null || string.isEmpty()) {
-            return string;
-        }
-        return string.substring(0, 1).toUpperCase() + string.substring(1);
-    }
-
-    public static int scoreToStars(int score, int target) {
-        return Math.min(MAX_STARS, Math.max(MAX_STARS - (score - target), 0));
-    }
-
-    public static boolean isTutorial(String worldName) {
-        return WORLD_TUTORIAL.equals(worldName);
+        PerspectiveUtils.clearSolutions(context.getFilesDir());
     }
 }

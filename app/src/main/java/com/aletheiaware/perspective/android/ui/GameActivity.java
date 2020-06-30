@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.aletheiaware.common.android.utils.CommonAndroidUtils;
+import com.aletheiaware.common.utils.CommonUtils;
 import com.aletheiaware.joy.android.scene.GLScene;
 import com.aletheiaware.joy.scene.AttributeNode;
 import com.aletheiaware.joy.scene.SceneGraphNode;
@@ -110,7 +111,7 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
         if (puzzleIndex < 1) {
             puzzleIndex = 1;
         }
-        outlineEnabled = PerspectiveAndroidUtils.isTutorial(worldName)
+        outlineEnabled = PerspectiveUtils.isTutorial(worldName)
                 || data.getBoolean(PerspectiveAndroidUtils.OUTLINE_EXTRA)
                 || preferences.getBoolean(getString(R.string.preference_puzzle_outline_key), true);
 
@@ -203,10 +204,10 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
         new Thread() {
             @Override
             public void run() {
-                final Puzzle puzzle = PerspectiveAndroidUtils.getPuzzle(world, puzzleIndex);
+                final Puzzle puzzle = PerspectiveUtils.getPuzzle(world, puzzleIndex);
                 if (puzzle != null) {
                     perspective.importPuzzle(puzzle);
-                    final String name = PerspectiveAndroidUtils.capitalize(world.getName()) + " - " + puzzleIndex;
+                    final String name = CommonUtils.capitalize(world.getName()) + " - " + puzzleIndex;
                     final int foreground = colourStringToInt(world.getForegroundColour());
                     final int background = colourStringToInt(world.getBackgroundColour());
                     runOnUiThread(new Runnable() {
@@ -307,13 +308,13 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
         int target = perspective.puzzle.getTarget();
         int score = solution.getScore();
         Log.d(PerspectiveUtils.TAG, "Score: " + score + " (" + target + ")");
-        final int stars = PerspectiveAndroidUtils.scoreToStars(score, target);
+        final int stars = PerspectiveUtils.scoreToStars(score, target);
         Log.d(PerspectiveUtils.TAG, "Stars: " + stars);
         new Thread() {
             @Override
             public void run() {
                 try {
-                    String hash = PerspectiveAndroidUtils.getHash(perspective.puzzle.toByteArray());
+                    String hash = PerspectiveUtils.getHash(perspective.puzzle.toByteArray());
                     PerspectiveAndroidUtils.saveSolution(GameActivity.this, worldName, hash, solution);
                 } catch (IOException | NoSuchAlgorithmException e) {
                     CommonAndroidUtils.showErrorDialog(GameActivity.this, R.style.ErrorDialogTheme, R.string.error_save_solution, e);
@@ -322,7 +323,7 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
             }
         }.start();
 
-        if (PerspectiveAndroidUtils.isTutorial(worldName)) {
+        if (PerspectiveUtils.isTutorial(worldName)) {
             CommonAndroidUtils.setPreference(GameActivity.this, getString(R.string.preference_tutorial_completed), "true");
         }
 
@@ -354,7 +355,7 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
                     });
                 } else {
                     final String nextWorld = getNextWorld();
-                    if (!nextWorld.equals(PerspectiveAndroidUtils.WORLD_TUTORIAL)) {
+                    if (!nextWorld.equals(PerspectiveUtils.WORLD_TUTORIAL)) {
                         builder.setPositiveButton(R.string.puzzle_next, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
@@ -399,56 +400,56 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
     @NonNull
     private String getNextWorld() {
         switch (worldName) {
-            case PerspectiveAndroidUtils.WORLD_TUTORIAL:
-                return PerspectiveAndroidUtils.WORLD_ONE;
-            case PerspectiveAndroidUtils.WORLD_ONE:
-                return PerspectiveAndroidUtils.WORLD_TWO;
-            case PerspectiveAndroidUtils.WORLD_TWO:
-                return PerspectiveAndroidUtils.WORLD_THREE;
-            case PerspectiveAndroidUtils.WORLD_THREE:
-                return PerspectiveAndroidUtils.WORLD_FOUR;
-            case PerspectiveAndroidUtils.WORLD_FOUR:
-                return PerspectiveAndroidUtils.WORLD_FIVE;
-            case PerspectiveAndroidUtils.WORLD_FIVE:
-                return PerspectiveAndroidUtils.WORLD_SIX;
-            case PerspectiveAndroidUtils.WORLD_SIX:
-                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_SEVEN)) {
-                    return PerspectiveAndroidUtils.WORLD_SEVEN;
+            case PerspectiveUtils.WORLD_TUTORIAL:
+                return PerspectiveUtils.WORLD_ONE;
+            case PerspectiveUtils.WORLD_ONE:
+                return PerspectiveUtils.WORLD_TWO;
+            case PerspectiveUtils.WORLD_TWO:
+                return PerspectiveUtils.WORLD_THREE;
+            case PerspectiveUtils.WORLD_THREE:
+                return PerspectiveUtils.WORLD_FOUR;
+            case PerspectiveUtils.WORLD_FOUR:
+                return PerspectiveUtils.WORLD_FIVE;
+            case PerspectiveUtils.WORLD_FIVE:
+                return PerspectiveUtils.WORLD_SIX;
+            case PerspectiveUtils.WORLD_SIX:
+                if (manager.hasPurchased(PerspectiveUtils.WORLD_SEVEN)) {
+                    return PerspectiveUtils.WORLD_SEVEN;
                 } // else fallthrough
-            case PerspectiveAndroidUtils.WORLD_SEVEN:
-                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_EIGHT)) {
-                    return PerspectiveAndroidUtils.WORLD_EIGHT;
+            case PerspectiveUtils.WORLD_SEVEN:
+                if (manager.hasPurchased(PerspectiveUtils.WORLD_EIGHT)) {
+                    return PerspectiveUtils.WORLD_EIGHT;
                 } // else fallthrough
-            case PerspectiveAndroidUtils.WORLD_EIGHT:
-                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_NINE)) {
-                    return PerspectiveAndroidUtils.WORLD_NINE;
+            case PerspectiveUtils.WORLD_EIGHT:
+                if (manager.hasPurchased(PerspectiveUtils.WORLD_NINE)) {
+                    return PerspectiveUtils.WORLD_NINE;
                 } // else fallthrough
-            case PerspectiveAndroidUtils.WORLD_NINE:
-                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_TEN)) {
-                    return PerspectiveAndroidUtils.WORLD_TEN;
+            case PerspectiveUtils.WORLD_NINE:
+                if (manager.hasPurchased(PerspectiveUtils.WORLD_TEN)) {
+                    return PerspectiveUtils.WORLD_TEN;
                 } // else fallthrough
-            case PerspectiveAndroidUtils.WORLD_TEN:
-                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_ELEVEN)) {
-                    return PerspectiveAndroidUtils.WORLD_ELEVEN;
+            case PerspectiveUtils.WORLD_TEN:
+                if (manager.hasPurchased(PerspectiveUtils.WORLD_ELEVEN)) {
+                    return PerspectiveUtils.WORLD_ELEVEN;
                 } // else fallthrough
-            case PerspectiveAndroidUtils.WORLD_ELEVEN:
-                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_TWELVE)) {
-                    return PerspectiveAndroidUtils.WORLD_TWELVE;
+            case PerspectiveUtils.WORLD_ELEVEN:
+                if (manager.hasPurchased(PerspectiveUtils.WORLD_TWELVE)) {
+                    return PerspectiveUtils.WORLD_TWELVE;
                 } // else fallthrough
-            case PerspectiveAndroidUtils.WORLD_TWELVE:
-                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_THIRTEEN)) {
-                    return PerspectiveAndroidUtils.WORLD_THIRTEEN;
+            case PerspectiveUtils.WORLD_TWELVE:
+                if (manager.hasPurchased(PerspectiveUtils.WORLD_THIRTEEN)) {
+                    return PerspectiveUtils.WORLD_THIRTEEN;
                 } // else fallthrough
-            case PerspectiveAndroidUtils.WORLD_THIRTEEN:
-                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_FOURTEEN)) {
-                    return PerspectiveAndroidUtils.WORLD_FOURTEEN;
+            case PerspectiveUtils.WORLD_THIRTEEN:
+                if (manager.hasPurchased(PerspectiveUtils.WORLD_FOURTEEN)) {
+                    return PerspectiveUtils.WORLD_FOURTEEN;
                 } // else fallthrough
-            case PerspectiveAndroidUtils.WORLD_FOURTEEN:
-                if (manager.hasPurchased(PerspectiveAndroidUtils.WORLD_FIFTEEN)) {
-                    return PerspectiveAndroidUtils.WORLD_FIFTEEN;
+            case PerspectiveUtils.WORLD_FOURTEEN:
+                if (manager.hasPurchased(PerspectiveUtils.WORLD_FIFTEEN)) {
+                    return PerspectiveUtils.WORLD_FIFTEEN;
                 } // else fallthrough
             default:
-                return PerspectiveAndroidUtils.WORLD_TUTORIAL;
+                return PerspectiveUtils.WORLD_TUTORIAL;
         }
     }
 

@@ -40,9 +40,12 @@ import com.aletheiaware.joy.android.scene.GLProgramNode;
 import com.aletheiaware.joy.android.scene.GLScene;
 import com.aletheiaware.joy.android.scene.GLTextureAttribute;
 import com.aletheiaware.joy.android.scene.GLUtils;
+import com.aletheiaware.joy.android.scene.GLVertexNormalMesh;
+import com.aletheiaware.joy.android.scene.GLVertexNormalMeshNode;
 import com.aletheiaware.joy.android.scene.GLVertexNormalTextureMesh;
 import com.aletheiaware.joy.android.scene.GLVertexNormalTextureMeshNode;
 import com.aletheiaware.joy.scene.Animation;
+import com.aletheiaware.joy.scene.Attribute;
 import com.aletheiaware.joy.scene.AttributeNode;
 import com.aletheiaware.joy.scene.Matrix;
 import com.aletheiaware.joy.scene.MatrixTransformationNode;
@@ -407,81 +410,87 @@ public class DebugActivity extends AppCompatActivity {
 
     private void updateMusic() {
         if (musicName == null || musicName.equals("")) {
-            System.out.println("No music name, skipping");
-            return;
-        }
-        System.out.println("Music Name: " + musicName);
-        try {
-            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-                mediaPlayer.release();
+            System.out.println("No music name");
+        } else {
+            System.out.println("Music Name: " + musicName);
+            try {
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                    mediaPlayer.release();
+                }
+                AssetFileDescriptor afd = getAssets().openFd("music/" + musicName);
+                mediaPlayer = createMediaPlayer();
+                mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+                mediaPlayer.setLooping(true);
+                afd.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            AssetFileDescriptor afd = getAssets().openFd("music/" + musicName);
-            mediaPlayer = createMediaPlayer();
-            mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-            mediaPlayer.setLooping(true);
-            afd.close();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
     private void updateSound() {
         if (soundName == null || soundName.equals("")) {
-            System.out.println("No sound name, skipping");
-            return;
-        }
-        System.out.println("Sound Name: " + soundName);
-        Integer id = soundMap.get(soundName);
-        System.out.println("Sound ID: " + id);
-        if (id != null) {
-            int result = soundPool.play(id, 1, 1, 1, 0, 1);
-            System.out.println("Playing Sound Result: " + result);
+            System.out.println("No sound name");
+        } else {
+            System.out.println("Sound Name: " + soundName);
+            Integer id = soundMap.get(soundName);
+            System.out.println("Sound ID: " + id);
+            if (id != null) {
+                int result = soundPool.play(id, 1, 1, 1, 0, 1);
+                System.out.println("Playing Sound Result: " + result);
+            }
         }
     }
 
     private void updateSight() {
-        if (textureName == null || textureName.equals("")) {
-            System.out.println("No texture name, skipping");
-            return;
-        }
-        if (meshName == null || meshName.equals("")) {
-            System.out.println("No mesh name, skipping");
-            return;
-        }
         rotation.clear();
+        Attribute[] attributes = new Attribute[1];
         GLColourAttribute colourAttribute = new GLColourAttribute(program, PerspectiveUtils.DEFAULT_FG_COLOUR);
-        GLTextureAttribute textureAttribute = new GLTextureAttribute(program, textureName) {
-            @Override
-            public void load() {
+        attributes[0] = colourAttribute;
+
+        if (textureName == null || textureName.equals("")) {
+            System.out.println("No texture name");
+        } else {
+            GLTextureAttribute textureAttribute = new GLTextureAttribute(program, textureName) {
+                @Override
+                public void load() {
+                    try {
+                        int[] texIds = GLUtils.loadTexture(getAssets().open("texture/" + textureName));
+                        System.out.println("Loaded Texture: " + textureName + " as " + Arrays.toString(texIds));
+                        scene.putIntArray(textureName, texIds);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            attributes = new Attribute[2];
+            attributes[0] = colourAttribute;
+            attributes[1] = textureAttribute;
+        }
+        AttributeNode attributeNode = new AttributeNode(attributes);
+        rotation.addChild(attributeNode);
+
+        if (meshName == null || meshName.equals("")) {
+            System.out.println("No mesh name");
+        } else {
+            GLVertexNormalTextureMeshNode meshNode = new GLVertexNormalTextureMeshNode(program, meshName);
+            attributeNode.addChild(meshNode);
+
+            if (scene.getVertexNormalTextureMesh(meshName) == null) {
                 try {
-                    int[] texIds = GLUtils.loadTexture(getAssets().open("texture/" + textureName));
-                    System.out.println("Loaded Texture: " + textureName + " as " + Arrays.toString(texIds));
-                    scene.putIntArray(textureName, texIds);
+                    new MeshLoader(getAssets().open("mesh/" + meshName)) {
+                        @Override
+                        public void onMesh(Mesh mesh) throws IOException {
+                            System.out.println("Loaded Mesh: " + mesh.getName());
+                            scene.putVertexNormalTextureMesh(meshName, new GLVertexNormalTextureMesh(mesh));
+                        }
+                    }.start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-        };
-        AttributeNode attributeNode = new AttributeNode(colourAttribute, textureAttribute);
-        rotation.addChild(attributeNode);
-
-        GLVertexNormalTextureMeshNode meshNode = new GLVertexNormalTextureMeshNode(program, meshName);
-        attributeNode.addChild(meshNode);
-
-        if (scene.getVertexNormalTextureMesh(meshName) == null) {
-            try {
-                new MeshLoader(getAssets().open("mesh/" + meshName)) {
-                    @Override
-                    public void onMesh(Mesh mesh) throws IOException {
-                        System.out.println("Loaded Mesh: " + mesh.getName());
-                        scene.putVertexNormalTextureMesh(meshName, new GLVertexNormalTextureMesh(mesh));
-                    }
-                }.start();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     }

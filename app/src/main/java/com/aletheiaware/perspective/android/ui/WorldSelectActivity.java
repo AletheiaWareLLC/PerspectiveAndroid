@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.aletheiaware.common.android.utils.CommonAndroidUtils;
+import com.aletheiaware.common.utils.CommonUtils;
 import com.aletheiaware.perspective.PerspectiveProto.Puzzle;
 import com.aletheiaware.perspective.PerspectiveProto.Solution;
 import com.aletheiaware.perspective.PerspectiveProto.World;
@@ -80,11 +81,11 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
         new Thread() {
             @Override
             public void run() {
-                for (String world : PerspectiveAndroidUtils.FREE_WORLDS) {
+                for (String world : PerspectiveUtils.FREE_WORLDS) {
                     addWorld(world);
                 }
                 if (BuildConfig.DEBUG) {
-                    for (String world : PerspectiveAndroidUtils.PAID_WORLDS) {
+                    for (String world : PerspectiveUtils.PAID_WORLDS) {
                         addWorld(world);
                     }
                 }
@@ -113,14 +114,14 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
                 Puzzle p = w.getPuzzle(i);
                 if (p != null) {
                     try {
-                        String hash = PerspectiveAndroidUtils.getHash(p.toByteArray());
+                        String hash = PerspectiveUtils.getHash(p.toByteArray());
                         s = PerspectiveAndroidUtils.loadSolution(WorldSelectActivity.this, world, hash);
                     } catch (IOException | NoSuchAlgorithmException e) {
                         e.printStackTrace();
                     }
                 }
                 if (s != null) {
-                    stars[i] = PerspectiveAndroidUtils.scoreToStars(s.getScore(), p.getTarget());
+                    stars[i] = PerspectiveUtils.scoreToStars(s.getScore(), p.getTarget());
                     totalStars += stars[i];
                 }
             }
@@ -140,7 +141,7 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
             view.setLayoutManager(new GridLayoutManager(view.getContext(), 3, GridLayoutManager.VERTICAL, false));
             final AlertDialog dialog = new AlertDialog.Builder(WorldSelectActivity.this, R.style.WorldSelectDialogTheme)
                     .setView(view)
-                    .setTitle(PerspectiveAndroidUtils.capitalize(name))
+                    .setTitle(CommonUtils.capitalize(name))
                     .create();
             PuzzleAdapter puzzleAdapter = new PuzzleAdapter(this, world, puzzleStars.get(name), new PuzzleAdapter.Callback() {
                 @Override
@@ -173,7 +174,7 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
         new Thread() {
             @Override
             public void run() {
-                querySkuDetails(Arrays.asList(PerspectiveAndroidUtils.PAID_WORLDS));
+                querySkuDetails(Arrays.asList(PerspectiveUtils.PAID_WORLDS));
             }
         }.start();
     }
@@ -184,7 +185,7 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
         new Thread() {
             @Override
             public void run() {
-                for (String world : PerspectiveAndroidUtils.PAID_WORLDS) {
+                for (String world : PerspectiveUtils.PAID_WORLDS) {
                     if (manager.hasPurchased(world)) {
                         addWorld(world);
                     }
