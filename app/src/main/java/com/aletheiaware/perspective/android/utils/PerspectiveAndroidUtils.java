@@ -74,7 +74,7 @@ public class PerspectiveAndroidUtils {
         GLLightNode light = new GLLightNode("basic", "light");
         basicNode.addChild(light);
 
-        GLCameraNode camera = new GLCameraNode();
+        GLCameraNode camera = new GLCameraNode("basic");
         light.addChild(camera);
 
         MatrixTransformationNode rotation = new MatrixTransformationNode("main-rotation");

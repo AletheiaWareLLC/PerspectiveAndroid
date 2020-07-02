@@ -341,7 +341,7 @@ public class DebugActivity extends AppCompatActivity {
                 GLLightNode light = new GLLightNode(program, "light");
                 programNode.addChild(light);
 
-                GLCameraNode camera = new GLCameraNode();
+                GLCameraNode camera = new GLCameraNode(program);
                 light.addChild(camera);
 
                 rotation = new MatrixTransformationNode("main-rotation");
