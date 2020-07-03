@@ -106,7 +106,7 @@ public class PerspectiveAndroidUtils {
         return null;
     }
 
-    public static AttributeNode getAttributeNode(String program, String type, String colour) {
+    public static AttributeNode getAttributeNode(String program, String type, String colour, String texture, String material) {
         if (type.equals("outline") && colour.equals("multi-colour")) {
             return new AttributeNode(new GLColourAttribute(program, colour) {
                 private final float[] hsv = {0.0f, 0.9f, 0.5f};

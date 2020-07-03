@@ -252,8 +252,8 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
     }
 
     @Override
-    public AttributeNode getAttributeNode(String program, String name, String type, String colour) {
-        return PerspectiveAndroidUtils.getAttributeNode(program, type, colour);
+    public AttributeNode getAttributeNode(String program, String name, String type, String colour, String texture, String material) {
+        return PerspectiveAndroidUtils.getAttributeNode(program, type, colour, texture, material);
     }
 
     @Override
