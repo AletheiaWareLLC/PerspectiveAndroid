@@ -58,7 +58,7 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
             {0, 70, STAR_VIBRATION_GAP, 90, STAR_VIBRATION_GAP, 115, STAR_VIBRATION_GAP, 145},
             {0, 70, STAR_VIBRATION_GAP, 90, STAR_VIBRATION_GAP, 115, STAR_VIBRATION_GAP, 145, STAR_VIBRATION_GAP, 180},
     };
-    private static final long[] DROP_VIBRATION = {0, 10};
+    private static final long[] TRAVEL_VIBRATION = {0, 10};
 
     public AlertDialog gameOverDialog;
     private String worldName;
@@ -257,9 +257,15 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
     }
 
     @Override
-    public void onDropComplete() {
-        Log.d(PerspectiveUtils.TAG, "Drop Complete");
-        vibrate(DROP_VIBRATION);
+    public void onTravelStart() {
+        Log.d(PerspectiveUtils.TAG, "Travel Start");
+        // TODO
+    }
+
+    @Override
+    public void onTravelComplete() {
+        Log.d(PerspectiveUtils.TAG, "Travel Complete");
+        vibrate(TRAVEL_VIBRATION);
         // TODO
     }
 
