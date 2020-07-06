@@ -125,7 +125,7 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
                     Log.d(PerspectiveUtils.TAG, "Creating Scene");
                     glScene = new GLScene();
                     perspective = new Perspective(GameActivity.this, glScene, world.getSize());
-                    perspective.rotationNode = PerspectiveAndroidUtils.createBasicSceneGraph(glScene, world);
+                    perspective.scenegraphs.put("basic", PerspectiveAndroidUtils.createBasicSceneGraph(glScene, world));
                     perspective.outlineEnabled = outlineEnabled;
                     float[] background = PerspectiveUtils.BLACK;
                     String colour = world.getBackgroundColour();
