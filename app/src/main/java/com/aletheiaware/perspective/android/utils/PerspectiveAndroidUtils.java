@@ -18,11 +18,10 @@ package com.aletheiaware.perspective.android.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.graphics.Color;
 import android.util.Log;
 
-import com.aletheiaware.common.android.utils.CommonAndroidUtils;
-import com.aletheiaware.common.utils.CommonUtils;
+import androidx.annotation.WorkerThread;
+
 import com.aletheiaware.joy.JoyProto.Mesh;
 import com.aletheiaware.joy.JoyProto.Shader;
 import com.aletheiaware.joy.android.scene.GLCameraNode;
@@ -36,16 +35,12 @@ import com.aletheiaware.joy.android.scene.GLVertexNormalMeshNode;
 import com.aletheiaware.joy.scene.AttributeNode;
 import com.aletheiaware.joy.scene.MatrixTransformationNode;
 import com.aletheiaware.joy.scene.MeshLoader;
-import com.aletheiaware.joy.scene.Scene;
 import com.aletheiaware.joy.scene.SceneGraphNode;
-import com.aletheiaware.perspective.PerspectiveProto.Puzzle;
 import com.aletheiaware.perspective.PerspectiveProto.Solution;
 import com.aletheiaware.perspective.PerspectiveProto.World;
 import com.aletheiaware.perspective.utils.PerspectiveUtils;
 
 import java.io.IOException;
-
-import androidx.annotation.WorkerThread;
 
 public class PerspectiveAndroidUtils {
 
@@ -83,7 +78,7 @@ public class PerspectiveAndroidUtils {
         return rotation;
     }
 
-    public static SceneGraphNode getSceneGraphNode(final GLScene scene, AssetManager assets, String program, String name, String type, String mesh) throws IOException {
+    public static SceneGraphNode getSceneGraphNode(final GLScene scene, AssetManager assets, String shader, String name, String type, String mesh, String colour, String texture, String material) throws IOException {
         switch (type) {
             case "outline":
             case "block":
@@ -99,34 +94,13 @@ public class PerspectiveAndroidUtils {
                         }
                     }.start();
                 }
-                return new GLVertexNormalMeshNode(program, mesh);
+                AttributeNode attributeNode = new AttributeNode(new GLColourAttribute(shader, colour));
+                attributeNode.addChild(new GLVertexNormalMeshNode(shader, mesh));
+                return attributeNode;
             default:
-                System.err.println("Unrecognized: " + program + " " + name + " " + type + " " + mesh);
+                System.err.println("Unrecognized: " + shader + " " + name + " " + type + " " + mesh + " " + colour + " " + texture + " " + material);
         }
         return null;
-    }
-
-    public static AttributeNode getAttributeNode(String program, String type, String colour, String texture, String material) {
-        if (type.equals("outline") && colour.equals("multi-colour")) {
-            return new AttributeNode(new GLColourAttribute(program, colour) {
-                private final float[] hsv = {0.0f, 0.9f, 0.5f};
-                private final float[] rgba = {1.0f, 1.0f, 1.0f, 1.0f};
-
-                @Override
-                public float[] getColour(Scene scene) {
-                    hsv[0] = (hsv[0] + 0.1f) % 360;
-                    //System.out.println(System.currentTimeMillis() + " : " + hsv[0]);
-                    int colour = Color.HSVToColor(hsv);
-                    rgba[0] = Color.red(colour);
-                    rgba[1] = Color.green(colour);
-                    rgba[2] = Color.blue(colour);
-                    rgba[3] = 1.0f;
-                    //System.out.println(java.util.Arrays.toString(rgba));
-                    return rgba;
-                }
-            });
-        }
-        return new AttributeNode(new GLColourAttribute(program, colour));
     }
 
     @WorkerThread
