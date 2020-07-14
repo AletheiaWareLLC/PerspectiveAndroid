@@ -252,14 +252,8 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
     }
 
     @Override
-    public void onTravelStart() {
-        Log.d(PerspectiveUtils.TAG, "Travel Start");
-        // TODO
-    }
-
-    @Override
-    public void onTravelComplete() {
-        Log.d(PerspectiveUtils.TAG, "Travel Complete");
+    public void onDropComplete() {
+        Log.d(PerspectiveUtils.TAG, "Drop Complete");
         vibrate(TRAVEL_VIBRATION);
         // TODO
     }
