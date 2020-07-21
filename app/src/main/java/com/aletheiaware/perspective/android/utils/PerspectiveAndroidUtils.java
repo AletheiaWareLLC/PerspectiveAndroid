@@ -35,7 +35,10 @@ import com.aletheiaware.joy.android.scene.GLVertexNormalMeshNode;
 import com.aletheiaware.joy.scene.AttributeNode;
 import com.aletheiaware.joy.scene.MatrixTransformationNode;
 import com.aletheiaware.joy.scene.MeshLoader;
+import com.aletheiaware.joy.scene.ScaleNode;
 import com.aletheiaware.joy.scene.SceneGraphNode;
+import com.aletheiaware.joy.scene.TranslateNode;
+import com.aletheiaware.perspective.Perspective;
 import com.aletheiaware.perspective.PerspectiveProto.Solution;
 import com.aletheiaware.perspective.PerspectiveProto.World;
 import com.aletheiaware.perspective.utils.PerspectiveUtils;
@@ -78,29 +81,39 @@ public class PerspectiveAndroidUtils {
         return rotation;
     }
 
-    public static SceneGraphNode getSceneGraphNode(final GLScene scene, AssetManager assets, String shader, String name, String type, String mesh, String colour, String texture, String material) throws IOException {
+    public static void addSceneGraphNode(GLScene scene, Perspective perspective, AssetManager assets, String shader, String name, String type, String mesh, String colour, String texture, String material) throws IOException {
         switch (type) {
             case "outline":
+                ScaleNode outlineScale = new ScaleNode("outline-scale");
+                perspective.scenegraphs.get(shader).addChild(outlineScale);
+                outlineScale.addChild(createColouredMesh(scene, assets, shader, mesh, colour));
+                break;
             case "block":
             case "goal":
             case "portal":
             case "sphere":
-                if (scene.getVertexNormalMesh(mesh) == null) {
-                    new MeshLoader(assets.open("mesh/" + mesh + ".pb")) {
-                        @Override
-                        public void onMesh(Mesh mesh) throws IOException {
-                            System.out.println("Name: " + mesh.getName());
-                            scene.putVertexNormalMesh(mesh.getName(), new GLVertexNormalMesh(mesh));
-                        }
-                    }.start();
-                }
-                AttributeNode attributeNode = new AttributeNode(new GLColourAttribute(shader, colour));
-                attributeNode.addChild(new GLVertexNormalMeshNode(shader, mesh));
-                return attributeNode;
+                TranslateNode translateNode = new TranslateNode(name);
+                perspective.scenegraphs.get(shader).addChild(translateNode);
+                translateNode.addChild(createColouredMesh(scene, assets, shader, mesh, colour));
+                break;
             default:
                 System.err.println("Unrecognized: " + shader + " " + name + " " + type + " " + mesh + " " + colour + " " + texture + " " + material);
         }
-        return null;
+    }
+
+    private static AttributeNode createColouredMesh(final GLScene scene, AssetManager assets, String shader, String mesh, String colour) throws IOException {
+        if (scene.getVertexNormalMesh(mesh) == null) {
+            new MeshLoader(assets.open("mesh/" + mesh + ".pb")) {
+                @Override
+                public void onMesh(Mesh mesh) throws IOException {
+                    System.out.println("Name: " + mesh.getName());
+                    scene.putVertexNormalMesh(mesh.getName(), new GLVertexNormalMesh(mesh));
+                }
+            }.start();
+        }
+        AttributeNode attributeNode = new AttributeNode(new GLColourAttribute(shader, colour));
+        attributeNode.addChild(new GLVertexNormalMeshNode(shader, mesh));
+        return attributeNode;
     }
 
     @WorkerThread
