@@ -69,21 +69,6 @@ limitations under the License.
         android:layout_margin="@dimen/view_margin"
         android:padding="@dimen/view_padding" />
 
-    <TextView
-        android:labelFor="@+id/debug_texture_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/view_margin"
-        android:padding="@dimen/view_padding"
-        android:text="Texture" />
-
-    <Spinner
-        android:id="@+id/debug_texture_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/view_margin"
-        android:padding="@dimen/view_padding" />
-
     <com.aletheiaware.perspective.android.ui.DebugView
         android:id="@+id/debug_view"
         android:layout_width="match_parent"

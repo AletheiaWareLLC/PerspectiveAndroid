@@ -38,12 +38,9 @@ import com.aletheiaware.joy.android.scene.GLLightNode;
 import com.aletheiaware.joy.android.scene.GLProgram;
 import com.aletheiaware.joy.android.scene.GLProgramNode;
 import com.aletheiaware.joy.android.scene.GLScene;
-import com.aletheiaware.joy.android.scene.GLTextureAttribute;
 import com.aletheiaware.joy.android.scene.GLUtils;
 import com.aletheiaware.joy.android.scene.GLVertexNormalMesh;
 import com.aletheiaware.joy.android.scene.GLVertexNormalMeshNode;
-import com.aletheiaware.joy.android.scene.GLVertexNormalTextureMesh;
-import com.aletheiaware.joy.android.scene.GLVertexNormalTextureMeshNode;
 import com.aletheiaware.joy.scene.Animation;
 import com.aletheiaware.joy.scene.Attribute;
 import com.aletheiaware.joy.scene.AttributeNode;
@@ -82,7 +79,6 @@ public class DebugActivity extends AppCompatActivity {
     private String musicName;
     private String soundName;
     private String meshName;
-    private String textureName;
     private DebugView debugView;
     private GLScene scene;
     private MatrixTransformationNode rotation;
@@ -158,22 +154,6 @@ public class DebugActivity extends AppCompatActivity {
             }
         });
 
-        Spinner textureSpinner = findViewById(R.id.debug_texture_spinner);
-        final ArrayAdapter<CharSequence> textureAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
-        textureAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        textureSpinner.setAdapter(textureAdapter);
-        textureSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                textureName = textureAdapter.getItem(position) + "";
-                updateSight();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO
-            }
-        });
         debugView = findViewById(R.id.debug_view);
         scene = new GLScene();
         debugView.setScene(scene);
@@ -213,17 +193,6 @@ public class DebugActivity extends AppCompatActivity {
                         for (String m : meshes) {
                             System.out.println("Mesh Name: " + m);
                             meshAdapter.add(m);
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    String[] textures = assets.list("texture/");
-                    if (textures != null) {
-                        for (String t : textures) {
-                            System.out.println("Texture Name: " + t);
-                            textureAdapter.add(t);
                         }
                     }
                 } catch (IOException e) {
@@ -282,16 +251,13 @@ public class DebugActivity extends AppCompatActivity {
                                 "uniform mat4 u_MVPMatrix;\n" +
                                 "attribute vec4 a_Position;\n" +
                                 "attribute vec3 a_Normal;\n" +
-                                "attribute vec2 a_TexCoord;\n" +
                                 "varying vec3 v_Position;\n" +
                                 "varying vec3 v_Normal;\n" +
-                                "varying vec2 v_TexCoord;\n" +
                                 "\n" +
                                 "void main() {\n" +
                                 "    v_Position = vec3(u_MVMatrix * a_Position);\n" +
                                 "    vec3 norm = vec3(u_MVMatrix * vec4(a_Normal, 0.0));\n" +
                                 "    v_Normal = norm / length(norm);\n" +
-                                "    v_TexCoord = a_TexCoord;\n" +
                                 "    gl_Position = u_MVPMatrix * a_Position;\n" +
                                 "}")
                         .setFragmentSource("#if __VERSION__ >= 130\n" +
@@ -310,10 +276,8 @@ public class DebugActivity extends AppCompatActivity {
                                 "\n" +
                                 "uniform MEDIUMP vec3 u_LightPos;\n" +
                                 "uniform MEDIUMP vec4 u_Colour;\n" +
-                                "uniform sampler2D u_Texture;\n" +
                                 "varying MEDIUMP vec3 v_Position;\n" +
                                 "varying MEDIUMP vec3 v_Normal;\n" +
-                                "varying MEDIUMP vec2 v_TexCoord;\n" +
                                 "\n" +
                                 "void main() {\n" +
                                 "    vec3 diff = u_LightPos - v_Position;\n" +
@@ -322,17 +286,15 @@ public class DebugActivity extends AppCompatActivity {
                                 "    float diffuse = max(dot(v_Normal, lightVector), 0.0);\n" +
                                 "    diffuse = diffuse * (1.0 / (1.0 + (0.10 * distance)));\n" +
                                 "    diffuse = diffuse + 0.3;\n" +
-                                "    mgl_FragColour = u_Colour * diffuse * texture2D(u_Texture, v_TexCoord);\n" +
+                                "    mgl_FragColour = u_Colour * diffuse;\n" +
                                 "    mgl_FragColour.a = 1.0;\n" +
                                 "}")
                         .addAttributes("a_Position")
                         .addAttributes("a_Normal")
-                        .addAttributes("a_TexCoord")
                         .addUniforms("u_LightPos")
                         .addUniforms("u_MVMatrix")
                         .addUniforms("u_MVPMatrix")
                         .addUniforms("u_Colour")
-                        .addUniforms("u_Texture")
                         .build());
 
                 GLProgramNode programNode = new GLProgramNode(debugProgram);
@@ -447,45 +409,23 @@ public class DebugActivity extends AppCompatActivity {
 
     private void updateSight() {
         rotation.clear();
-        Attribute[] attributes = new Attribute[1];
         GLColourAttribute colourAttribute = new GLColourAttribute(program, PerspectiveUtils.DEFAULT_FG_COLOUR);
-        attributes[0] = colourAttribute;
-
-        if (textureName == null || textureName.equals("")) {
-            System.out.println("No texture name");
-        } else {
-            GLTextureAttribute textureAttribute = new GLTextureAttribute(program, textureName) {
-                @Override
-                public void load() {
-                    try {
-                        int[] texIds = GLUtils.loadTexture(getAssets().open("texture/" + textureName));
-                        System.out.println("Loaded Texture: " + textureName + " as " + Arrays.toString(texIds));
-                        scene.putIntArray(textureName, texIds);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-            attributes = new Attribute[2];
-            attributes[0] = colourAttribute;
-            attributes[1] = textureAttribute;
-        }
-        AttributeNode attributeNode = new AttributeNode(attributes);
+        AttributeNode attributeNode = new AttributeNode(new Attribute[]{colourAttribute});
         rotation.addChild(attributeNode);
 
         if (meshName == null || meshName.equals("")) {
             System.out.println("No mesh name");
         } else {
-            GLVertexNormalTextureMeshNode meshNode = new GLVertexNormalTextureMeshNode(program, meshName);
+            GLVertexNormalMeshNode meshNode = new GLVertexNormalMeshNode(program, meshName);
             attributeNode.addChild(meshNode);
 
-            if (scene.getVertexNormalTextureMesh(meshName) == null) {
+            if (scene.getVertexNormalMesh(meshName) == null) {
                 try {
                     new MeshLoader(getAssets().open("mesh/" + meshName)) {
                         @Override
                         public void onMesh(Mesh mesh) throws IOException {
                             System.out.println("Loaded Mesh: " + mesh.getName());
-                            scene.putVertexNormalTextureMesh(meshName, new GLVertexNormalTextureMesh(mesh));
+                            scene.putVertexNormalMesh(meshName, new GLVertexNormalMesh(mesh));
                         }
                     }.start();
                 } catch (Exception e) {
