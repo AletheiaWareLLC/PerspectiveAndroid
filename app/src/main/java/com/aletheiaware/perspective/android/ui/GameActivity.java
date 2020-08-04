@@ -133,6 +133,7 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
                         background = glScene.getFloatArray(colour);
                     }
                     glScene.putFloatArray(GLScene.BACKGROUND, background);
+                    glScene.putIntArray("camera-viewport", glScene.getViewport());
 
                     // Create Game View in UI Thread
                     runOnUiThread(new Runnable() {

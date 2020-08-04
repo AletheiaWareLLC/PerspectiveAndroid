@@ -239,6 +239,8 @@ public class DebugActivity extends AppCompatActivity {
                 cameraFrustum[0] = size * 0.5f;
                 cameraFrustum[1] = distance + size;
                 scene.putFloatArray("camera-frustum", cameraFrustum);
+                // Viewport
+                scene.putIntArray("camera-viewport", scene.getViewport());
 
                 GLProgram debugProgram = new GLProgram(Shader.newBuilder()
                         .setName(program)
