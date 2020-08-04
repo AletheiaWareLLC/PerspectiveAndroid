@@ -259,6 +259,11 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
     }
 
     @Override
+    public void onRotateComplete() {
+        // TODO
+    }
+
+    @Override
     public void onTurnComplete() {
         Log.d(PerspectiveUtils.TAG, "Turn Complete");
         // TODO
