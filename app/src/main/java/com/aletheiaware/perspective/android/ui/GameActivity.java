@@ -26,11 +26,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.aletheiaware.common.android.utils.CommonAndroidUtils;
 import com.aletheiaware.common.utils.CommonUtils;
 import com.aletheiaware.joy.android.scene.GLScene;
-import com.aletheiaware.joy.scene.AttributeNode;
-import com.aletheiaware.joy.scene.SceneGraphNode;
 import com.aletheiaware.perspective.Perspective;
 import com.aletheiaware.perspective.PerspectiveProto.Puzzle;
 import com.aletheiaware.perspective.PerspectiveProto.Solution;
@@ -42,11 +45,6 @@ import com.aletheiaware.perspective.utils.PerspectiveUtils;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.UiThread;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class GameActivity extends AppCompatActivity implements Perspective.Callback, BillingManager.Callback {
 
