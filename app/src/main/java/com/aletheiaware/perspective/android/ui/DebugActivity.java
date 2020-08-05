@@ -16,12 +16,7 @@
 
 package com.aletheiaware.perspective.android.ui;
 
-import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,11 +33,9 @@ import com.aletheiaware.joy.android.scene.GLLightNode;
 import com.aletheiaware.joy.android.scene.GLProgram;
 import com.aletheiaware.joy.android.scene.GLProgramNode;
 import com.aletheiaware.joy.android.scene.GLScene;
-import com.aletheiaware.joy.android.scene.GLUtils;
 import com.aletheiaware.joy.android.scene.GLVertexNormalMesh;
 import com.aletheiaware.joy.android.scene.GLVertexNormalMeshNode;
 import com.aletheiaware.joy.scene.Animation;
-import com.aletheiaware.joy.scene.Attribute;
 import com.aletheiaware.joy.scene.AttributeNode;
 import com.aletheiaware.joy.scene.Matrix;
 import com.aletheiaware.joy.scene.MatrixTransformationNode;
@@ -52,9 +45,6 @@ import com.aletheiaware.perspective.android.R;
 import com.aletheiaware.perspective.utils.PerspectiveUtils;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class DebugActivity extends AppCompatActivity {
 
@@ -73,11 +63,6 @@ public class DebugActivity extends AppCompatActivity {
     private final Vector cameraUp = new Vector();
     private final String program = "debug";
 
-    private MediaPlayer mediaPlayer;
-    private SoundPool soundPool;
-    private Map<String, Integer> soundMap = new HashMap<>();
-    private String musicName;
-    private String soundName;
     private String meshName;
     private DebugView debugView;
     private GLScene scene;
@@ -87,55 +72,6 @@ public class DebugActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debug);
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        AudioAttributes attrs = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_GAME)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build();
-        soundPool = new SoundPool.Builder()
-                .setMaxStreams(3)
-                .setAudioAttributes(attrs)
-                .build();
-        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-            @Override
-            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                System.out.println("SoundPool.onLoadComplete: " + sampleId + " " + status);
-            }
-        });
-
-        Spinner musicSpinner = findViewById(R.id.debug_music_spinner);
-        final ArrayAdapter<CharSequence> musicAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
-        musicAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        musicSpinner.setAdapter(musicAdapter);
-        musicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                musicName = musicAdapter.getItem(position) + "";
-                updateMusic();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO
-            }
-        });
-
-        Spinner soundSpinner = findViewById(R.id.debug_sound_spinner);
-        final ArrayAdapter<CharSequence> soundAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
-        soundAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        soundSpinner.setAdapter(soundAdapter);
-        soundSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                soundName = soundAdapter.getItem(position) + "";
-                updateSound();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO
-            }
-        });
 
         Spinner meshSpinner = findViewById(R.id.debug_mesh_spinner);
         final ArrayAdapter<CharSequence> meshAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
@@ -145,7 +81,7 @@ public class DebugActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 meshName = meshAdapter.getItem(position) + "";
-                updateSight();
+                updateMesh();
             }
 
             @Override
@@ -162,31 +98,6 @@ public class DebugActivity extends AppCompatActivity {
             @Override
             public void run() {
                 final AssetManager assets = getAssets();
-                try {
-                    String[] musics = assets.list("music/");
-                    if (musics != null) {
-                        for (String s : musics) {
-                            System.out.println("Music Name: " + s);
-                            musicAdapter.add(s);
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    String[] sounds = assets.list("sound/");
-                    if (sounds != null) {
-                        for (String s : sounds) {
-                            System.out.println("Sound Name: " + s);
-                            int id = soundPool.load(assets.openFd("sound/" + s), 1);
-                            System.out.println("Sound ID: " + id);
-                            soundMap.put(s, id);
-                            soundAdapter.add(s);
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 try {
                     String[] meshes = assets.list("mesh/");
                     if (meshes != null) {
@@ -322,97 +233,10 @@ public class DebugActivity extends AppCompatActivity {
         }.start();
     }
 
-    @Override
-    protected void onDestroy() {
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
-        if (soundPool != null) {
-            soundPool.release();
-            soundPool = null;
-        }
-        super.onDestroy();
-    }
-
-    private MediaPlayer createMediaPlayer() {
-        MediaPlayer mp = new MediaPlayer();
-        mp.setOnInfoListener(new MediaPlayer.OnInfoListener() {
-            @Override
-            public boolean onInfo(MediaPlayer mp, int what, int extra) {
-                System.out.println("onInfo: " + mp.toString() + " " + what + " " + extra);
-                return false;
-            }
-        });
-        mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
-            @Override
-            public void onBufferingUpdate(MediaPlayer mp, int percent) {
-                System.out.println("onBufferingUpdate: " + mp.toString() + " " + percent);
-            }
-        });
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                System.out.println("onCompletion: " + mp.toString());
-            }
-        });
-        mp.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(MediaPlayer mp, int what, int extra) {
-                System.out.println("onError: " + mp.toString() + " " + what + " " + extra);
-                return false;
-            }
-        });
-        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                System.out.println("onPrepared: " + mp.toString());
-            }
-        });
-        return mp;
-    }
-
-    private void updateMusic() {
-        if (musicName == null || musicName.equals("")) {
-            System.out.println("No music name");
-        } else {
-            System.out.println("Music Name: " + musicName);
-            try {
-                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                    mediaPlayer.stop();
-                    mediaPlayer.release();
-                }
-                AssetFileDescriptor afd = getAssets().openFd("music/" + musicName);
-                mediaPlayer = createMediaPlayer();
-                mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-                mediaPlayer.setLooping(true);
-                afd.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void updateSound() {
-        if (soundName == null || soundName.equals("")) {
-            System.out.println("No sound name");
-        } else {
-            System.out.println("Sound Name: " + soundName);
-            Integer id = soundMap.get(soundName);
-            System.out.println("Sound ID: " + id);
-            if (id != null) {
-                int result = soundPool.play(id, 1, 1, 1, 0, 1);
-                System.out.println("Playing Sound Result: " + result);
-            }
-        }
-    }
-
-    private void updateSight() {
+    private void updateMesh() {
         rotation.clear();
         GLColourAttribute colourAttribute = new GLColourAttribute(program, PerspectiveUtils.DEFAULT_FG_COLOUR);
-        AttributeNode attributeNode = new AttributeNode(new Attribute[]{colourAttribute});
+        AttributeNode attributeNode = new AttributeNode(colourAttribute);
         rotation.addChild(attributeNode);
 
         if (meshName == null || meshName.equals("")) {
