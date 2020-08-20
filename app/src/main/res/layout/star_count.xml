@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/activity_padding"
@@ -33,7 +34,7 @@ limitations under the License.
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         android:src="@drawable/star"
-        android:tint="@color/yellow"/>
+        app:tint="@color/yellow"/>
 
     <TextView
         android:id="@+id/world_star_count"

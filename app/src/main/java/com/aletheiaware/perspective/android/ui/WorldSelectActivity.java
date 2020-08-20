@@ -165,7 +165,7 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
         Log.d(PerspectiveUtils.TAG, "Buying: " + world);
         SkuDetails details = skuDetails.get(world);
         Log.d(PerspectiveUtils.TAG, "SKU: " + details);
-        manager.initiatePurchaseFlow(details, null);
+        manager.initiatePurchaseFlow(details);
     }
 
     @Override
@@ -192,12 +192,6 @@ public class WorldSelectActivity extends AppCompatActivity implements WorldAdapt
                 }
             }
         }.start();
-    }
-
-    @Override
-    public void onTokenConsumed(String purchaseToken) {
-        Log.d(PerspectiveUtils.TAG, "Token Consumed: " + purchaseToken);
-        // TODO
     }
 
     public void querySkuDetails(List<String> skus) {

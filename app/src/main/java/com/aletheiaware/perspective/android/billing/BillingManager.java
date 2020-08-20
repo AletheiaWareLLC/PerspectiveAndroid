@@ -17,9 +17,11 @@
 package com.aletheiaware.perspective.android.billing;
 
 import android.app.Activity;
-import androidx.annotation.Nullable;
 import android.util.Base64;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.aletheiaware.perspective.android.BuildConfig;
 import com.aletheiaware.perspective.android.R;
@@ -32,8 +34,6 @@ import com.android.billingclient.api.BillingClient.SkuType;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
-import com.android.billingclient.api.ConsumeParams;
-import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.Purchase.PurchaseState;
 import com.android.billingclient.api.Purchase.PurchasesResult;
@@ -51,10 +51,8 @@ import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class BillingManager implements PurchasesUpdatedListener {
 
@@ -63,12 +61,9 @@ public class BillingManager implements PurchasesUpdatedListener {
         void onBillingClientSetup();
         // Called when map of purchases has been updated.
         void onPurchasesUpdated();
-        // Called when a purchase has been consumed
-        void onTokenConsumed(String purchaseToken);
     }
 
     private Map<String, Purchase> purchases = new HashMap<>();
-    private final Set<String> consumedTokens = new HashSet<>();
     private final Activity activity;
     private final Callback callback;
     private BillingClient client;
@@ -149,17 +144,13 @@ public class BillingManager implements PurchasesUpdatedListener {
         }
     }
 
-    public void initiatePurchaseFlow(final SkuDetails skuDetails, final String oldSku) {
+    public void initiatePurchaseFlow(final SkuDetails skuDetails) {
         executeServiceRequest(new Runnable() {
             @Override
             public void run() {
                 Log.d(PerspectiveUtils.TAG, "Launching in-app purchase flow for: " + skuDetails);
                 BillingFlowParams.Builder purchaseParamsBuilder = BillingFlowParams.newBuilder()
                         .setSkuDetails(skuDetails);
-                if (oldSku != null && !oldSku.isEmpty()) {
-                    Log.d(PerspectiveUtils.TAG, "Replacing old SKU: " + oldSku);
-                    purchaseParamsBuilder.setOldSku(oldSku);
-                }
                 client.launchBillingFlow(activity, purchaseParamsBuilder.build());
             }
         });
@@ -175,34 +166,6 @@ public class BillingManager implements PurchasesUpdatedListener {
                         .setType(itemType)
                         .build();
                 client.querySkuDetailsAsync(params, listener);
-            }
-        });
-    }
-
-    public void consumeAsync(String purchaseToken, String developerPayload) {
-        if (consumedTokens.contains(purchaseToken)) {
-            Log.i(PerspectiveUtils.TAG, "Token was already scheduled to be consumed");
-            return;
-        }
-        consumedTokens.add(purchaseToken);
-
-        final ConsumeParams consumeParams = ConsumeParams.newBuilder()
-                .setPurchaseToken(purchaseToken)
-                .setDeveloperPayload(developerPayload)
-                .build();
-        executeServiceRequest(new Runnable() {
-            @Override
-            public void run() {
-                client.consumeAsync(consumeParams, new ConsumeResponseListener() {
-                    @Override
-                    public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                        int code = billingResult.getResponseCode();
-                        Log.d(PerspectiveUtils.TAG, "Consume Token Response Code: " + code);
-                        if (code == BillingResponseCode.OK) {
-                            callback.onTokenConsumed(purchaseToken);
-                        }
-                    }
-                });
             }
         });
     }
@@ -224,12 +187,9 @@ public class BillingManager implements PurchasesUpdatedListener {
                             .setPurchaseToken(purchase.getPurchaseToken())
                             .build(), new AcknowledgePurchaseResponseListener() {
                         @Override
-                        public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
+                        public void onAcknowledgePurchaseResponse(@NonNull BillingResult billingResult) {
                             int code = billingResult.getResponseCode();
                             Log.d(PerspectiveUtils.TAG, "Purchase Acknowledgement Response Code: " + code);
-                            if (code == BillingResponseCode.OK) {
-                                // TODO
-                            }
                         }
                     });
                 }
@@ -278,7 +238,7 @@ public class BillingManager implements PurchasesUpdatedListener {
     public void startServiceConnection(final Runnable executeOnSuccess) {
         client.startConnection(new BillingClientStateListener() {
                 @Override
-                public void onBillingSetupFinished(BillingResult billingResult) {
+                public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
                     int code = billingResult.getResponseCode();
                     Log.d(PerspectiveUtils.TAG, "Setup Response Code: " + code);
                     if (code == BillingClient.BillingResponseCode.OK) {

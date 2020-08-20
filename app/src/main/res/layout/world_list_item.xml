@@ -40,7 +40,7 @@ limitations under the License.
         android:layout_height="wrap_content"
         android:contentDescription="@string/star_one"
         android:src="@drawable/star"
-        android:tint="@color/yellow"
+        app:tint="@color/yellow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -51,7 +51,7 @@ limitations under the License.
         android:layout_height="wrap_content"
         android:contentDescription="@string/star_two"
         android:src="@drawable/star"
-        android:tint="@color/yellow"
+        app:tint="@color/yellow"
         app:layout_constraintEnd_toStartOf="@+id/world_item_star1"
         app:layout_constraintTop_toTopOf="@+id/world_item_star1" />
 
@@ -62,7 +62,7 @@ limitations under the License.
         android:layout_marginEnd="4dp"
         android:contentDescription="@string/star_three"
         android:src="@drawable/star"
-        android:tint="@color/yellow"
+        app:tint="@color/yellow"
         app:layout_constraintEnd_toStartOf="@+id/world_item_star2"
         app:layout_constraintTop_toTopOf="@+id/world_item_star2" />
 
@@ -73,7 +73,7 @@ limitations under the License.
         android:layout_marginEnd="4dp"
         android:contentDescription="@string/star_four"
         android:src="@drawable/star"
-        android:tint="@color/yellow"
+        app:tint="@color/yellow"
         app:layout_constraintEnd_toStartOf="@+id/world_item_star3"
         app:layout_constraintTop_toTopOf="@+id/world_item_star3" />
 
@@ -84,7 +84,7 @@ limitations under the License.
         android:layout_marginEnd="4dp"
         android:contentDescription="@string/star_five"
         android:src="@drawable/star"
-        android:tint="@color/yellow"
+        app:tint="@color/yellow"
         app:layout_constraintEnd_toStartOf="@+id/world_item_star4"
         app:layout_constraintTop_toTopOf="@+id/world_item_star4" />
 

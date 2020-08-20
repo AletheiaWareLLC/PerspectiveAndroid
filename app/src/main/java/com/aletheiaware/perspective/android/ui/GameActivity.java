@@ -462,10 +462,4 @@ public class GameActivity extends AppCompatActivity implements Perspective.Callb
         Log.d(PerspectiveUtils.TAG, "Purchases Updated");
         // TODO
     }
-
-    @Override
-    public void onTokenConsumed(String purchaseToken) {
-        Log.d(PerspectiveUtils.TAG, "Token Consumed: " + purchaseToken);
-        // TODO
-    }
 }
