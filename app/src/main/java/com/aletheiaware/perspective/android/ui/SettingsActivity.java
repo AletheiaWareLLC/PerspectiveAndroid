@@ -67,12 +67,6 @@ public class SettingsActivity extends AppCompatActivity {
             Preference outlinePreference = findPreference(getString(R.string.preference_puzzle_outline_key));
             outlinePreference.getIcon().setTint(white);
 
-            Preference musicPreference = findPreference(getString(R.string.preference_puzzle_music_key));
-            musicPreference.getIcon().setTint(white);
-
-            Preference soundPreference = findPreference(getString(R.string.preference_puzzle_sound_key));
-            soundPreference.getIcon().setTint(white);
-
             Preference vibrationPreference = findPreference(getString(R.string.preference_puzzle_vibration_key));
             vibrationPreference.getIcon().setTint(white);
 

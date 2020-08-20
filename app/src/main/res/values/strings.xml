@@ -52,10 +52,6 @@ limitations under the License.
     <string name="preference_game_title">Game</string>
     <string name="preference_puzzle_outline_key">puzzle_outline_preference</string>
     <string name="preference_puzzle_outline_title">Outline</string>
-    <string name="preference_puzzle_music_key">puzzle_music_preference</string>
-    <string name="preference_puzzle_music_title">Music</string>
-    <string name="preference_puzzle_sound_key">puzzle_sound_preference</string>
-    <string name="preference_puzzle_sound_title">Sound Effects</string>
     <string name="preference_puzzle_vibration_key">puzzle_vibration_preference</string>
     <string name="preference_puzzle_vibration_title">Vibration</string>
 
